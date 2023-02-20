@@ -1,0 +1,171 @@
+.App {
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.child_div {
+  text-align: start;
+  /* padding:10px; */
+}
+
+.search {
+  width: 140px;
+  /* margin-left: 200px; */
+  float: right;
+  background-color: linen;
+  font-size: small;
+}
+
+body {
+  background: radial-gradient(circle, burlywood 0%, burlywood 0%, burlywood 100%);
+  font-size: larger;
+}
+
+.Qty {
+  margin-left: 20px;    
+  width: 12%;
+  text-align: end;
+  height: 25px;
+  border: solid 1px black;
+  border-radius: 5px;
+  background-color: linen;
+}
+
+.PC{
+  float: left;
+  padding: 10px;
+  width: 53%;
+  margin-left: 10%;
+}
+
+.Bill{
+  position: fixed;
+  top: 30%;
+  padding: 10px;
+  width: 27%;
+  margin-left: 63%;
+  margin-right: 10%;
+}
+
+.logo {
+  float: left;
+  padding: 10px;
+  width: 53%;
+  margin-left: 10%;
+  font-family: 'Gentium Book Plus', serif;
+  font-size: larger;
+  border-style: double;
+  padding-bottom: 96px;
+}
+
+.Information {
+  padding: 10px;
+  width: 27%;
+  margin-left: 63%;
+  margin-right: 10%;
+  font-family: 'Gentium Book Plus', serif;
+  font-size: larger;
+  border-style: double;
+}
+
+.main_div{
+  /* width: 50%; */
+  box-shadow: 0px 0px 10px #888888;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 35px;
+  margin-bottom: 35px;
+  display:block;
+  border-radius: 10px;
+  background-color: linen;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  font-size: larger;
+  padding: 10px;
+  font-family: 'Gentium Book Plus', serif;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.display-none {
+  display: none;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+table {
+  width: 80%;
+  color: burlywood;
+  margin-top: 15px;
+  background-color: linen;
+  font-family: 'Gentium Book Plus', serif;
+  font-size: larger;
+  border-style: none !important;
+  border-collapse: inherit !important;
+}
+
+thead {
+  background-color: burlywood;
+  color:linen;
+  padding: 8px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: burlywood;
+  color:linen;
+}
+
+.table-title {
+  font-family: 'Gentium Book Plus', serif;
+  font-size: larger;
+  padding: 2%;
+}
+
+.table-div {
+  padding-top: 5%;
+}
+
+@media only screen and (max-width: 767px) {
+  .PC{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  
+  .Bill{
+    padding: 10px;
+    width: 80%;
+    margin-right: 10%;
+    margin-left: 10%;
+  }
+}
