@@ -13,13 +13,13 @@ function PcBuilder() {
     "Processor": "1",
     "Motherboard": "1",
     "RAM": "1",
-    "Storage1": "1",
-    "Storage2": "1",
+    "Storage 1": "1",
+    "Storage 2": "1",
     "Cabinet": "1",
-    "CabinetFan": "1",
+    "Cabinet Fan": "1",
     "Cooler": "1",
-    "GraphicsCard": "1",
-    "PowerSupplyUnit": "1",
+    "Graphics Card": "1",
+    "Power Supply Unit": "1",
     "Monitor": "1",
     "Keyboard": "1",
     "Mouse": "1",
@@ -102,16 +102,16 @@ function PcBuilder() {
                   <h5>{data.selectedItem.item}</h5>
                   <div>
                     ₹{data.selectedItem.price}
-                    <Button sx={{color:'red', '&:hover': {backgroundColor: '#ff000029'}}} onClick={() => handleDecrement(data.selectedItem.name)} disabled={data.selectedItem.qty === '1'}><RemoveIcon/></Button>
+                    <Button sx={{color:'red', minWidth: "40px", '&:hover': {backgroundColor: '#ff000029'}, marginLeft:"10px", marginRight:"10px" }} onClick={() => handleDecrement(data.selectedItem.name)} disabled={data.selectedItem.qty === '1'}><RemoveIcon/></Button>
                     {data.selectedItem.qty}
-                    <Button sx={{color:'blue', '&:hover': {backgroundColor: '#0000ff21'}}} onClick={() => handleIncrement(data.selectedItem.name)}><AddIcon/></Button>
+                    <Button sx={{color:'blue', minWidth: "40px", '&:hover': {backgroundColor: '#0000ff21'}, marginLeft:"10px" }} onClick={() => handleIncrement(data.selectedItem.name)}><AddIcon/></Button>
                   </div></>}
             </div>
             <div style={{ textAlign: "end", paddingBottom: "5px", paddingRight: "5px" }}>
               {data.selectedItem === null ? <ScrollDialog initialQty={initialQty} setQty={setQty} onChange={onItemSelectChangeHandler} title={data.name} /> :
                 <div style={{ display: "inline-flex" }}>
                   <ScrollDialog initialQty={initialQty} setQty={setQty} onChange={onItemSelectChangeHandler} title={data.name} />
-                  <Button sx={{ color: "red", backgroundColor: "#deb88745",'&:hover': {backgroundColor: 'burlywood'}, marginRight:"3px", marginLeft:"10px" }}
+                  <Button sx={{ color: "red", minWidth: "50px", backgroundColor: "#deb88745",'&:hover': {backgroundColor: 'burlywood'}, marginLeft:"10px" }}
                     onClick={() => removeSelectItemHandler(data.name)
                     }><DeleteIcon /></Button>
                 </div>} 

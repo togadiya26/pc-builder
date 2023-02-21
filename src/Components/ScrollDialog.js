@@ -72,13 +72,19 @@ export default function ScrollDialog(props) {
 
   return (
     <div>
-      <Button onClick={handleClickOpen('paper')} sx={{ color: "black", '&:hover': {backgroundColor: 'burlywood'}, backgroundColor: "#deb88745" }}>{edit ? <EditIcon/> : <AddBoxSharpIcon />}</Button>
+      <Button onClick={handleClickOpen('paper')} sx={{ color: "black", minWidth: "50px", '&:hover': {backgroundColor: 'burlywood'}, backgroundColor: "#deb88745" }}>{edit ? <EditIcon/> : <AddBoxSharpIcon />}</Button>
       <Dialog
         open={open}
         onClose={handleClose}
         scroll={scroll}
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
+        sx={{
+          '& .MuiPaper-root': {
+            height: "70%",
+            width: "50%"
+          }
+        }}
       >
         <DialogTitle id="scroll-dialog-title"
           sx={{ backgroundColor: "burlywood" }}
@@ -138,7 +144,7 @@ export default function ScrollDialog(props) {
         <DialogActions
           sx={{ backgroundColor: "burlywood" }}
         >
-          <Button onClick={handleClose} sx={{color:"black", backgroundColor:"linen"}}><CloseIcon/></Button>
+          <Button onClick={handleClose} sx={{ color: "black", minWidth: "50px", '&:hover': {backgroundColor: 'linen'}, backgroundColor: "#faf0e64a" }}><CloseIcon/></Button>
         </DialogActions>
       </Dialog>
     </div>

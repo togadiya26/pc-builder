@@ -7,12 +7,18 @@ import { Product } from './Array';
 import { Document, Page, Text, PDFDownloadLink, View, StyleSheet, pdf } from '@react-pdf/renderer';
 
 
+// Font.register({
+//   family: 'Nunito',
+//   src: './src/Fonts/Nunito-Regular.ttf'
+// });
+
+
 const styles = StyleSheet.create({
   page: {
     paddingTop: 35,
     paddingBottom: 65,
     paddingHorizontal: 35,
-    fontFamily: 'Helvetica',
+    fontFamily: 'Times-Roman',
   },
 
   section: {
@@ -38,6 +44,8 @@ const styles = StyleSheet.create({
     border: '1px solid #000',
     textAlign: 'left',
     flexGrow: 1,
+    fontWeight: 'bold',
+    fontSize: '15px'
   },
 
   tableCell2: {
@@ -46,43 +54,66 @@ const styles = StyleSheet.create({
     border: '1px solid #000',
     textAlign: 'right',
     flexGrow: 1,
+    fontWeight: 'bold',
+    fontSize: '15px'
   },
 
   tableCell3: {
     padding: 15,
-    width: 70,
+    width: 75,
     border: '1px solid #000',
     textAlign: 'right',
     flexGrow: 1,
+    fontWeight: 'bold',
+    fontSize: '15px'
   },
 
   tableCell4: {
     padding: 15,
-    width: 140,
+    width: 145,
     border: '1px solid #000',
     textAlign: 'right',
+    flexGrow: 1,
+    fontWeight: 'bold',
+    fontSize: '15px'
+  },
+
+  tableCell01: {
+    padding: 15,
+    width: 200,
+    border: '1px solid #000',
+    textAlign: 'left',
     flexGrow: 1,
   },
 
   tableCell02: {
-    padding: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 5,
     width: 50,
     border: '1px solid #000',
     flexGrow: 1,
+    textAlign: 'left',
   },
 
   tableCell03: {
-    padding: 15,
-    width: 70,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 5,
+    width: 75,
     border: '1px solid #000',
     flexGrow: 1,
+    textAlign: 'left',
   },
 
   tableCell04: {
-    padding: 15,
-    width: 140,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 10,
+    width: 145,
     border: '1px solid #000',
     flexGrow: 1,
+    textAlign: 'left',
   },
 
 });
@@ -119,33 +150,16 @@ function Bill(props) {
     const pdfUrl = URL.createObjectURL(pdfBlob);
     setPdfData(pdfUrl)
 
-    if (pdfData !== null) {
+    // if (pdfData !== null) {
       const frame = window.frames["pdfFrame"];
       setTimeout(() => frame.print(), 1000); // delay for 1 second (1000 ms)
-    }
-
-    // const pdfBlob = await pdf(<MyDoc />).toBlob();
-    // const pdfUrl = URL.createObjectURL(pdfBlob);
-    // console.log(pdfData)
-    // const iFrame = document.createElement('iframe');
-    // iFrame.src=pdfUrl;
-    // iFrame.width="100%"
-    // iFrame.height="600px"
-    // iFrame.title="PC_Buider"
-    // iFrame.name="pdfFrame"
-    // if (document.children.length > 0) {
-    //     document.removeChild(document.children[0]);
     // }
-    // document.appendChild(iFrame);
-    // window.frames["pdfFrame"].print();
 
   }
 
   const handleShare = async () => {
     const pdfBlob = await pdf(<MyDoc />).toBlob();
     const pdfUrl = URL.createObjectURL(pdfBlob);
-    // const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(pdfUrl)}`;
-    // window.open(whatsappUrl, "_blank");
     const url = "https://wa.me/?text=" + encodeURI("Check out this PDF: ") + pdfUrl;
     window.open(url, "_blank");
   };
@@ -195,17 +209,17 @@ function Bill(props) {
           </Text>
           <View style={styles.table}>
             <View style={styles.tableRow}>
-              <Text style={styles.tableCell1}>
+              <Text style={styles.tableCell01}>
                 PRODUCT NAME
               </Text>
               <Text style={styles.tableCell02}>
                 QTY
               </Text>
               <Text style={styles.tableCell03}>
-                PRICE
+                PRICE(₹)
               </Text>
               <Text style={styles.tableCell04}>
-                TOTAL PRICE
+                TOTAL PRICE(₹)
               </Text>
             </View>
             {rows}
@@ -240,10 +254,10 @@ function Bill(props) {
         <iframe name="pdfFrame" src={pdfData} width="100%" height="600px" title="Example Website" ></iframe>
       </div>
       <div>
-        <Button sx={{ color: "black", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginRight: "5px" }} className='bill-button' onClick={handleShare} ><ShareIcon /></Button>
-        <Button sx={{ color: "black", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginLeft: "5px", marginRight: "5px" }} onClick={handlePrint} ><PrintIcon /></Button>
+        <Button sx={{ color: "black", minWidth: "40px", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginRight: "5px" }} className='bill-button' onClick={handleShare} ><ShareIcon /></Button>
+        <Button sx={{ color: "black", minWidth: "40px", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginLeft: "5px", marginRight: "5px" }} onClick={handlePrint} ><PrintIcon /></Button>
         <PDFDownloadLink document={<MyDoc />} fileName="PC_Builder.pdf">
-          <Button sx={{ color: "black", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginLeft: "5px" }} disabled={totalQty === 0} ><PictureAsPdfIcon /></Button>
+          <Button sx={{ color: "black", minWidth: "40px", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginLeft: "5px" }} disabled={totalQty === 0} ><PictureAsPdfIcon /></Button>
         </PDFDownloadLink>
       </div>
     </div>
