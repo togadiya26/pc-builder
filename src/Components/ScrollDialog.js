@@ -8,7 +8,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CloseIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
 import { Processor, Motherboard, RAM, Cooler, Storage1, Storage2, GraphicsCard, PowerSupplyUnit, Cabinet, CabinetFan, Monitor, Keyboard, Mouse, Accessories } from './Array';
 
 export default function ScrollDialog(props) {
@@ -17,7 +16,6 @@ export default function ScrollDialog(props) {
   const [scroll, setScroll] = React.useState('paper');
   const [item, setItem] = React.useState("");
   const [search, setSearch] = React.useState("");
-  const [edit, setEdit] = React.useState(false);
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -72,7 +70,17 @@ export default function ScrollDialog(props) {
 
   return (
     <div>
-      <Button onClick={handleClickOpen('paper')} sx={{ color: "black", minWidth: "50px", '&:hover': { backgroundColor: 'burlywood' }, backgroundColor: "#deb88745" }}>{edit ? <EditIcon /> : <AddBoxSharpIcon />}</Button>
+      <Button 
+      onClick={handleClickOpen('paper')} 
+      sx={{ 
+        color: "black", 
+        minWidth: "50px", 
+        '&:hover': { backgroundColor: 'burlywood' }, 
+        backgroundColor: "#deb88745",
+        marginLeft: "15px" 
+        }}>
+          <AddBoxSharpIcon />
+        </Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -87,15 +95,31 @@ export default function ScrollDialog(props) {
         }}
       >
         <DialogTitle id="scroll-dialog-title"
-          sx={{ backgroundColor: "burlywood" }}
+          sx={{ 
+            backgroundColor: "burlywood",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center"
+          }}
         >
-          {props.title}
+          <b>{props.title}</b>
           <input
             className='search'
             type="text"
             placeholder='Search Here...'
             value={search}
             onChange={(e) => setSearch(e.target.value)} />
+            <Button
+            onClick={handleClose}
+            sx={{
+              color: "black",
+              minWidth: "35px",
+              height: "35px",
+              '&:hover': { backgroundColor: 'linen' },
+              backgroundColor: "#faf0e64a"
+            }}>
+            <CloseIcon />
+          </Button>
         </DialogTitle>
         <DialogContent
           dividers={scroll === 'paper'}
@@ -116,13 +140,13 @@ export default function ScrollDialog(props) {
                     <div className='child_div'>
                       {data.item}
                     </div>
-                    <div className='child_div'>
+                    <div className='price_div'>
                       ₹{data.price}
-                    </div>
+                    
                     <Button
                       onClick={() => {
                         const product = array.find(item => item.id === data.id);
-                        props.onChange(product, setEdit)
+                        props.onChange(product)
                         setOpen(false)
                         props.setQty(prevQty => ({
                           ...prevQty,
@@ -133,28 +157,20 @@ export default function ScrollDialog(props) {
                         color: "black",
                         backgroundColor: "#deb88745",
                         '&:hover': { backgroundColor: 'burlywood' },
-                        minWidth: "50px"
+                        minWidth: "45px",
+                        height: "35px"
                       }}>
                       <AddShoppingCartIcon />
                     </Button>
+                    </div>
                   </div>))}
             </React.Fragment>
           </DialogContentText>
         </DialogContent>
-        <DialogActions
+        {/* <DialogActions
           sx={{ backgroundColor: "burlywood" }}
         >
-          <Button
-            onClick={handleClose}
-            sx={{
-              color: "black",
-              minWidth: "40px",
-              '&:hover': { backgroundColor: 'linen' },
-              backgroundColor: "#faf0e64a"
-            }}>
-            <CloseIcon />
-          </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     </div>
   );

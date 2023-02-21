@@ -30,7 +30,7 @@ function PcBuilder() {
   const [qty, setQty] = React.useState(initialQty)
 
 
-  const onItemSelectChangeHandler = (itemObject, setEdit, edit) => {
+  const onItemSelectChangeHandler = (itemObject) => {
 
     const obj = itemObject
     const newData = data.map(item => {
@@ -40,7 +40,6 @@ function PcBuilder() {
       return item;
     });
     setData(newData);
-    setEdit(true)
 
   };
 
@@ -110,6 +109,7 @@ function PcBuilder() {
             <div style={{ textAlign: "end", paddingBottom: "5px", paddingRight: "5px" }}>
               {data.selectedItem === null ? <ScrollDialog initialQty={initialQty} setQty={setQty} onChange={onItemSelectChangeHandler} title={data.name} /> :
                 <div style={{ display: "inline-flex" }}>
+                  ₹{ data.selectedItem.price * data.selectedItem.qty }
                   <ScrollDialog initialQty={initialQty} setQty={setQty} onChange={onItemSelectChangeHandler} title={data.name} />
                   <Button sx={{ color: "red", minWidth: "50px", backgroundColor: "#deb88745",'&:hover': {backgroundColor: 'burlywood'}, marginLeft:"10px" }}
                     onClick={() => removeSelectItemHandler(data.name)

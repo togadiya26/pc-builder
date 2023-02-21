@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   table: {
     display: 'table',
     width: 'auto',
-    margin: 'auto',
+    margin: 30,
   },
 
   tableRow: {
@@ -33,78 +33,144 @@ const styles = StyleSheet.create({
   },
 
   tableCell1: {
-    padding: 15,
-    width: 210,
+    padding: 10,
+    width: 120,
     border: '1px solid #000',
     textAlign: 'left',
     flexGrow: 1,
     fontWeight: 'bold',
-    fontSize: '15px'
+    fontSize: '12px'
   },
 
   tableCell2: {
-    padding: 15,
-    width: 65,
+    padding: 10,
+    width: 190,
     border: '1px solid #000',
-    textAlign: 'right',
+    textAlign: 'left',
     flexGrow: 1,
     fontWeight: 'bold',
-    fontSize: '15px'
+    fontSize: '12px'
   },
 
   tableCell3: {
-    padding: 15,
-    width: 75,
+    padding: 10,
+    width: 50,
     border: '1px solid #000',
     textAlign: 'right',
     flexGrow: 1,
     fontWeight: 'bold',
-    fontSize: '15px'
+    fontSize: '12px'
   },
 
   tableCell4: {
-    padding: 15,
-    width: 145,
+    padding: 10,
+    width: 50,
     border: '1px solid #000',
     textAlign: 'right',
     flexGrow: 1,
     fontWeight: 'bold',
-    fontSize: '15px'
+    fontSize: '12px'
+  },
+
+  tableCell5: {
+    padding: 10,
+    width: 60,
+    border: '1px solid #000',
+    textAlign: 'right',
+    flexGrow: 1,
+    fontWeight: 'bold',
+    fontSize: '12px'
   },
 
   tableCell01: {
-    padding: 15,
-    width: 210,
+    padding: 10,
+    width: 120,
     border: '1px solid #000',
-    textAlign: 'left',
+    textAlign: 'center',
     flexGrow: 1,
+    fontSize: '15px'
   },
 
   tableCell02: {
-    padding: 15,
-    width: 65,
+    padding: 10,
+    width: 190,
     border: '1px solid #000',
+    textAlign: 'center',
     flexGrow: 1,
-    textAlign: 'left',
+    fontSize: '15px'
   },
 
   tableCell03: {
-    padding: 15,
-    width: 75,
+    padding: 10,
+    width: 50,
     border: '1px solid #000',
     flexGrow: 1,
-    textAlign: 'left',
+    textAlign: 'center',
+    fontSize: '15px'
   },
 
   tableCell04: {
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 10,
-    width: 145,
+    paddingTop: 10,
+    width: 50,
     border: '1px solid #000',
     flexGrow: 1,
-    textAlign: 'left',
+    textAlign: 'center',
+    fontSize: '15px'
   },
+
+  tableCell05: {
+    paddingTop: 10,
+    width: 60,
+    border: '1px solid #000',
+    flexGrow: 1,
+    textAlign: 'center',
+    fontSize: '15px'
+  },
+
+  tableCell001: {
+    padding: 10,
+    width: 120,
+    border: '1px solid #000',
+    textAlign: 'center',
+    flexGrow: 1,
+    fontSize: '15px'
+  },
+
+  tableCell002: {
+    padding: 10,
+    width: 190,
+    border: '1px solid #000',
+    textAlign: 'center',
+    flexGrow: 1,
+    fontSize: '15px'
+  },
+
+  tableCell003: {
+    padding: 10,
+    width: 50,
+    border: '1px solid #000',
+    flexGrow: 1,
+    textAlign: 'right',
+    fontSize: '15px'
+  },
+
+  tableCell004: {
+    paddingTop: 10,
+    width: 50,
+    border: '1px solid #000',
+    flexGrow: 1,
+    textAlign: 'right',
+    fontSize: '15px'
+  },
+
+  tableCell005: {
+    paddingTop: 10,
+    width: 60,
+    border: '1px solid #000',
+    flexGrow: 1,
+    textAlign: 'right',
+    fontSize: '15px'
+  }
 
 });
 
@@ -160,15 +226,18 @@ function Bill(props) {
     return (
       <View style={styles.tableRow} key={index}>
         <Text style={styles.tableCell1}>
-          {data.selectedItem !== null && data.selectedItem.item}
+          {data.selectedItem !== null && data.selectedItem.name}
         </Text>
         <Text style={styles.tableCell2}>
-          {data.selectedItem !== null && data.selectedItem.qty}
+          {data.selectedItem !== null && data.selectedItem.item}
         </Text>
         <Text style={styles.tableCell3}>
-          {data.selectedItem !== null && data.selectedItem.price}
+          {data.selectedItem !== null && data.selectedItem.qty}
         </Text>
         <Text style={styles.tableCell4}>
+          {data.selectedItem !== null && data.selectedItem.price}
+        </Text>
+        <Text style={styles.tableCell5}>
           {data.selectedItem !== null && data.selectedItem.qty * data.selectedItem.price}
         </Text>
       </View>
@@ -198,29 +267,34 @@ function Bill(props) {
           <View style={styles.table}>
             <View style={styles.tableRow}>
               <Text style={styles.tableCell01}>
-                PRODUCT NAME
+                {/* {newDate()} */}
               </Text>
               <Text style={styles.tableCell02}>
-                QTY
+                PRODUCT NAME
               </Text>
               <Text style={styles.tableCell03}>
-                PRICE
+                QTY
               </Text>
               <Text style={styles.tableCell04}>
-                TOTAL PRICE
+                RATE
+              </Text>
+              <Text style={styles.tableCell05}>
+                TOTAL
               </Text>
             </View>
             {rows}
             <View style={styles.tableRow}>
-              <Text style={[styles.tableCell1, { fontWeight: 'bold' }]}>
+              <Text style={[styles.tableCell001, { fontWeight: 'bold' }]}>
                 TOTAL
               </Text>
-              <Text style={[styles.tableCell2, { fontWeight: 'bold' }]}>
+              <Text style={[styles.tableCell002, { fontWeight: 'bold' }]}>
+              </Text>
+              <Text style={[styles.tableCell003, { fontWeight: 'bold' }]}>
                 {totalQty}
               </Text>
-              <Text style={[styles.tableCell3, { fontWeight: 'bold' }]}>
+              <Text style={[styles.tableCell004, { fontWeight: 'bold' }]}>
               </Text>
-              <Text style={[styles.tableCell4, { fontWeight: 'bold' }]}>
+              <Text style={[styles.tableCell005, { fontWeight: 'bold' }]}>
                 {totalPrice}
               </Text>
             </View>
