@@ -72,7 +72,7 @@ export default function ScrollDialog(props) {
 
   return (
     <div>
-      <Button onClick={handleClickOpen('paper')} sx={{ color: "black", minWidth: "50px", '&:hover': {backgroundColor: 'burlywood'}, backgroundColor: "#deb88745" }}>{edit ? <EditIcon/> : <AddBoxSharpIcon />}</Button>
+      <Button onClick={handleClickOpen('paper')} sx={{ color: "black", minWidth: "50px", '&:hover': { backgroundColor: 'burlywood' }, backgroundColor: "#deb88745" }}>{edit ? <EditIcon /> : <AddBoxSharpIcon />}</Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -130,12 +130,12 @@ export default function ScrollDialog(props) {
                         }));
                       }}
                       sx={{
-                        color:"black",
-                        backgroundColor:"#deb88745",
-                        '&:hover': {backgroundColor: 'burlywood'},
-                        // marginBottom:"10px"
+                        color: "black",
+                        backgroundColor: "#deb88745",
+                        '&:hover': { backgroundColor: 'burlywood' },
+                        minWidth: "50px"
                       }}>
-                      <AddShoppingCartIcon/>
+                      <AddShoppingCartIcon />
                     </Button>
                   </div>))}
             </React.Fragment>
@@ -144,7 +144,16 @@ export default function ScrollDialog(props) {
         <DialogActions
           sx={{ backgroundColor: "burlywood" }}
         >
-          <Button onClick={handleClose} sx={{ color: "black", minWidth: "50px", '&:hover': {backgroundColor: 'linen'}, backgroundColor: "#faf0e64a" }}><CloseIcon/></Button>
+          <Button
+            onClick={handleClose}
+            sx={{
+              color: "black",
+              minWidth: "40px",
+              '&:hover': { backgroundColor: 'linen' },
+              backgroundColor: "#faf0e64a"
+            }}>
+            <CloseIcon />
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

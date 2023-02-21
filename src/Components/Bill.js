@@ -7,12 +7,6 @@ import { Product } from './Array';
 import { Document, Page, Text, PDFDownloadLink, View, StyleSheet, pdf } from '@react-pdf/renderer';
 
 
-// Font.register({
-//   family: 'Nunito',
-//   src: './src/Fonts/Nunito-Regular.ttf'
-// });
-
-
 const styles = StyleSheet.create({
   page: {
     paddingTop: 35,
@@ -40,7 +34,7 @@ const styles = StyleSheet.create({
 
   tableCell1: {
     padding: 15,
-    width: 200,
+    width: 210,
     border: '1px solid #000',
     textAlign: 'left',
     flexGrow: 1,
@@ -50,7 +44,7 @@ const styles = StyleSheet.create({
 
   tableCell2: {
     padding: 15,
-    width: 50,
+    width: 65,
     border: '1px solid #000',
     textAlign: 'right',
     flexGrow: 1,
@@ -80,26 +74,22 @@ const styles = StyleSheet.create({
 
   tableCell01: {
     padding: 15,
-    width: 200,
+    width: 210,
     border: '1px solid #000',
     textAlign: 'left',
     flexGrow: 1,
   },
 
   tableCell02: {
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 5,
-    width: 50,
+    padding: 15,
+    width: 65,
     border: '1px solid #000',
     flexGrow: 1,
     textAlign: 'left',
   },
 
   tableCell03: {
-    paddingTop: 15,
-    paddingBottom: 15,
-    paddingLeft: 5,
+    padding: 15,
     width: 75,
     border: '1px solid #000',
     flexGrow: 1,
@@ -150,10 +140,8 @@ function Bill(props) {
     const pdfUrl = URL.createObjectURL(pdfBlob);
     setPdfData(pdfUrl)
 
-    // if (pdfData !== null) {
-      const frame = window.frames["pdfFrame"];
-      setTimeout(() => frame.print(), 1000); // delay for 1 second (1000 ms)
-    // }
+    const frame = window.frames["pdfFrame"];
+    setTimeout(() => frame.print(), 1000);
 
   }
 
@@ -216,10 +204,10 @@ function Bill(props) {
                 QTY
               </Text>
               <Text style={styles.tableCell03}>
-                PRICE(₹)
+                PRICE
               </Text>
               <Text style={styles.tableCell04}>
-                TOTAL PRICE(₹)
+                TOTAL PRICE
               </Text>
             </View>
             {rows}
@@ -248,16 +236,53 @@ function Bill(props) {
         <b>Total: ₹{totalPrice}</b>
       </div>
       <div style={{ padding: "10px" }}>
-        <Button sx={{ color: "red", '&:hover': { backgroundColor: 'burlywood' }, backgroundColor: "#deb88745", fontWeight: "600" }} onClick={removeAllItemHandler}>Remove All Item</Button>
+        <Button sx={{
+          color: "red",
+          '&:hover': { backgroundColor: 'burlywood' },
+          backgroundColor: "#deb88745", fontWeight: "600"
+        }}
+          onClick={removeAllItemHandler}
+        >
+          Remove All Item
+        </Button>
       </div>
       <div className='display-none'>
         <iframe name="pdfFrame" src={pdfData} width="100%" height="600px" title="Example Website" ></iframe>
       </div>
       <div>
-        <Button sx={{ color: "black", minWidth: "40px", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginRight: "5px" }} className='bill-button' onClick={handleShare} ><ShareIcon /></Button>
-        <Button sx={{ color: "black", minWidth: "40px", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginLeft: "5px", marginRight: "5px" }} onClick={handlePrint} ><PrintIcon /></Button>
+        <Button sx={{
+          color: "black",
+          minWidth: "40px",
+          backgroundColor: "#deb88745",
+          '&:hover': { backgroundColor: 'burlywood' },
+          marginRight: "5px"
+        }}
+          className='bill-button'
+          onClick={handleShare} >
+          <ShareIcon />
+        </Button>
+        <Button sx={{
+          color: "black",
+          minWidth: "40px",
+          backgroundColor: "#deb88745",
+          '&:hover': { backgroundColor: 'burlywood' },
+          marginLeft: "5px",
+          marginRight: "5px"
+        }}
+          onClick={handlePrint} >
+          <PrintIcon />
+        </Button>
         <PDFDownloadLink document={<MyDoc />} fileName="PC_Builder.pdf">
-          <Button sx={{ color: "black", minWidth: "40px", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginLeft: "5px" }} disabled={totalQty === 0} ><PictureAsPdfIcon /></Button>
+          <Button sx={{
+            color: "black",
+            minWidth: "40px",
+            backgroundColor: "#deb88745",
+            '&:hover': { backgroundColor: 'burlywood' },
+            marginLeft: "5px"
+          }}
+            disabled={totalQty === 0} >
+            <PictureAsPdfIcon />
+          </Button>
         </PDFDownloadLink>
       </div>
     </div>
