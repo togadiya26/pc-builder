@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: row;
 }
 
 .child_div {
@@ -26,19 +28,22 @@ body {
   font-size: larger;
 }
 
-.PC{
-  float: left;
+.PC {
   padding: 10px;
   width: 53%;
   margin-left: 10%;
+  order: 1;
 }
 
-.Bill{
-  position: fixed;
+.Bill {
+  position: sticky;
   padding: 10px;
-  width: 22%;
-  margin-left: 68%;
-  margin-right: 10%;
+  width: 26%;
+  margin-left: 8%;
+  margin-right: 8%;
+  order: 2;
+  top: 0;
+  height: 100%;
 }
 
 .logo {
@@ -62,13 +67,13 @@ body {
   border-style: double;
 }
 
-.main_div{
+.main_div {
   box-shadow: 0px 0px 10px #888888;
   margin: 0 auto;
   text-align: center;
   margin-top: 35px;
   margin-bottom: 35px;
-  display:block;
+  display: block;
   border-radius: 10px;
   background-color: linen;
   font-size: larger;
@@ -99,14 +104,14 @@ body {
     flex-direction: column;
   }
 
-  .PC{
+  .PC {
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
     order: 2;
   }
-  
-  .Bill{
+
+  .Bill {
     position: static;
     padding: 10px;
     width: 80%;

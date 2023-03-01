@@ -1,0 +1,14 @@
+.selectDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.buttonDiv {
+    text-align: center;
+    margin: 2%
+}
+
+.tableDiv {
+    margin: 2%;
+    display: block;
+}

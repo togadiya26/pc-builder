@@ -267,7 +267,7 @@ function Bill(props) {
           <View style={styles.table}>
             <View style={styles.tableRow}>
               <Text style={styles.tableCell01}>
-                {/* {newDate()} */}
+                {new Date().getDate()}/{new Date().getMonth()}/{new Date().getFullYear()}
               </Text>
               <Text style={styles.tableCell02}>
                 PRODUCT NAME

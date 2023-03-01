@@ -67,7 +67,7 @@ function PcBuilder() {
       [item]: (parseInt(prevQty[item]) + 1).toString()
     }));
   };
-  
+
   const handleDecrement = (item) => {
     setQty((prevQty) => ({
       ...prevQty,
@@ -85,40 +85,42 @@ function PcBuilder() {
   }
 
   const updatedProduct = addQtyToSelectedItem(data, qty)
-  
+
   return (
     <React.Fragment>
-      <div className='PC'>
-        {updatedProduct.map((data, index) => (
-          <div className='main_div' key={index}>
-            <div className='child_div'>
-              {data.selectedItem === null ? <img src={data.img} height={50} width={50} alt="product" /> : <img src={data.selectedItem.img} height={50} width={50} alt="product" />}
-            </div>
-            <div className='child_div'>
-              {data.selectedItem === null ? <h3><b>{data.title}</b></h3> :
-                <>
-                  <h3><b>{data.selectedItem.name}</b></h3>
-                  <h5>{data.selectedItem.item}</h5>
-                  <div>
-                    ₹{data.selectedItem.price}
-                    <Button sx={{color:'red', minWidth: "40px", '&:hover': {backgroundColor: '#ff000029'}, marginLeft:"10px", marginRight:"10px" }} onClick={() => handleDecrement(data.selectedItem.name)} disabled={data.selectedItem.qty === '1'}><RemoveIcon/></Button>
-                    {data.selectedItem.qty}
-                    <Button sx={{color:'blue', minWidth: "40px", '&:hover': {backgroundColor: '#0000ff21'}, marginLeft:"10px" }} onClick={() => handleIncrement(data.selectedItem.name)}><AddIcon/></Button>
-                  </div></>}
-            </div>
-            <div style={{ textAlign: "end", paddingBottom: "5px", paddingRight: "5px" }}>
-              {data.selectedItem === null ? <ScrollDialog initialQty={initialQty} setQty={setQty} onChange={onItemSelectChangeHandler} title={data.name} /> :
-                <div style={{ display: "inline-flex" }}>
-                  ₹{ data.selectedItem.price * data.selectedItem.qty }
-                  <ScrollDialog initialQty={initialQty} setQty={setQty} onChange={onItemSelectChangeHandler} title={data.name} />
-                  <Button sx={{ color: "red", minWidth: "50px", backgroundColor: "#deb88745",'&:hover': {backgroundColor: 'burlywood'}, marginLeft:"10px" }}
-                    onClick={() => removeSelectItemHandler(data.name)
-                    }><DeleteIcon /></Button>
-                </div>} 
-            </div>
-          </div>))}
+      <div className="App">
+        <div className='PC'>
+          {updatedProduct.map((data, index) => (
+            <div className='main_div' key={index}>
+              <div className='child_div'>
+                {data.selectedItem === null ? <img src={data.img} height={50} width={50} alt="product" /> : <img src={data.selectedItem.img} height={50} width={50} alt="product" />}
+              </div>
+              <div className='child_div'>
+                {data.selectedItem === null ? <h3><b>{data.title}</b></h3> :
+                  <>
+                    <h3><b>{data.selectedItem.name}</b></h3>
+                    <h5>{data.selectedItem.item}</h5>
+                    <div>
+                      ₹{data.selectedItem.price}
+                      <Button sx={{ color: 'red', minWidth: "40px", '&:hover': { backgroundColor: '#ff000029' }, marginLeft: "10px", marginRight: "10px" }} onClick={() => handleDecrement(data.selectedItem.name)} disabled={data.selectedItem.qty === '1'}><RemoveIcon /></Button>
+                      {data.selectedItem.qty}
+                      <Button sx={{ color: 'blue', minWidth: "40px", '&:hover': { backgroundColor: '#0000ff21' }, marginLeft: "10px" }} onClick={() => handleIncrement(data.selectedItem.name)}><AddIcon /></Button>
+                    </div></>}
+              </div>
+              <div style={{ textAlign: "end", paddingBottom: "5px", paddingRight: "5px" }}>
+                {data.selectedItem === null ? <ScrollDialog initialQty={initialQty} setQty={setQty} onChange={onItemSelectChangeHandler} title={data.name} /> :
+                  <div style={{ display: "inline-flex" }}>
+                    ₹{data.selectedItem.price * data.selectedItem.qty}
+                    <ScrollDialog initialQty={initialQty} setQty={setQty} onChange={onItemSelectChangeHandler} title={data.name} />
+                    <Button sx={{ color: "red", minWidth: "50px", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginLeft: "10px" }}
+                      onClick={() => removeSelectItemHandler(data.name)
+                      }><DeleteIcon /></Button>
+                  </div>}
+              </div>
+            </div>))}
+        </div>
+        <div className='Bill'><Bill updatedProduct={updatedProduct} data={data} qty={qty} setData={setData} setQty={setQty} initialQty={initialQty} /></div>
       </div>
-      <div className='Bill'><Bill updatedProduct={updatedProduct} data={data} qty={qty} setData={setData} setQty={setQty} initialQty={initialQty} /></div>
     </React.Fragment>
   )
 }

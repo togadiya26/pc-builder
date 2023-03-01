@@ -1,0 +1,13 @@
+.loginDiv {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Gentium Book Plus', serif;
+}
+
+.notchedOutline{
+    border-width: 1px;
+    border-color: burlywood !important
+}
