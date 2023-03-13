@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
-export default function EditProduct(props) {
+export default function UpdateAccessories(props) {
 
   const [open, setOpen] = React.useState(false);
   const [addProduct, setAddProduct] = React.useState({
@@ -163,4 +163,31 @@ export default function EditProduct(props) {
       </Dialog>
     </div>
   );
+}
+
+
+
+
+const [processor, setProcessor] = useState({});
+
+useEffect(() => {
+  const fetchProcessor = async () => {
+    const result = await axios.get(`http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/getprocessor/${props.match.params.id}`);
+    setProcessor(result.data);
+  }
+  fetchProcessor();
+}, [props.match.params.id]);
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  await axios.put(`http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/updateprocessor/${props.match.params.id}`, processor);
+  props.history.push('/processors');
+}
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setProcessor(prevState => ({
+    ...prevState,
+    [name]: value
+  }));
 }

@@ -6,28 +6,45 @@ import DialogContent from '@mui/material/DialogContent';
 import ClearIcon from '@mui/icons-material/Clear';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
-import { storage } from '../../Firebase/Firebase';
-import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
+import EditIcon from '@mui/icons-material/Edit';
 
+export default function UpdateMonitor(props) {
 
-export default function AddDataDialog(props) {
-
-  const initialAddProduct = {
-    // name: props.sP.length !== 0 && props.sP[0].name,
+  const [open, setOpen] = React.useState(false);
+  const [addProduct, setAddProduct] = React.useState({
+    name: "",
     item: "",
     price: "",
     img: null
-  }
-
-  const [open, setOpen] = React.useState(false);
-  const [addProduct, setAddProduct] = React.useState(initialAddProduct);
+  });
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
 
+  // React.useEffect(() => {
+  //   if (props.sP.length !== 0 && props.index !== undefined) {
+  //     setAddProduct({
+  //       name: props.sP[0].name,
+  //       item: props.sP[props.index]?.item || "",
+  //       price: props.sP[props.index]?.price || "",
+  //       img: props.sP[props.index]?.img || null
+  //     });
+  //   }
+  // }, [props.sP, props.index]);
+
   const handleClickOpen = () => {
+
     setOpen(true);
-    setAddProduct(initialAddProduct)
-    setDisabled(false)
+    // addProduct.img !== null && setDisabled(true)
+
+    if (props.sP.length !== 0 && props.index !== undefined) {
+      setAddProduct({
+        name: props.sP[0].name,
+        item: props.sP[props.index]?.item || "",
+        price: props.sP[props.index]?.price || "",
+        img: props.sP[props.index]?.img || null
+      });
+      setDisabled(true)
+    }
   };
 
   const handleClose = () => {
@@ -40,7 +57,7 @@ export default function AddDataDialog(props) {
   }
 
   const Validation = () => {
-    if (addProduct.item === '') {
+    if (addProduct.item === '' ) {
       alert("please enter item details...");
       return false;
     } else if (addProduct.price === '') {
@@ -52,54 +69,26 @@ export default function AddDataDialog(props) {
       return false;
     }
     else {
-      alert("Product Added Successfully");
+      alert("Product Updated Successfully");
       return true;
     }
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    if (Validation()) {
-
-      // Get the file input element
-      const fileInput = document.getElementById("image");
-
-      // Upload file to Firebase Storage
-      const storageRef = ref(storage, `/files/${fileInput.files[0].name}`);
-      const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
-
-      // Monitor the upload progress
-      uploadTask.on("state_changed", (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${progress}% done`);
-      }, (error) => {
-        console.error(error);
-      },
-
-        async () => {
-          // Upload completed successfully, get download URL
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-          console.log("File available at", downloadURL);
-
-          setAddProduct({ ...addProduct, img: downloadURL });
-
-          // Update parent component state with new product data
-          props.sSP([
-            ...props.sP,
-            { name: addProduct.name, item: addProduct.item, price: addProduct.price, img: downloadURL },
-          ]);
-
-        });
-
-    }
-
-    setAddProduct(initialAddProduct);
+  const handleUpdate = (e) => {
+    e.preventDefault()
+    if(Validation()){
+    props.sP.splice(props.index,1,addProduct)
+    props.sSP([...props.sP])
+    setAddProduct({
+      name: "",
+      item: "",
+      price: "",
+      img: null
+    });
     setOpen(false);
-
+    setDisabled(false);
+    }
   }
-
 
   function handleImageChange(event) {
     const file = event.target.files[0];
@@ -112,12 +101,18 @@ export default function AddDataDialog(props) {
   function handleReset() {
     setAddProduct({ ...addProduct, img: null });
     setDisabled(false);
+    fileInput.current.value = null;
   }
 
   return (
     <div>
-      <Button sx={{ backgroundColor: "#faf0e680", '&:hover': { backgroundColor: 'linen' } }} onClick={handleClickOpen} disabled={props.sP.length === 0}>
-        Add Product
+      <Button 
+      sx={{ color: "green", 
+                    minWidth: "50px", 
+                    backgroundColor: "#deb88745", 
+                    '&:hover': { backgroundColor: 'burlywood' }, 
+                    marginLeft: "10px" }} onClick={handleClickOpen} >
+        <EditIcon />
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ backgroundColor: "burlywood" }} >Add Product</DialogTitle>
@@ -125,21 +120,21 @@ export default function AddDataDialog(props) {
           <TextField placeholder='Item' name="item" value={addProduct.item} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
-            <input type="file" id="image" name="img" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
-            <div style={{ margin: "2%" }}>
-              {addProduct.img && <img src={addProduct.img} alt="SelectedImage" height={50} width={50} />}
-              {addProduct.img &&
-                <Button
-                  onClick={handleReset}
-                  sx={{
-                    color: "black",
-                    backgroundColor: "#faf0e680",
-                    '&:hover': { backgroundColor: 'linen' },
-                    marginLeft: "10px",
-                    minWidth: "35px",
-                  }}>
-                  <ClearIcon />
-                </Button>}
+            <input type="file" id="image" name="img" onChange={handleImageChange} ref={fileInput} disabled={disabled}/>
+            <div style={{margin: "2%"}}>
+            {addProduct.img && <img src={addProduct.img} alt="SelectedImage" height={50} width={50} />}
+            {addProduct.img &&
+              <Button
+                onClick={handleReset}
+                sx={{
+                  color: "black",
+                  backgroundColor: "#faf0e680",
+                  '&:hover': { backgroundColor: 'linen' },
+                  marginLeft: "10px",
+                  minWidth: "35px", 
+                }}>
+                <ClearIcon />
+              </Button>}
             </div>
           </div>
         </DialogContent>
@@ -160,7 +155,7 @@ export default function AddDataDialog(props) {
               backgroundColor: "#faf0e680",
               '&:hover': { backgroundColor: 'linen' },
             }}
-            onClick={handleSubmit}
+            onClick={handleUpdate}
           >
             Add
           </Button>

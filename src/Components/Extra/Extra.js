@@ -9,16 +9,16 @@ import { TextField } from '@mui/material';
 import { storage } from '../../Firebase/Firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 
-
 export default function AddDataDialog(props) {
 
   const initialAddProduct = {
-    // name: props.sP.length !== 0 && props.sP[0].name,
+    name: props.sP.length !== 0 && props.sP[0].name,
     item: "",
     price: "",
     img: null
   }
 
+//   const [image, setImage] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [addProduct, setAddProduct] = React.useState(initialAddProduct);
   const [disabled, setDisabled] = React.useState(false);
@@ -40,7 +40,7 @@ export default function AddDataDialog(props) {
   }
 
   const Validation = () => {
-    if (addProduct.item === '') {
+    if (addProduct.item === '' ) {
       alert("please enter item details...");
       return false;
     } else if (addProduct.price === '') {
@@ -57,61 +57,44 @@ export default function AddDataDialog(props) {
     }
   }
 
-  function handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (Validation()) {
-
-      // Get the file input element
-      const fileInput = document.getElementById("image");
-
-      // Upload file to Firebase Storage
-      const storageRef = ref(storage, `/files/${fileInput.files[0].name}`);
-      const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
-
-      // Monitor the upload progress
-      uploadTask.on("state_changed", (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${progress}% done`);
-      }, (error) => {
-        console.error(error);
-      },
-
-        async () => {
-          // Upload completed successfully, get download URL
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-          console.log("File available at", downloadURL);
-
-          setAddProduct({ ...addProduct, img: downloadURL });
-
-          // Update parent component state with new product data
-          props.sSP([
-            ...props.sP,
-            { name: addProduct.name, item: addProduct.item, price: addProduct.price, img: downloadURL },
-          ]);
-
-        });
-
+    if (!Validation()) {
+      return;
     }
-
-    setAddProduct(initialAddProduct);
+    props.sSP([...props.sP, { name: addProduct.name, item: addProduct.item, price: addProduct.price, img: addProduct.img }])
+    setAddProduct(initialAddProduct)
     setOpen(false);
-
+    setDisabled(false);
   }
-
 
   function handleImageChange(event) {
     const file = event.target.files[0];
+    // uploadfile(file)
     if (file) {
       setAddProduct({ ...addProduct, img: URL.createObjectURL(file) });
       setDisabled(true);
     }
   }
 
+//   const uploadfile = (file) => {
+//     if (!file) return
+//     const storageRef = ref(storage, `/files/${file.name}`)
+//     const uploadTask = uploadBytesResumable(storageRef, file)
+//     uploadTask.on('a',
+//         () => {
+//             getDownloadURL(uploadTask.snapshot.ref).then((url) => setImage(url));
+//         }
+//     )
+//   }
+
+//   console.log(image)
+
   function handleReset() {
     setAddProduct({ ...addProduct, img: null });
     setDisabled(false);
+
+    // fileInput.current.value = null;
   }
 
   return (
@@ -125,6 +108,17 @@ export default function AddDataDialog(props) {
           <TextField placeholder='Item' name="item" value={addProduct.item} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
+            {/* <label htmlFor="image">
+              <Button 
+              disabled={disabled} 
+              sx={{
+                color: "black",
+                backgroundColor: "#faf0e680",
+                '&:hover': { backgroundColor: 'linen' },
+              }}>
+                Upload Image
+              </Button>
+            </label> */}
             <input type="file" id="image" name="img" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
             <div style={{ margin: "2%" }}>
               {addProduct.img && <img src={addProduct.img} alt="SelectedImage" height={50} width={50} />}

@@ -8,11 +8,11 @@ import Typography from '@mui/material/Typography';
 import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoginIcon from '@mui/icons-material/Login';
-import { Link, useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../Firebase/Firebase';
 
-export default function Admin(props) {
+export default function SignUp() {
 
     const [showPassword, setShowPassword] = React.useState(false);
     const [email, setEmail] = React.useState("");
@@ -26,30 +26,57 @@ export default function Admin(props) {
         event.preventDefault();
     };
 
+    // const handleLogin = async (e) => {
+    //     e.preventDefault();
+
+    //     const url = 'http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/signup';
+    //     const options = {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ email, password })
+    //     };
+    //     const response = await fetch(url, options);
+    //     const data = await response.json();
+    //     console.log(data);
+
+    //     createUserWithEmailAndPassword(auth, email, password)
+    //         .then((userCredential) => {
+    //             navigate("/admin")
+    //         })
+    //         .catch((error) => {
+    //             console.log(error);
+    //         });
+
+    //         setEmail("")
+    //         setPassword("")
+    // }
+
     const handleLogin = async (e) => {
         e.preventDefault();
-
-        const url = 'http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/login';
+      
+        const url = 'http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/signup';
         const options = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
         };
         const response = await fetch(url, options);
         const data = await response.json();
         console.log(data);
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                // const user = userCredential.user;
-                props.sU(true)
-                navigate("/auth")
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    }
+      
+        createUserWithEmailAndPassword(auth, email, password)
+          .then((userCredential) => {
+            // User account created successfully
+            navigate("/admin");
+          })
+          .catch((error) => {
+            // Error creating user account
+            console.log(error);
+          });
+      
+        setEmail("");
+        setPassword("");
+      }
 
     return (
         <div className={style.loginDiv}>
@@ -110,9 +137,6 @@ export default function Admin(props) {
                     ><LoginIcon /></Button>
                 </CardActions>
             </Card>
-            <div>
-                <Link to='/signUp' >Create a new User</Link> 
-            </div>
         </div>
     );
 }

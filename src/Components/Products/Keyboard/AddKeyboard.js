@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -6,11 +7,11 @@ import DialogContent from '@mui/material/DialogContent';
 import ClearIcon from '@mui/icons-material/Clear';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
-import { storage } from '../../Firebase/Firebase';
+import { storage } from '../../../Firebase/Firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 
 
-export default function AddDataDialog(props) {
+export default function AddKeyboard(props) {
 
   const initialAddProduct = {
     // name: props.sP.length !== 0 && props.sP[0].name,
@@ -57,7 +58,7 @@ export default function AddDataDialog(props) {
     }
   }
 
-  function handleSubmit(event) {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (Validation()) {
@@ -66,7 +67,7 @@ export default function AddDataDialog(props) {
       const fileInput = document.getElementById("image");
 
       // Upload file to Firebase Storage
-      const storageRef = ref(storage, `/files/${fileInput.files[0].name}`);
+      const storageRef = ref(storage, `/Keyboard/${fileInput.files[0].name}`);
       const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
       // Monitor the upload progress
@@ -92,6 +93,27 @@ export default function AddDataDialog(props) {
           ]);
 
         });
+
+        try {
+          const response = await axios.post(
+            "https://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/addkeyboard",
+            {
+              // name: name,
+              // manufacturer: manufacturer,
+              // coreCount: coreCount,
+              // threadCount: threadCount,
+              // baseClock: baseClock,
+              // boostClock: boostClock,
+              // tdp: tdp
+            }
+          );
+    
+          console.log(response);
+          alert("Processor added successfully!");
+        } catch (error) {
+          console.log(error);
+          alert("Error occurred while adding processor.");
+        }
 
     }
 

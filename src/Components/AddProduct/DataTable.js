@@ -17,9 +17,24 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-import AddDataDialog from './AddDataDialog';
+// import AddDataDialog from './AddDataDialog';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditProduct from '../EditProduct/EditProduct'
+import { TableHead } from '@mui/material';
+import AddProcessor from '../Products/Processor/AddProcessor';
+import AddMotherboard from '../Products/Motherboard/AddMotherboard'
+import AddCabinet from '../Products/Cabinet/AddCabinet';
+import AddMonitor from '../Products/Monitor/AddMonitor'
+import AddAccessories from '../Products/Accessories/AddAccessories';
+import AddCabinetFan from '../Products/Cabinet Fan/AddCabinetFan'
+import AddCooler from '../Products/Cooler/AddCooler';
+import AddGraphicsCard from '../Products/Graphics Card/AddGraphicsCard'
+import AddMouse from '../Products/Mouse/AddMouse';
+import AddPowerSupplyUnit from '../Products/Power Suply Unit/AddPowerSupplyUnit'
+import AddRAM from '../Products/RAM/AddRAM';
+import AddStorage1 from '../Products/Storage 1/AddStorage1'
+import AddStorage2 from '../Products/Storage 2/AddStorage2';
+import AddKeyboard from '../Products/Keyboard/AddKeyboard'
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -122,10 +137,53 @@ export default function DataTable(props) {
   };
 
   const deleteProduct = (index) => {
-    props.sP.splice(index,1)
+    const adjustedIndex = (page * rowsPerPage) + index;
+    props.sP.splice(adjustedIndex, 1);
+    // props.sP.splice(index,1)
     props.sSP([...props.sP])
   };
 
+  // const handleDelete = async () => {
+  //   try {
+  //     await axios.delete(`http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/deleteprocessor/${itemId}`);
+  //     onDelete(itemId);
+  //   } catch (err) {
+  //     console.log(err)
+  //   }
+  // };
+
+  let button;
+  if (props.sP[0] && props.sP[0].name === 'processor') {
+    button = <AddProcessor sP={props.sP} sSP={props.sSP} /> ;
+  } else if (props.sP[0] && props.sP[0].name === 'motherboard') {
+    button = <AddMotherboard sP={props.sP} sSP={props.sSP} /> ;
+  } else if (props.sP[0] && props.sP[0].name === 'ram') {
+    button = <AddRAM sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'cooler') {
+    button = <AddCooler sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'storage1') {
+    button = <AddStorage1 sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'storage2') {
+    button = <AddStorage2 sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'graphicscard') {
+    button = <AddGraphicsCard sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'powersupplyunit') {
+    button = <AddPowerSupplyUnit sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'cabinet') {
+    button = <AddCabinet sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'cabinetfan') {
+    button = <AddCabinetFan sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'monitor') {
+    button = <AddMonitor sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'keyboard') {
+    button = <AddKeyboard sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'mouse') {
+    button = <AddMouse sP={props.sP} sSP={props.sSP} />;
+  } else if (props.sP[0] && props.sP[0].name === 'accessories') {
+    button = <AddAccessories sP={props.sP} sSP={props.sSP} />;
+  }
+
+  // console.log(props.sP[0].name)
   return (
     <React.Fragment>
       <div className={style.tableHead}>
@@ -135,30 +193,36 @@ export default function DataTable(props) {
         placeholder='Search Here...'
         value={search}
         onChange={(e) => setSearch(e.target.value)} />
-      <AddDataDialog sP={props.sP} sSP={props.sSP} />
+      {/* <AddDataDialog sP={props.sP} sSP={props.sSP} /> */}
+      {button !== null && button}
       </div>
       <div>
         <TableContainer component={Paper} sx={{ marginTop: "2%", backgroundColor: "linen" }}>
           <Table sx={{ width: "100%" }} aria-label="custom pagination table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ITEM</TableCell>
+                <TableCell style={{ width: "20%" }} align="center" >IMAGE</TableCell>
+                <TableCell style={{ width: "20%" }} align="center" >PRICE</TableCell>
+                <TableCell style={{ width: "20%" }} align="center">ACTIONS</TableCell>
+              </TableRow>
+            </TableHead>
             <TableBody>
               {
-              // rowsPerPage > 0
-              //   ? props.sP.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              //   : 
-                props.sP.filter((ele) => ele.item.toLowerCase().toString().match(search.toLowerCase().toString()) ||
+              (rowsPerPage > 0 && props.sP.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).filter((ele) => ele.productname.toLowerCase().toString().match(search.toLowerCase().toString()) ||
                   ele.price.toString().match(search.toString())
-              ).map((row, index) => (
+              )).map((row, index) => (
                 <TableRow key={index}>
                   <TableCell component="th" scope="row">
-                    {row.item}
+                    {row.productname}
                   </TableCell>
-                  <TableCell style={{ width: "20%" }} align="right">
-                    <img src={row.img ? row.img : row.img.name} alt='product' height={50} width={50} />
+                  <TableCell style={{ width: "20%" }} align="center">
+                    <img src={row.image ? row.image : row.img.name} alt='product' height={50} width={50} />
                   </TableCell>
-                  <TableCell style={{ width: "20%" }} align="right">
+                  <TableCell style={{ width: "20%" }} align="center">
                     {row.price}
                   </TableCell>
-                  <TableCell style={{ width: "20%" }} align="right">
+                  <TableCell style={{ width: "20%" }} align="center">
                     <div className={style.buttonCell}>
                     <EditProduct index={index} sP={props.sP} sSP={props.sSP} />
                     <Button 
@@ -184,6 +248,7 @@ export default function DataTable(props) {
             <TableFooter>
               <TableRow sx={{width: "100%"}} >
                 <TablePagination
+                  sx={{width: "100%"}}
                   rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                   colSpan={3}
                   count={props.sP.length}
