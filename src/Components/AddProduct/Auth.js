@@ -3,13 +3,13 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import style from './Auth.module.css'
-import { getProcessor, getAccessories, getCabinet, getCabinetFan, getCooler, getGraphicsCard, getKeyboard, getMonitor, getMotherboard, getMouse, getPowerSupplyUnit, getRAM, getStorage1, getStorage2 } from '../API/LoginAPI';
+import { getProcessor, getAccessories, getCabinet, getCabinetFan, getCooler, getGraphicsCard, getKeyboard, getMonitor, getMotherboard, getMouse, getPowerSupplyUnit, getRAM, getStorage1, getStorage2 } from '../API/Api';
 // import { Accessories, Cabinet, CabinetFan, Cooler, GraphicsCard, Keyboard, Monitor, Motherboard, Mouse, PowerSupplyUnit, Processor, RAM, Storage1, Storage2 } from '../Array';
 import DataTable from './DataTable';
 
 export default function Auth() {
 
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NDA2YzVkZDIwYjQ1OGJjMWIxZDg2OGEiLCJpYXQiOjE2Nzg0MzEyODQsImV4cCI6MTY3ODg2MzI4NH0.sBkW3SpflOto9jl0OcO0pDDtvPic5gBzvjaB80wS-Dw';
+  // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NDA2YzVkZDIwYjQ1OGJjMWIxZDg2OGEiLCJpYXQiOjE2Nzg0MzEyODQsImV4cCI6MTY3ODg2MzI4NH0.sBkW3SpflOto9jl0OcO0pDDtvPic5gBzvjaB80wS-Dw';
 
 
   const [ Processor, setProcessor] = React.useState([]);
@@ -29,112 +29,112 @@ export default function Auth() {
 
   React.useEffect(() => {
     const fetchProcessorData = async () => {
-      const ProcessorData = await getProcessor(token);
-      setProcessor(ProcessorData.message);
+      const ProcessorData = await getProcessor();
+      setProcessor(ProcessorData);
     }
     fetchProcessorData();
   }, []);
 
   React.useEffect(() => {
     const fetchMotherboardData = async () => {
-      const MotherboardData = await getMotherboard(token);
-      setMotherboard(MotherboardData.message);
+      const MotherboardData = await getMotherboard();
+      setMotherboard(MotherboardData);
     }
     fetchMotherboardData();
   }, []);
 
   React.useEffect(() => {
     const fetchRAMData = async () => {
-      const RAMData = await getRAM(token);
-      setRAM(RAMData.message);
+      const RAMData = await getRAM();
+      setRAM(RAMData);
     }
     fetchRAMData();
   }, []);
 
   React.useEffect(() => {
     const fetchCoolerData = async () => {
-      const CoolerData = await getCooler(token);
-      setCooler(CoolerData.message);
+      const CoolerData = await getCooler();
+      setCooler(CoolerData);
     }
     fetchCoolerData();
   }, []);
 
   React.useEffect(() => {
     const fetchStorage1Data = async () => {
-      const Storage1Data = await getStorage1(token);
-      setStorage1(Storage1Data.message);
+      const Storage1Data = await getStorage1();
+      setStorage1(Storage1Data);
     }
     fetchStorage1Data();
   }, []);
 
   React.useEffect(() => {
     const fetchStorage2Data = async () => {
-      const Storage2Data = await getStorage2(token);
-      setStorage2(Storage2Data.message);
+      const Storage2Data = await getStorage2();
+      setStorage2(Storage2Data);
     }
     fetchStorage2Data();
   }, []);
 
   React.useEffect(() => {
     const fetchGraphicsCardData = async () => {
-      const GraphicsCardData = await getGraphicsCard(token);
-      setGraphicsCard(GraphicsCardData.message);
+      const GraphicsCardData = await getGraphicsCard();
+      setGraphicsCard(GraphicsCardData);
     }
     fetchGraphicsCardData();
   }, []);
 
   React.useEffect(() => {
     const fetchPowerSupplyUnitData = async () => {
-      const PowerSupplyUnitData = await getPowerSupplyUnit(token);
-      setPowerSupplyUnit(PowerSupplyUnitData.message);
+      const PowerSupplyUnitData = await getPowerSupplyUnit();
+      setPowerSupplyUnit(PowerSupplyUnitData);
     }
     fetchPowerSupplyUnitData();
   }, []);
 
   React.useEffect(() => {
     const fetchCabinetData = async () => {
-      const CabinetData = await getCabinet(token);
-      setCabinet(CabinetData.message);
+      const CabinetData = await getCabinet();
+      setCabinet(CabinetData);
     }
     fetchCabinetData();
   }, []);
 
   React.useEffect(() => {
     const fetchCabinetFanData = async () => {
-      const CabinetFanData = await getCabinetFan(token);
-      setCabinetFan(CabinetFanData.message);
+      const CabinetFanData = await getCabinetFan();
+      setCabinetFan(CabinetFanData);
     }
     fetchCabinetFanData();
   }, []);
 
   React.useEffect(() => {
     const fetchMonitorData = async () => {
-      const MonitorData = await getMonitor(token);
-      setMonitor(MonitorData.message);
+      const MonitorData = await getMonitor();
+      setMonitor(MonitorData);
     }
     fetchMonitorData();
   }, []);
 
   React.useEffect(() => {
     const fetchKeyboardData = async () => {
-      const KeyboardData = await getKeyboard(token);
-      setKeyboard(KeyboardData.message);
+      const KeyboardData = await getKeyboard();
+      setKeyboard(KeyboardData);
     }
     fetchKeyboardData();
   }, []);
 
   React.useEffect(() => {
     const fetchMouseData = async () => {
-      const MouseData = await getMouse(token);
-      setMouse(MouseData.message);
+      const MouseData = await getMouse();
+      setMouse(MouseData);
     }
     fetchMouseData();
   }, []);
 
   React.useEffect(() => {
     const fetchAccessoriesData = async () => {
-      const AccessoriesData = await getAccessories(token);
-      setAccessories(AccessoriesData.message);
+      const AccessoriesData = await getAccessories();
+      setAccessories(AccessoriesData);
     }
     fetchAccessoriesData();
   }, []);

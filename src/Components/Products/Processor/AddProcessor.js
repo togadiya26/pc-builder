@@ -14,7 +14,6 @@ import { storage } from '../../../Firebase/Firebase';
 export default function AddProcessor(props) {
 
   const initialAddProduct = {
-    // name: props.sP.length !== 0 && props.sP[0].name,
     productname: "",
     price: "",
     image: null,
@@ -26,7 +25,9 @@ export default function AddProcessor(props) {
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
 
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NDA2YzVkZDIwYjQ1OGJjMWIxZDg2OGEiLCJpYXQiOjE2Nzg0NDc1MDMsImV4cCI6MTY3ODg3OTUwM30.XIevT7C8ScLKpUvKZDL-sYl7rh0pbroOFudto3h1l88"
+  // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NDA2YzVkZDIwYjQ1OGJjMWIxZDg2OGEiLCJpYXQiOjE2Nzg0NDc1MDMsImV4cCI6MTY3ODg3OTUwM30.XIevT7C8ScLKpUvKZDL-sYl7rh0pbroOFudto3h1l88"
+
+  const token = JSON.parse(localStorage.getItem("token"));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -77,7 +78,7 @@ export default function AddProcessor(props) {
 
         try {
           const response = await axios.post(
-            "https://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/addprocessor", addProduct, {
+            "http://pc-builder-backend-git-main-togadiya123.vercel.app/item/addprocessor", addProduct, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }

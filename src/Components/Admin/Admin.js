@@ -29,7 +29,7 @@ export default function Admin(props) {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        const url = 'http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/login';
+        const url = 'http://pc-builder-backend-git-main-togadiya123.vercel.app/auth/login';
         const options = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -38,6 +38,8 @@ export default function Admin(props) {
         const response = await fetch(url, options);
         const data = await response.json();
         console.log(data);
+
+        localStorage.setItem("token", JSON.stringify(data.token));
 
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {

@@ -260,7 +260,7 @@ export default function ScrollDialog(props) {
             tabIndex={-1}
           >
             <React.Fragment>
-              {array && array.message.filter((ele) => ele.productname.toLowerCase().toString().match(search.toLowerCase().toString()) ||
+              {array && array.filter((ele) => ele.productname.toLowerCase().toString().match(search.toLowerCase().toString()) ||
                 ele.price.toString().match(search.toString())).map((data, index) => (
                   <div className='main_div' key={index}>
                     <div className='child_div'>

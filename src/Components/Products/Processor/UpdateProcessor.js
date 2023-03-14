@@ -12,36 +12,24 @@ export default function UpdateProcessor(props) {
 
   const [open, setOpen] = React.useState(false);
   const [addProduct, setAddProduct] = React.useState({
-    name: "",
-    item: "",
+    productname: "",
     price: "",
-    img: null
+    image: null,
+    cors: ""
   });
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
 
-  // React.useEffect(() => {
-  //   if (props.sP.length !== 0 && props.index !== undefined) {
-  //     setAddProduct({
-  //       name: props.sP[0].name,
-  //       item: props.sP[props.index]?.item || "",
-  //       price: props.sP[props.index]?.price || "",
-  //       img: props.sP[props.index]?.img || null
-  //     });
-  //   }
-  // }, [props.sP, props.index]);
-
   const handleClickOpen = () => {
 
     setOpen(true);
-    // addProduct.img !== null && setDisabled(true)
 
     if (props.sP.length !== 0 && props.index !== undefined) {
       setAddProduct({
-        name: props.sP[0].name,
-        item: props.sP[props.index]?.item || "",
+        productname: props.sP[props.index]?.productname || "",
         price: props.sP[props.index]?.price || "",
-        img: props.sP[props.index]?.img || null
+        image: props.sP[props.index]?.image || null,
+        cors: props.sP[props.index]?.cors || ""
       });
       setDisabled(true)
     }
@@ -80,10 +68,10 @@ export default function UpdateProcessor(props) {
     props.sP.splice(props.index,1,addProduct)
     props.sSP([...props.sP])
     setAddProduct({
-      name: "",
-      item: "",
+      productname: "",
       price: "",
-      img: null
+      image: null,
+      cors: ""
     });
     setOpen(false);
     setDisabled(false);
@@ -93,13 +81,13 @@ export default function UpdateProcessor(props) {
   function handleImageChange(event) {
     const file = event.target.files[0];
     if (file) {
-      setAddProduct({ ...addProduct, img: URL.createObjectURL(file) });
+      setAddProduct({ ...addProduct, image: URL.createObjectURL(file) });
       setDisabled(true);
     }
   }
 
   function handleReset() {
-    setAddProduct({ ...addProduct, img: null });
+    setAddProduct({ ...addProduct, image: null });
     setDisabled(false);
     fileInput.current.value = null;
   }
@@ -163,4 +151,4 @@ export default function UpdateProcessor(props) {
       </Dialog>
     </div>
   );
-}
+} 

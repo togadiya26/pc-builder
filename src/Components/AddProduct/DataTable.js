@@ -30,11 +30,12 @@ import AddCabinetFan from '../Products/Cabinet Fan/AddCabinetFan'
 import AddCooler from '../Products/Cooler/AddCooler';
 import AddGraphicsCard from '../Products/Graphics Card/AddGraphicsCard'
 import AddMouse from '../Products/Mouse/AddMouse';
-import AddPowerSupplyUnit from '../Products/Power Suply Unit/AddPowerSupplyUnit'
+import AddPowerSupplyUnit from '../Products/Power Suply Unit/AddPowerSupplyUnit';
 import AddRAM from '../Products/RAM/AddRAM';
-import AddStorage1 from '../Products/Storage 1/AddStorage1'
+import AddStorage1 from '../Products/Storage 1/AddStorage1';
 import AddStorage2 from '../Products/Storage 2/AddStorage2';
-import AddKeyboard from '../Products/Keyboard/AddKeyboard'
+import AddKeyboard from '../Products/Keyboard/AddKeyboard';
+import axios from 'axios';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -136,21 +137,26 @@ export default function DataTable(props) {
     setPage(0);
   };
 
-  const deleteProduct = (index) => {
-    const adjustedIndex = (page * rowsPerPage) + index;
-    props.sP.splice(adjustedIndex, 1);
-    // props.sP.splice(index,1)
-    props.sSP([...props.sP])
-  };
-
-  // const handleDelete = async () => {
-  //   try {
-  //     await axios.delete(`http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/deleteprocessor/${itemId}`);
-  //     onDelete(itemId);
-  //   } catch (err) {
-  //     console.log(err)
-  //   }
+  // const deleteProduct = (index) => {
+  //   const adjustedIndex = (page * rowsPerPage) + index;
+  //   props.sP.splice(adjustedIndex, 1);
+  //   // props.sP.splice(index,1)
+  //   props.sSP([...props.sP])
   // };
+
+  const token = JSON.parse(localStorage.getItem("token"))
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteprocessor/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+    } catch (err) {
+      console.log(err)
+    }
+  };
 
   let button;
   if (props.sP[0] && props.sP[0].name === 'processor') {
@@ -226,7 +232,7 @@ export default function DataTable(props) {
                     <div className={style.buttonCell}>
                     <EditProduct index={index} sP={props.sP} sSP={props.sSP} />
                     <Button 
-                    onClick={() => deleteProduct(index)}
+                    onClick={() => handleDelete(row._id)}
                     sx={{ color: "red", 
                     minWidth: "50px", 
                     backgroundColor: "#deb88745", 

@@ -1,9 +1,5 @@
-export const getProcessor = async (token) => {
-    const response = await fetch('http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/getprocessor', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+export const getProcessor = async () => {
+    const response = await fetch('http://pc-builder-backend-git-main-togadiya123.vercel.app/getitem/getprocessors');
     const data = await response.json();
     return data;
 }
