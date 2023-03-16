@@ -111,7 +111,7 @@ TablePaginationActions.propTypes = {
 };
 
 
-export default function DataTable1(props) {
+export default function DataTable(props) {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);

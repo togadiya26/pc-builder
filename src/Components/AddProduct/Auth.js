@@ -139,25 +139,6 @@ export default function Auth() {
   }, []);
 
   const initialSelectedProduct = [];
-
-  // const initialAllProduct = {
-  //   Processor: Processor,
-  //   Motherboard: Motherboard,
-  //   Cooler: Cooler,
-  //   RAM: RAM,
-  //   Storage1: Storage1,
-  //   Storage2: Storage2,
-  //   GraphicsCard: GraphicsCard,
-  //   PowerSupplyUnit: PowerSupplyUnit,
-  //   Cabinet: Cabinet,
-  //   CabinetFan: CabinetFan,
-  //   Monitor: Monitor,
-  //   Keyboard: Keyboard,
-  //   Mouse: Mouse,
-  //   Accessories: Accessories
-  // }
-
-  // const [allProduct, setAllProduct] = React.useState(initialAllProduct)
   const [selectedProduct, setselectedProduct] = React.useState(initialSelectedProduct);
   const None = [];
   
