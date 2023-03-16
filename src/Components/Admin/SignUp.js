@@ -37,17 +37,6 @@ export default function SignUp() {
         };
         const response = await fetch(url, options);
         const data = await response.json();
-        console.log(data);
-      
-        createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            // User account created successfully
-            navigate("/admin");
-          })
-          .catch((error) => {
-            // Error creating user account
-            console.log(error);
-          });
       
         setEmail("");
         setPassword("");
@@ -55,10 +44,10 @@ export default function SignUp() {
 
     return (
         <div className={style.loginDiv}>
-            <Card sx={{ height: "50%", width: "35%", background: "linen", fontFamily: 'Gentium Book Plus' }}>
+            <Card sx={{ height: "35%", width: "25%", background: "linen", fontFamily: 'Gentium Book Plus' }}>
                 <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "baseline" }}>
                     <Typography sx={{ fontSize: "x-large" }}>
-                        Admin ID
+                        E-mail ID:
                     </Typography>
                     <TextField
                         placeholder="Admin ID"
@@ -73,7 +62,7 @@ export default function SignUp() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <Typography sx={{ fontSize: "x-large" }}>
-                        Password
+                        Password:
                     </Typography>
                     <TextField
                         id="outlined-adornment-password"

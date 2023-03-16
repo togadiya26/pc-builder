@@ -39,22 +39,13 @@ export default function Admin() {
         const data = await response.json();
 
         localStorage.setItem("token", JSON.stringify(data.token));
-
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                // const user = userCredential.user;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
         
             navigate("/auth")
     }
 
     return (
         <div className={style.loginDiv}>
-            <Card sx={{ height: "50%", width: "35%", background: "linen", fontFamily: 'Gentium Book Plus' }}>
+            <Card sx={{ height: "35%", width: "25%", background: "linen", fontFamily: 'Gentium Book Plus' }}>
                 <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "baseline" }}>
                     <Typography sx={{ fontSize: "x-large" }}>
                         Admin ID
@@ -109,11 +100,11 @@ export default function Admin() {
                         }}
                         onClick={handleLogin}
                     ><LoginIcon /></Button>
+                    <Typography sx={{marginLeft: "10%" }}>
+                    <Link to='/signUp' >Create a new User</Link>
+                    </Typography>
                 </CardActions>
             </Card>
-            <div>
-                <Link to='/signUp' >Create a new User</Link> 
-            </div>
         </div>
     );
 }
