@@ -26,35 +26,10 @@ export default function SignUp() {
         event.preventDefault();
     };
 
-    // const handleLogin = async (e) => {
-    //     e.preventDefault();
-
-    //     const url = 'http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/signup';
-    //     const options = {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({ email, password })
-    //     };
-    //     const response = await fetch(url, options);
-    //     const data = await response.json();
-    //     console.log(data);
-
-    //     createUserWithEmailAndPassword(auth, email, password)
-    //         .then((userCredential) => {
-    //             navigate("/admin")
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         });
-
-    //         setEmail("")
-    //         setPassword("")
-    // }
-
     const handleLogin = async (e) => {
         e.preventDefault();
       
-        const url = 'http://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/signup';
+        const url = 'https://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/signup';
         const options = {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

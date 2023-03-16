@@ -80,7 +80,7 @@ export default function UpdateCabinet(props) {
     if (Validation()) {
       try {
         const response = await axios.put(
-          `http://pc-builder-backend-git-main-togadiya123.vercel.app/item/updatecabinet/${props.id}`, addProduct, {
+          `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updatecabinet/${props.id}`, addProduct, {
             headers: {
               'Authorization': `Bearer ${token}`
             }

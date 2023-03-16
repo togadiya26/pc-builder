@@ -70,7 +70,7 @@ export default function AddCabinetfan(props) {
     if (Validation()) {
         try {
           const response = await axios.post(
-            "http://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcabinetfan", addProduct, {
+            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcabinetfan", addProduct, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }

@@ -66,7 +66,7 @@ export default function AddAccessories(props) {
     if (Validation()) {
         try {
           const response = await axios.post(
-            "http://pc-builder-backend-git-main-togadiya123.vercel.app/item/addaccessories", addProduct, {
+            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addaccessories", addProduct, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }

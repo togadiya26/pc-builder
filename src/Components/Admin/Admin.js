@@ -29,7 +29,7 @@ export default function Admin() {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        const url = 'http://pc-builder-backend-git-main-togadiya123.vercel.app/auth/login';
+        const url = 'https://pc-builder-backend-git-main-togadiya123.vercel.app/auth/login';
         const options = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
