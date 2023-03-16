@@ -11,4 +11,9 @@
 .tableDiv {
     margin: 2%;
     display: block;
+} 
+
+.logoutDiv {
+    text-align: left;
+    margin: 2%
 }

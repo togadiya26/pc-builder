@@ -61,7 +61,6 @@ export default function AddProcessor(props) {
       return true;
     }
     else {
-      alert("Product Added Successfully");
       return true;
     }
   }
@@ -70,11 +69,6 @@ export default function AddProcessor(props) {
     event.preventDefault();
 
     if (Validation()) {
-
-        props.sSP([
-          ...props.sP,
-          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, cors: addProduct.cors },
-        ]);
 
         try {
           const response = await axios.post(
@@ -90,6 +84,10 @@ export default function AddProcessor(props) {
           alert("Error occurred while adding processor.");
         }
 
+        props.sSP([
+          ...props.sP,
+          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, cors: addProduct.cors },
+        ]);
     }
 
     setAddProduct(initialAddProduct);

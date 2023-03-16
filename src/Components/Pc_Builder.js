@@ -12,14 +12,14 @@ function PcBuilder() {
   const initialQty = {
     "Processor": "1",
     "Motherboard": "1",
-    "RAM": "1",
-    "Storage 1": "1",
-    "Storage 2": "1",
+    "Ram": "1",
+    "Storage1": "1",
+    "Storage2": "1",
     "Cabinet": "1",
-    "Cabinet Fan": "1",
+    "Cabinetfan": "1",
     "Cooler": "1",
-    "Graphics Card": "1",
-    "Power Supply Unit": "1",
+    "Graphicscard": "1",
+    "Powersupplyunit": "1",
     "Monitor": "1",
     "Keyboard": "1",
     "Mouse": "1",
@@ -42,7 +42,6 @@ function PcBuilder() {
     setData(newData);
 
   };
-
 
   const removeSelectItemHandler = (name) => {
 
@@ -93,13 +92,13 @@ function PcBuilder() {
           {updatedProduct.map((data, index) => (
             <div className='main_div' key={index}>
               <div className='child_div'>
-                {data.selectedItem === null ? <img src={data.img} height={50} width={50} alt="product" /> : <img src={data.selectedItem.img} height={50} width={50} alt="product" />}
+                {data.selectedItem === null ? <img src={data.img} height={50} width={50} alt="product" /> : <img src={data.selectedItem.image} height={50} width={50} alt="product" />}
               </div>
               <div className='child_div'>
                 {data.selectedItem === null ? <h3><b>{data.title}</b></h3> :
                   <>
                     <h3><b>{data.selectedItem.name}</b></h3>
-                    <h5>{data.selectedItem.item}</h5>
+                    <h5>{data.selectedItem.productname}</h5>
                     <div>
                       ₹{data.selectedItem.price}
                       <Button sx={{ color: 'red', minWidth: "40px", '&:hover': { backgroundColor: '#ff000029' }, marginLeft: "10px", marginRight: "10px" }} onClick={() => handleDecrement(data.selectedItem.name)} disabled={data.selectedItem.qty === '1'}><RemoveIcon /></Button>

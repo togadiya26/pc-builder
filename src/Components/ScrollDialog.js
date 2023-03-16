@@ -144,8 +144,6 @@ export default function ScrollDialog(props) {
     fetchAccessoriesData();
   }, []);
 
-  console.log(Processor)
-
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
     setScroll(scrollType);
@@ -171,21 +169,21 @@ export default function ScrollDialog(props) {
     array = Processor;
   } else if (item === 'Motherboard') {
     array = Motherboard;
-  } else if (item === 'RAM') {
+  } else if (item === 'Ram') {
     array = RAM;
   } else if (item === 'Cooler') {
     array = Cooler;
-  } else if (item === 'Storage 1') {
+  } else if (item === 'Storage1') {
     array = Storage1;
-  } else if (item === 'Storage 2') {
+  } else if (item === 'Storage2') {
     array = Storage2;
-  } else if (item === 'Graphics Card') {
+  } else if (item === 'Graphicscard') {
     array = GraphicsCard;
-  } else if (item === 'Power Supply Unit') {
+  } else if (item === 'Powersupplyunit') {
     array = PowerSupplyUnit;
   } else if (item === 'Cabinet') {
     array = Cabinet;
-  } else if (item === 'Cabinet Fan') {
+  } else if (item === 'Cabinetfan') {
     array = CabinetFan;
   } else if (item === 'Monitor') {
     array = Monitor;
@@ -271,10 +269,9 @@ export default function ScrollDialog(props) {
                     </div>
                     <div className='price_div'>
                       ₹{data.price}
-                    
                     <Button
                       onClick={() => {
-                        const product = array.message.find(item => item.id === data.id);
+                        const product = array.find(item => item._id === data._id);
                         props.onChange(product)
                         setOpen(false)
                         props.setQty(prevQty => ({

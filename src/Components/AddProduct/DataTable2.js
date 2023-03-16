@@ -17,37 +17,39 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
+// import AddDataDialog from './AddDataDialog';
 import DeleteIcon from '@mui/icons-material/Delete';
+// import EditProduct from '../EditProduct/EditProduct'
 import { TableHead } from '@mui/material';
-import axios from 'axios';
 import AddProcessor from '../Products/Processor/AddProcessor';
-import AddMotherboard from '../Products/Motherboard/AddMotherboard';
-import AddRAM from '../Products/RAM/AddRAM';
+import AddMotherboard from '../Products/Motherboard/AddMotherboard'
+import AddCabinet from '../Products/Cabinet/AddCabinet';
+import AddMonitor from '../Products/Monitor/AddMonitor'
+import AddAccessories from '../Products/Accessories/AddAccessories';
+import AddCabinetFan from '../Products/Cabinet Fan/AddCabinetFan'
 import AddCooler from '../Products/Cooler/AddCooler';
+import AddGraphicsCard from '../Products/Graphics Card/AddGraphicsCard'
+import AddMouse from '../Products/Mouse/AddMouse';
+import AddPowerSupplyUnit from '../Products/Power Suply Unit/AddPowerSupplyUnit';
+import AddRAM from '../Products/RAM/AddRAM';
 import AddStorage1 from '../Products/Storage 1/AddStorage1';
 import AddStorage2 from '../Products/Storage 2/AddStorage2';
-import AddPowerSupplyUnit from '../Products/Power Suply Unit/AddPowerSupplyUnit';
-import AddCabinet from '../Products/Cabinet/AddCabinet';
-import AddCabinetFan from '../Products/Cabinet Fan/AddCabinetFan';
-import AddMonitor from '../Products/Monitor/AddMonitor';
 import AddKeyboard from '../Products/Keyboard/AddKeyboard';
-import AddMouse from '../Products/Mouse/AddMouse';
-import AddAccessories from '../Products/Accessories/AddAccessories';
-import AddGaphicsCard from '../Products/Graphics Card/AddGraphicsCard';
-import UpdateProcessor from '../Products/Processor/UpdateProcessor';
-import UpdateMotherboard from '../Products/Motherboard/UpdateMotherboard';
+import axios from 'axios';
 import UpadteRAM from '../Products/RAM/UpdateRAM';
-import UpdateCooler from '../Products/Cooler/UpdateCooler';
-import UpdateStorage1 from '../Products/Storage 1/UpdateStorage1';
-import UpdateStorage2 from '../Products/Storage 2/UpdateStorage2';
-import UpdateGraphicsCard from '../Products/Graphics Card/UpdateGraphicsCard';
-import UpdatePowerSupplyUnit from '../Products/Power Suply Unit/UpdatePowerSupplyUnit';
+import UpdateAccessories from '../Products/Accessories/UpdateAccessories';
 import UpdateCabinet from '../Products/Cabinet/UpdateCabinet';
 import UpdateCabinetFan from '../Products/Cabinet Fan/UpdateCabinetFan';
-import UpdateMonitor from '../Products/Monitor/UpdateMonitor';
+import UpdateCooler from '../Products/Cooler/UpdateCooler';
+import UpdateGraphicsCard from '../Products/Graphics Card/UpdateGraphicsCard';
 import UpdateKeyboard from '../Products/Keyboard/UpdateKeyboard';
+import UpdateMonitor from '../Products/Monitor/UpdateMonitor';
+import UpdateMotherboard from '../Products/Motherboard/UpdateMotherboard';
 import UpdateMouse from '../Products/Mouse/UpdateMouse';
-import UpdateAccessories from '../Products/Accessories/UpdateAccessories';
+import UpdatePowerSupplyUnit from '../Products/Power Suply Unit/UpdatePowerSupplyUnit';
+import UpdateProcessor from '../Products/Processor/UpdateProcessor';
+import UpdateStorage1 from '../Products/Storage 1/UpdateStorage1';
+import UpdateStorage2 from '../Products/Storage 2/UpdateStorage2';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -110,13 +112,33 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
+// function createData(name, calories, fat) {
+//   return { name, calories, fat };
+// }
 
-export default function DataTable1(props) {
+// const rows = [
+//   createData('Cupcake', 305, 3.7),
+//   createData('Donut', 452, 25.0),
+//   createData('Eclair', 262, 16.0),
+//   createData('Frozen yoghurt', 159, 6.0),
+//   createData('Gingerbread', 356, 16.0),
+//   createData('Honeycomb', 408, 3.2),
+//   createData('Ice cream sandwich', 237, 9.0),
+//   createData('Jelly Bean', 375, 0.0),
+//   createData('KitKat', 518, 26.0),
+//   createData('Lollipop', 392, 0.2),
+//   createData('Marshmallow', 318, 0),
+//   createData('Nougat', 360, 19.0),
+//   createData('Oreo', 437, 18.0),
+// ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
+
+export default function DataTable2(props) {
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [search, setSearch] = React.useState("");
 
+  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - props.sP.length) : 0;
 
@@ -129,12 +151,19 @@ export default function DataTable1(props) {
     setPage(0);
   };
 
+  // const deleteProduct = (index) => {
+  //   const adjustedIndex = (page * rowsPerPage) + index;
+  //   props.sP.splice(adjustedIndex, 1);
+  //   // props.sP.splice(index,1)
+  //   props.sSP([...props.sP])
+  // };
+
   const token = JSON.parse(localStorage.getItem("token"))
 
   let button;
   let Update;
   let del;
-  if (props.sP[0] && props.sP[0].name === 'Processor') {
+  if (props.sP[0] && props.sP[0].name === 'processor') {
     button = <AddProcessor sP={props.sP} sSP={props.sSP} /> ;
     Update = UpdateProcessor ;
     del = "deleteprocessor";
@@ -159,7 +188,7 @@ export default function DataTable1(props) {
     Update = UpdateStorage2 ;
     del = "deletestorage2";
   } else if (props.sP[0] && props.sP[0].name === 'Graphicscard') {
-    button = <AddGaphicsCard sP={props.sP} sSP={props.sSP} />;
+    button = <AddGraphicsCard sP={props.sP} sSP={props.sSP} />;
     Update = UpdateGraphicsCard ;
     del = "deletegraphicscard";
   } else if (props.sP[0] && props.sP[0].name === 'Powersupplyunit') {
@@ -192,12 +221,7 @@ export default function DataTable1(props) {
     del = "deleteaccessories";
   }
 
-  const handleDelete = async (id, index) => {
-
-    const adjustedIndex = (page * rowsPerPage) + index;
-    props.sP.splice(adjustedIndex, 1);
-    props.sSP([...props.sP])
-
+  const handleDelete = async (id) => {
     try {
       await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/${del}/${id}`, {
         headers: {
@@ -218,6 +242,7 @@ export default function DataTable1(props) {
         placeholder='Search Here...'
         value={search}
         onChange={(e) => setSearch(e.target.value)} />
+      {/* <AddDataDialog sP={props.sP} sSP={props.sSP} /> */}
       {button !== null && button}
       </div>
       <div>
@@ -248,9 +273,10 @@ export default function DataTable1(props) {
                   </TableCell>
                   <TableCell style={{ width: "20%" }} align="center">
                     <div className={style.buttonCell}>
-                    <Update id={row._id} index={index} sP={props.sP} sSP={props.sSP}/>
+                    {/* <EditProduct index={index} sP={props.sP} sSP={props.sSP} /> */}
+                    {/* <Update id={row._id} index={index} sP={props.sP} sSP={props.sSP}/> */}
                     <Button 
-                    onClick={() => handleDelete(row._id, index)}
+                    onClick={() => handleDelete(row._id)}
                     sx={{ color: "red", 
                     minWidth: "50px", 
                     backgroundColor: "#deb88745", 

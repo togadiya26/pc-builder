@@ -5,12 +5,11 @@ import Select from '@mui/material/Select';
 import style from './Auth.module.css'
 import { getProcessor, getAccessories, getCabinet, getCabinetFan, getCooler, getGraphicsCard, getKeyboard, getMonitor, getMotherboard, getMouse, getPowerSupplyUnit, getRAM, getStorage1, getStorage2 } from '../API/Api';
 // import { Accessories, Cabinet, CabinetFan, Cooler, GraphicsCard, Keyboard, Monitor, Motherboard, Mouse, PowerSupplyUnit, Processor, RAM, Storage1, Storage2 } from '../Array';
-import DataTable from './DataTable';
+import DataTable from './DataTable'
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function Auth() {
-
-  // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NDA2YzVkZDIwYjQ1OGJjMWIxZDg2OGEiLCJpYXQiOjE2Nzg0MzEyODQsImV4cCI6MTY3ODg2MzI4NH0.sBkW3SpflOto9jl0OcO0pDDtvPic5gBzvjaB80wS-Dw';
-
 
   const [ Processor, setProcessor] = React.useState([]);
   const [ Motherboard, setMotherboard] = React.useState([]);
@@ -139,8 +138,6 @@ export default function Auth() {
     fetchAccessoriesData();
   }, []);
 
-  console.log(Processor)
-
   const initialSelectedProduct = [];
 
   // const initialAllProduct = {
@@ -162,13 +159,18 @@ export default function Auth() {
 
   // const [allProduct, setAllProduct] = React.useState(initialAllProduct)
   const [selectedProduct, setselectedProduct] = React.useState(initialSelectedProduct);
-
+  const None = [];
+  
   const handleChange = (event) => {
     setselectedProduct(event.target.value);
   };
 
-  console.log(selectedProduct)
+  const navigate = useNavigate()
 
+  const LogOut = () => {
+    localStorage.removeItem("token");
+    navigate("/admin")
+  }
   return (
     <React.Fragment>
       <div className={style.selectDiv}>
@@ -186,7 +188,7 @@ export default function Auth() {
               }
             }}
           >
-            <MenuItem value={[]}>
+            <MenuItem value={None}>
               <em>None</em>
             </MenuItem>
             <MenuItem value={Processor}>Processor</MenuItem>
@@ -208,6 +210,9 @@ export default function Auth() {
       </div>
       <div className={style.tableDiv}>
         <DataTable sP={selectedProduct} sSP={setselectedProduct} />
+      </div>
+      <div className={style.logoutDiv}>
+        <Button sx={{ backgroundColor: "#faf0e680", '&:hover': { backgroundColor: 'linen' } }} onClick={LogOut}>LOGOUT</Button>
       </div>
     </React.Fragment>
   );

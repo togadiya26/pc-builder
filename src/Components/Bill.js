@@ -4,13 +4,13 @@ import ShareIcon from '@mui/icons-material/Share';
 import PrintIcon from '@mui/icons-material/Print';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { Product } from './Array';
-import { Document, Page, Text, PDFDownloadLink, View, StyleSheet, pdf } from '@react-pdf/renderer';
+import { Document, Page, Text, PDFDownloadLink, View, StyleSheet, pdf, Image } from '@react-pdf/renderer';
 
 
 const styles = StyleSheet.create({
   page: {
-    paddingTop: 35,
-    paddingBottom: 65,
+    paddingTop: 10,
+    // paddingBottom: 65,
     paddingHorizontal: 35,
     fontFamily: 'Times-Roman',
   },
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   table: {
     display: 'table',
     width: 'auto',
-    margin: 30,
+    margin: 10,
   },
 
   tableRow: {
@@ -229,7 +229,7 @@ function Bill(props) {
           {data.selectedItem !== null && data.selectedItem.name}
         </Text>
         <Text style={styles.tableCell2}>
-          {data.selectedItem !== null && data.selectedItem.item}
+          {data.selectedItem !== null && data.selectedItem.productname}
         </Text>
         <Text style={styles.tableCell3}>
           {data.selectedItem !== null && data.selectedItem.qty}
@@ -249,21 +249,26 @@ function Bill(props) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
-          <Text style={{ textAlign: 'right', fontSize: 15 }}>
-            JENISH VIRADIYA
-          </Text>
-          <Text style={{ textAlign: 'right', fontSize: 15 }}>
-            Address
-          </Text>
-          <Text style={{ textAlign: 'right', fontSize: 15 }}>
-            Mobile
-          </Text>
-          <Text style={{ textAlign: 'right', fontSize: 15 }}>
-            WebSite
-          </Text>
-          <Text style={{ textAlign: 'center', fontSize: 30 }}>
-            PRODUCT BUILDER
-          </Text>
+          <View style={styles.table}>
+            <View style={styles.tableRow}>
+              <Text style={{ fontSize: 30, width: 100, border: '1px solid #000', textAlign: "center", paddingTop: 12 }}>
+                <Image src="https://imgs.search.brave.com/jgkR5n9dcPFn1yKtgvbIl0cHxdNNtP_qKinyFrw1Bpc/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9waXhl/bGNsZXJrcy5jb20v/cGljcy8wMDAvMzU1/LzIyOS85ZjAxMDIy/NTBmYzMxMjVjMzMx/YjdhZmI0MTdmNzc0/My5qcGc" style={{ height: 30, width: 30 }} />
+              </Text>
+              <Text style={{ fontSize: 30, width: 370, border: '1px solid #000', textAlign: "center", paddingTop: 8 }}>
+                PRODUCT BUILDER
+              </Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={{ fontSize: 15, width: 470, border: '1px solid #000', textAlign: "center", padding: 10 }}>
+                ADDRESS: PRODUCT BUILDER
+              </Text>
+            </View>
+            <View style={styles.tableRow}>
+              <Text style={{ fontSize: 15, width: 470, border: '1px solid #000', textAlign: "center", padding: 10 }}>
+                E-mail: test@admin.com, Phone No: 9874563210
+              </Text>
+            </View>
+          </View>
           <View style={styles.table}>
             <View style={styles.tableRow}>
               <Text style={styles.tableCell01}>

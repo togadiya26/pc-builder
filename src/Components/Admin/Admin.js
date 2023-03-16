@@ -12,7 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../../Firebase/Firebase';
 
-export default function Admin(props) {
+export default function Admin() {
 
     const [showPassword, setShowPassword] = React.useState(false);
     const [email, setEmail] = React.useState("");
@@ -37,7 +37,6 @@ export default function Admin(props) {
         };
         const response = await fetch(url, options);
         const data = await response.json();
-        console.log(data);
 
         localStorage.setItem("token", JSON.stringify(data.token));
 
@@ -45,12 +44,12 @@ export default function Admin(props) {
             .then((userCredential) => {
                 // Signed in 
                 // const user = userCredential.user;
-                props.sU(true)
-                navigate("/auth")
             })
             .catch((error) => {
                 console.log(error);
             });
+        
+            navigate("/auth")
     }
 
     return (

@@ -7,17 +7,17 @@ import DialogContent from '@mui/material/DialogContent';
 import ClearIcon from '@mui/icons-material/Clear';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
-import { storage } from '../../../Firebase/Firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
+import { storage } from '../../../Firebase/Firebase';
 
 
-export default function AddRAM(props) {
+export default function AddRam(props) {
 
   const initialAddProduct = {
-    // name: props.sP.length !== 0 && props.sP[0].name,
-    item: "",
+    productname: "",
     price: "",
-    img: null
+    image: null,
+    ramcapacity: "",
   }
 
   const [open, setOpen] = React.useState(false);
@@ -25,12 +25,14 @@ export default function AddRAM(props) {
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
 
+  const token = JSON.parse(localStorage.getItem("token"));
+
   const handleClickOpen = () => {
     setOpen(true);
     setAddProduct(initialAddProduct)
     setDisabled(false)
   };
-
+  
   const handleClose = () => {
     setOpen(false);
   };
@@ -41,100 +43,80 @@ export default function AddRAM(props) {
   }
 
   const Validation = () => {
-    if (addProduct.item === '') {
-      alert("please enter item details...");
+    if (addProduct.productname === '') {
+      alert("please enter product name...");
       return false;
     } else if (addProduct.price === '') {
       alert('please enter amount...');
       return false;
-    }
-    else if (addProduct.img === null) {
+    } else if (addProduct.image === null) {
       alert('please upload an image...');
       return false;
-    }
-    else {
-      alert("Product Added Successfully");
+    } else if (addProduct.ramcapacity === null) {
+      alert("please enter ramcapacity...");
+      return true;
+    } else {
       return true;
     }
   }
 
   const handleSubmit = async (event) => {
+
     event.preventDefault();
 
     if (Validation()) {
-
-      // Get the file input element
-      const fileInput = document.getElementById("image");
-
-      // Upload file to Firebase Storage
-      const storageRef = ref(storage, `/RAM/${fileInput.files[0].name}`);
-      const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
-
-      // Monitor the upload progress
-      uploadTask.on("state_changed", (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(`Upload is ${progress}% done`);
-      }, (error) => {
-        console.error(error);
-      },
-
-        async () => {
-          // Upload completed successfully, get download URL
-          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-
-          console.log("File available at", downloadURL);
-
-          setAddProduct({ ...addProduct, img: downloadURL });
-
-          // Update parent component state with new product data
-          props.sSP([
-            ...props.sP,
-            { name: addProduct.name, item: addProduct.item, price: addProduct.price, img: downloadURL },
-          ]);
-
-        });
-
         try {
           const response = await axios.post(
-            "https://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/addram",
-            {
-              // name: name,
-              // manufacturer: manufacturer,
-              // coreCount: coreCount,
-              // threadCount: threadCount,
-              // baseClock: baseClock,
-              // boostClock: boostClock,
-              // tdp: tdp
-            }
-          );
-    
+          "http://pc-builder-backend-git-main-togadiya123.vercel.app/item/addram", addProduct, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
           console.log(response);
-          alert("Processor added successfully!");
+          alert("Ram added successfully!");
         } catch (error) {
           console.log(error);
-          alert("Error occurred while adding processor.");
+          alert("Error occurred while adding Ram.");
         }
-
+        props.sSP([
+          ...props.sP,
+          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, ramcapacity: addProduct.ramcapacity },
+        ]);
     }
 
     setAddProduct(initialAddProduct);
     setOpen(false);
-
   }
 
-
   function handleImageChange(event) {
-    const file = event.target.files[0];
-    if (file) {
-      setAddProduct({ ...addProduct, img: URL.createObjectURL(file) });
-      setDisabled(true);
-    }
+
+    const fileInput = document.getElementById("image");
+
+    // Upload file to Firebase Storage
+    const storageRef = ref(storage, `/Ram/${fileInput.files[0].name}`);
+    const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
+
+    // Monitor the upload progress
+    uploadTask.on("state_changed", (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log(`Upload is ${progress}% done`);
+    }, (error) => {
+      console.error(error);
+    },
+    
+      async () => {
+        // Upload completed successfully, get download URL
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        console.log("File available at", downloadURL);
+        setAddProduct({ ...addProduct, image: downloadURL });
+      });
   }
 
   function handleReset() {
-    setAddProduct({ ...addProduct, img: null });
+    setAddProduct({ ...addProduct, image: null });
     setDisabled(false);
   }
+
 
   return (
     <div>
@@ -144,13 +126,14 @@ export default function AddRAM(props) {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ backgroundColor: "burlywood" }} >Add Product</DialogTitle>
         <DialogContent sx={{ backgroundColor: "burlywood" }} >
-          <TextField placeholder='Item' name="item" value={addProduct.item} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
+          <TextField placeholder='product name' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
+          <TextField placeholder='ram capacity' name="ramcapacity" value={addProduct.ramcapacity} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
-            <input type="file" id="image" name="img" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
+            <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
             <div style={{ margin: "2%" }}>
-              {addProduct.img && <img src={addProduct.img} alt="SelectedImage" height={50} width={50} />}
-              {addProduct.img &&
+              {addProduct.image && <img src={addProduct.image} alt="SelectedImage" height={50} width={50} />}
+              {addProduct.image &&
                 <Button
                   onClick={handleReset}
                   sx={{
@@ -159,7 +142,7 @@ export default function AddRAM(props) {
                     '&:hover': { backgroundColor: 'linen' },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>
+                  }}>   
                   <ClearIcon />
                 </Button>}
             </div>

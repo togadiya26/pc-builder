@@ -7,41 +7,35 @@ import ClearIcon from '@mui/icons-material/Clear';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import axios from 'axios';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { storage } from '../../../Firebase/Firebase';
+
 
 export default function UpdateMonitor(props) {
 
   const [open, setOpen] = React.useState(false);
   const [addProduct, setAddProduct] = React.useState({
-    name: "",
-    item: "",
+    productname: "",
     price: "",
-    img: null
+    image: null,
+    displaysize: "",
+    resolution:"",
   });
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
 
-  // React.useEffect(() => {
-  //   if (props.sP.length !== 0 && props.index !== undefined) {
-  //     setAddProduct({
-  //       name: props.sP[0].name,
-  //       item: props.sP[props.index]?.item || "",
-  //       price: props.sP[props.index]?.price || "",
-  //       img: props.sP[props.index]?.img || null
-  //     });
-  //   }
-  // }, [props.sP, props.index]);
+  const token = JSON.parse(localStorage.getItem("token"));
 
   const handleClickOpen = () => {
-
     setOpen(true);
-    // addProduct.img !== null && setDisabled(true)
-
     if (props.sP.length !== 0 && props.index !== undefined) {
       setAddProduct({
-        name: props.sP[0].name,
-        item: props.sP[props.index]?.item || "",
+        productname: props.sP[props.index]?.productname || "",
         price: props.sP[props.index]?.price || "",
-        img: props.sP[props.index]?.img || null
+        image: props.sP[props.index]?.image || null,
+        displaysize: props.sP[props.index]?.displaysize || "",
+        resolution: props.sP[props.index]?.resolution || ""
       });
       setDisabled(true)
     }
@@ -57,84 +51,124 @@ export default function UpdateMonitor(props) {
   }
 
   const Validation = () => {
-    if (addProduct.item === '' ) {
-      alert("please enter item details...");
+    if (addProduct.productname === '') {
+      alert("please enter product name...");
       return false;
     } else if (addProduct.price === '') {
       alert('please enter amount...');
       return false;
-    }
-    else if (addProduct.img === null) {
+    } else if (addProduct.image === null) {
       alert('please upload an image...');
       return false;
-    }
-    else {
-      alert("Product Updated Successfully");
+    } else if (addProduct.displaysize === null) {
+      alert("please enter display size...");
+      return true;
+    } else if (addProduct.resolution === null) {
+        alert("please enter resolution...");
+        return true;
+    } else {
       return true;
     }
   }
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
+
     e.preventDefault()
-    if(Validation()){
-    props.sP.splice(props.index,1,addProduct)
-    props.sSP([...props.sP])
-    setAddProduct({
-      name: "",
-      item: "",
-      price: "",
-      img: null
-    });
+
+    if (Validation()) {
+      try {
+        const response = await axios.put(
+          `http://pc-builder-backend-git-main-togadiya123.vercel.app/item/updatemonitor/${props.id}`, addProduct, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+        console.log(response);
+        alert("Monitor Updated successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while updating Monitor.");
+      }
+      props.sP.splice(props.index, 1, addProduct)
+      props.sSP([...props.sP])
+      setAddProduct({
+        productname: "",
+        price: "",
+        image: null,
+        displaysize: "",
+        resolution:""
+      });
+    }
+
     setOpen(false);
     setDisabled(false);
-    }
   }
 
   function handleImageChange(event) {
-    const file = event.target.files[0];
-    if (file) {
-      setAddProduct({ ...addProduct, img: URL.createObjectURL(file) });
-      setDisabled(true);
-    }
+
+    const fileInput = document.getElementById("image");
+
+    // Upload file to Firebase Storage
+    const storageRef = ref(storage, `/Monitor/${fileInput.files[0].name}`);
+    const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
+
+    // Monitor the upload progressdisplaysize
+    uploadTask.on("state_changed", (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log(`Upload is ${progress}% done`);
+    }, (error) => {
+      console.error(error);
+    },
+
+      async () => {
+        // Upload completed successfully, get download URL
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        console.log("File available at", downloadURL);
+        setAddProduct({ ...addProduct, image: downloadURL });
+      });
   }
 
   function handleReset() {
-    setAddProduct({ ...addProduct, img: null });
+    setAddProduct({ ...addProduct, image: null });
     setDisabled(false);
-    fileInput.current.value = null;
   }
+
 
   return (
     <div>
-      <Button 
-      sx={{ color: "green", 
-                    minWidth: "50px", 
-                    backgroundColor: "#deb88745", 
-                    '&:hover': { backgroundColor: 'burlywood' }, 
-                    marginLeft: "10px" }} onClick={handleClickOpen} >
+      <Button
+        sx={{
+          color: "green",
+          minWidth: "50px",
+          backgroundColor: "#deb88745",
+          '&:hover': { backgroundColor: 'burlywood' },
+          marginLeft: "10px"
+        }} onClick={handleClickOpen} >
         <EditIcon />
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ backgroundColor: "burlywood" }} >Add Product</DialogTitle>
+        <DialogTitle sx={{ backgroundColor: "burlywood" }} >Update Product</DialogTitle>
         <DialogContent sx={{ backgroundColor: "burlywood" }} >
-          <TextField placeholder='Item' name="item" value={addProduct.item} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
+          <TextField placeholder='product name' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
+          <TextField placeholder='display size' name="displaysize" value={addProduct.displaysize} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
+          <TextField placeholder='resolution' name="resolution" value={addProduct.resolution} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
-            <input type="file" id="image" name="img" onChange={handleImageChange} ref={fileInput} disabled={disabled}/>
-            <div style={{margin: "2%"}}>
-            {addProduct.img && <img src={addProduct.img} alt="SelectedImage" height={50} width={50} />}
-            {addProduct.img &&
-              <Button
-                onClick={handleReset}
-                sx={{
-                  color: "black",
-                  backgroundColor: "#faf0e680",
-                  '&:hover': { backgroundColor: 'linen' },
-                  marginLeft: "10px",
-                  minWidth: "35px", 
-                }}>
-                <ClearIcon />
-              </Button>}
+            <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
+            <div style={{ margin: "2%" }}>
+              {addProduct.image && <img src={addProduct.image} alt="SelectedImage" height={50} width={50} />}
+              {addProduct.image &&
+                <Button
+                  onClick={handleReset}
+                  sx={{
+                    color: "black",
+                    backgroundColor: "#faf0e680",
+                    '&:hover': { backgroundColor: 'linen' },
+                    marginLeft: "10px",
+                    minWidth: "35px",
+                  }}>
+                  <ClearIcon />
+                </Button>}
             </div>
           </div>
         </DialogContent>
@@ -157,7 +191,7 @@ export default function UpdateMonitor(props) {
             }}
             onClick={handleUpdate}
           >
-            Add
+            Update
           </Button>
         </DialogActions>
       </Dialog>
