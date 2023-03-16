@@ -20,7 +20,7 @@ export default function UpdateCooler(props) {
     price: "",
     image: null,
     Productdimensions: "",
-    fanspeed:"",
+    fanspeed: "",
   });
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
@@ -64,8 +64,8 @@ export default function UpdateCooler(props) {
       alert("please enter Product dimensions...");
       return true;
     } else if (addProduct.fanspeed === null) {
-        alert("please enter fan speed...");
-        return true;
+      alert("please enter fan speed...");
+      return true;
     } else {
       return true;
     }
@@ -79,10 +79,10 @@ export default function UpdateCooler(props) {
       try {
         const response = await axios.put(
           `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updatecooler/${props.id}`, addProduct, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         console.log(response);
         alert("Cooler Updated successfully!");
       } catch (error) {
@@ -96,7 +96,7 @@ export default function UpdateCooler(props) {
         price: "",
         image: null,
         Productdimensions: "",
-        fanspeed:""
+        fanspeed: ""
       });
     }
 
@@ -108,8 +108,11 @@ export default function UpdateCooler(props) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Cooler/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Cooler/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
     // Monitor the upload progressProductdimensions

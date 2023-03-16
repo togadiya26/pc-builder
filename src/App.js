@@ -14,7 +14,6 @@ function App() {
   const RequireAuth = ({children}) => {
     return token ? children : <Navigate to="/admin"/>
   }
-
   
   return (
     <Routes>

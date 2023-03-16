@@ -47,7 +47,7 @@ export default function UpdateAccessories(props) {
     const { name, value } = event.target;
     setAddProduct({ ...addProduct, [name]: value });
   }
-  
+
   const Validation = () => {
     if (addProduct.productname === '') {
       alert("please enter product name...");
@@ -74,10 +74,10 @@ export default function UpdateAccessories(props) {
       try {
         const response = await axios.put(
           `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updateaccessories/${props.id}`, addProduct, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         console.log(response);
         alert("Accessories Updated successfully!");
       } catch (error) {
@@ -101,9 +101,12 @@ export default function UpdateAccessories(props) {
   function handleImageChange(event) {
 
     const fileInput = document.getElementById("image");
-
+    
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Accessories/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Accessories/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
     // Accessories the upload progressproductditeils

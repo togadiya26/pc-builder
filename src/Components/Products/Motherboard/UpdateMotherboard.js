@@ -97,9 +97,12 @@ export default function UpdateMotherboard(props) {
 
     const fileInput = document.getElementById("image");
 
-    // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Motherboard/${fileInput.files[0].name}`);
-    const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
+   // Generate a random string to append to the file name
+   const randomString = Math.random().toString(36).substring(2, 8);
+   const fileName = `${randomString}_${fileInput.files[0].name}`;
+   // Upload file to Firebase Storage
+   const storageRef = ref(storage, `/Motherboard/${fileName}`);
+   const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
     
     // Monitor the upload progresscors
     uploadTask.on("state_changed", (snapshot) => {

@@ -31,7 +31,7 @@ export default function AddAccessories(props) {
     setAddProduct(initialAddProduct)
     setDisabled(false)
   };
-  
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -64,32 +64,35 @@ export default function AddAccessories(props) {
     event.preventDefault();
 
     if (Validation()) {
-        try {
-          const response = await axios.post(
-            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addaccessories", addProduct, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-          console.log(response);
-          alert("Storage1 added successfully!");
-        } catch (error) {
-          console.log(error);
-          alert("Error occurred while adding Storage1.");
-        }
-        
-        props.sSP([
-          ...props.sP,
-          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, productditeils: addProduct.productditeils },
-        ]);
+      try {
+        const response = await axios.post(
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addaccessories", addProduct, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+        alert("Storage1 added successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while adding Storage1.");
+      }
+
+      props.sSP([
+        ...props.sP,
+        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, productditeils: addProduct.productditeils },
+      ]);
     }
     setAddProduct(initialAddProduct);
     setOpen(false);
   }
   function handleImageChange(event) {
     const fileInput = document.getElementById("image");
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Accessories/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Accessories/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
     // Monitor the upload progress
     uploadTask.on("state_changed", (snapshot) => {
@@ -133,7 +136,7 @@ export default function AddAccessories(props) {
                     '&:hover': { backgroundColor: 'linen' },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>   
+                  }}>
                   <ClearIcon />
                 </Button>}
             </div>

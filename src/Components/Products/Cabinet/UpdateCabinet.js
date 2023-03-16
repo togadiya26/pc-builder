@@ -20,7 +20,7 @@ export default function UpdateCabinet(props) {
     price: "",
     image: null,
     Productdimensions: "",
-    itemweight:"",
+    itemweight: "",
   });
 
   const [disabled, setDisabled] = React.useState(false);
@@ -66,8 +66,8 @@ export default function UpdateCabinet(props) {
       alert("please enter Product dimensions...");
       return true;
     } else if (addProduct.itemweight === null) {
-        alert("please enter item weight...");
-        return true;
+      alert("please enter item weight...");
+      return true;
     } else {
       return true;
     }
@@ -81,10 +81,10 @@ export default function UpdateCabinet(props) {
       try {
         const response = await axios.put(
           `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updatecabinet/${props.id}`, addProduct, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         console.log(response);
         alert("Cabinet Updated successfully!");
       } catch (error) {
@@ -98,20 +98,23 @@ export default function UpdateCabinet(props) {
         price: "",
         image: null,
         Productdimensions: "",
-        itemweight:""
+        itemweight: ""
       });
     }
 
     setOpen(false);
     setDisabled(false);
   }
-  
+
   function handleImageChange(event) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Cabinet/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Cabinet/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
     // Monitor the upload progressProductdimensions

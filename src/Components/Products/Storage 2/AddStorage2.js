@@ -18,7 +18,7 @@ export default function AddStorage2(props) {
     price: "",
     image: null,
     capacity: "",
-    type:"",
+    type: "",
   }
 
   const [open, setOpen] = React.useState(false);
@@ -59,8 +59,8 @@ export default function AddStorage2(props) {
       alert("please enter capacity...");
       return true;
     }
-    else if (addProduct.type === null){
-        alert("please enter type...")
+    else if (addProduct.type === null) {
+      alert("please enter type...")
     }
     else {
       return true;
@@ -72,23 +72,23 @@ export default function AddStorage2(props) {
     event.preventDefault();
 
     if (Validation()) {
-        try {
-          const response = await axios.post(
-            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addstorage2", addProduct, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-          console.log(response);
-          alert("Storage1 added successfully!");
-        } catch (error) {
-          console.log(error);
-          alert("Error occurred while adding Storage1.");
-        }
-        props.sSP([
-          ...props.sP,
-          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, capacity: addProduct.capacity ,type:addProduct.type},
-        ]);
+      try {
+        const response = await axios.post(
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addstorage2", addProduct, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+        alert("Storage1 added successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while adding Storage1.");
+      }
+      props.sSP([
+        ...props.sP,
+        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, capacity: addProduct.capacity, type: addProduct.type },
+      ]);
     }
 
     setAddProduct(initialAddProduct);
@@ -100,8 +100,11 @@ export default function AddStorage2(props) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Storage1/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Storage2/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
     // Monitor the upload progress
@@ -126,7 +129,7 @@ export default function AddStorage2(props) {
     setDisabled(false);
   }
 
-  
+
   return (
     <div>
       <Button sx={{ backgroundColor: "#faf0e680", '&:hover': { backgroundColor: 'linen' } }} onClick={handleClickOpen} disabled={props.sP.length === 0}>
@@ -137,7 +140,7 @@ export default function AddStorage2(props) {
         <DialogContent sx={{ backgroundColor: "burlywood" }} >
           <TextField placeholder='productname' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='capacity' name="capacity" value={addProduct.capacity} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='type' name = "type" value={addProduct.type} onChange = {handleInputChange} sx ={{width:"100%",marginBottom:"2%"}} />
+          <TextField placeholder='type' name="type" value={addProduct.type} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
             <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
@@ -152,7 +155,7 @@ export default function AddStorage2(props) {
                     '&:hover': { backgroundColor: 'linen' },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>   
+                  }}>
                   <ClearIcon />
                 </Button>}
             </div>

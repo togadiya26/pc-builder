@@ -18,7 +18,7 @@ export default function AddCooler(props) {
     price: "",
     image: null,
     Productdimensions: "",
-    fanspeed:"",
+    fanspeed: "",
   }
 
   const [open, setOpen] = React.useState(false);
@@ -59,8 +59,8 @@ export default function AddCooler(props) {
       alert("please enter Product dimensions...");
       return true;
     }
-    else if (addProduct.fanspeed === null){
-        alert("please enter fan speed...")
+    else if (addProduct.fanspeed === null) {
+      alert("please enter fan speed...")
     }
     else {
       return true;
@@ -70,35 +70,38 @@ export default function AddCooler(props) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (Validation()) {
-        try {
-          const response = await axios.post(
-            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcooler", addProduct, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-          console.log(response);
-          alert("Cooler added successfully!");
-        } catch (error) {
-          console.log(error);
-          alert("Error occurred while adding Cooler.");
-        }
-        props.sSP([
-          ...props.sP,
-          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, Productdimensions: addProduct.Productdimensions ,fanspeed:addProduct.fanspeed},
-        ]);
+      try {
+        const response = await axios.post(
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcooler", addProduct, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+        alert("Cooler added successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while adding Cooler.");
+      }
+      props.sSP([
+        ...props.sP,
+        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, Productdimensions: addProduct.Productdimensions, fanspeed: addProduct.fanspeed },
+      ]);
     }
 
     setAddProduct(initialAddProduct);
     setOpen(false);
   }
-  
+
   function handleImageChange(event) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Cooler/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Cooler/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
     // Monitor the upload progress
@@ -133,7 +136,7 @@ export default function AddCooler(props) {
         <DialogContent sx={{ backgroundColor: "burlywood" }} >
           <TextField placeholder='product name' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Product dimensions' name="Productdimensions" value={addProduct.Productdimensions} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='fan speed' name = "fanspeed" value={addProduct.fanspeed} onChange = {handleInputChange} sx ={{width:"100%",marginBottom:"2%"}} />
+          <TextField placeholder='fan speed' name="fanspeed" value={addProduct.fanspeed} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
             <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
@@ -148,7 +151,7 @@ export default function AddCooler(props) {
                     '&:hover': { backgroundColor: 'linen' },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>   
+                  }}>
                   <ClearIcon />
                 </Button>}
             </div>

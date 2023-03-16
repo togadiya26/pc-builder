@@ -32,7 +32,7 @@ export default function AddRam(props) {
     setAddProduct(initialAddProduct)
     setDisabled(false)
   };
-  
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -65,23 +65,23 @@ export default function AddRam(props) {
     event.preventDefault();
 
     if (Validation()) {
-        try {
-          const response = await axios.post(
+      try {
+        const response = await axios.post(
           "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addram", addProduct, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-          console.log(response);
-          alert("Ram added successfully!");
-        } catch (error) {
-          console.log(error);
-          alert("Error occurred while adding Ram.");
-        }
-        props.sSP([
-          ...props.sP,
-          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, ramcapacity: addProduct.ramcapacity },
-        ]);
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+        alert("Ram added successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while adding Ram.");
+      }
+      props.sSP([
+        ...props.sP,
+        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, ramcapacity: addProduct.ramcapacity },
+      ]);
     }
 
     setAddProduct(initialAddProduct);
@@ -92,8 +92,11 @@ export default function AddRam(props) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Ram/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Ram/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
     // Monitor the upload progress
@@ -103,7 +106,7 @@ export default function AddRam(props) {
     }, (error) => {
       console.error(error);
     },
-    
+
       async () => {
         // Upload completed successfully, get download URL
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
@@ -142,7 +145,7 @@ export default function AddRam(props) {
                     '&:hover': { backgroundColor: 'linen' },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>   
+                  }}>
                   <ClearIcon />
                 </Button>}
             </div>

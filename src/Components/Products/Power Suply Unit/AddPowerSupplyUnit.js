@@ -18,7 +18,7 @@ export default function AddPowersupplyunit(props) {
     price: "",
     image: null,
     power: "",
-    acinput:"",
+    acinput: "",
   }
 
   const [open, setOpen] = React.useState(false);
@@ -37,7 +37,7 @@ export default function AddPowersupplyunit(props) {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setAddProduct({ ...addProduct, [name]: value });
@@ -56,8 +56,8 @@ export default function AddPowersupplyunit(props) {
     } else if (addProduct.power === null) {
       alert("please enter power...");
       return true;
-    } else if (addProduct.acinput === null){
-        alert("please enter acinput...")
+    } else if (addProduct.acinput === null) {
+      alert("please enter acinput...")
     } else {
       return true;
     }
@@ -68,37 +68,40 @@ export default function AddPowersupplyunit(props) {
     event.preventDefault();
 
     if (Validation()) {
-        try {
-          const response = await axios.post(
+      try {
+        const response = await axios.post(
           "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addpowersupplyunit", addProduct, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-          console.log(response);
-          alert("Powersupplyunit added successfully!");
-        } catch (error) {
-          console.log(error);
-          alert("Error occurred while adding Powersupplyunit.");
-        }
-        props.sSP([
-          ...props.sP,
-          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, power: addProduct.power ,acinput:addProduct.acinput},
-        ]);
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+        alert("Powersupplyunit added successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while adding Powersupplyunit.");
+      }
+      props.sSP([
+        ...props.sP,
+        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, power: addProduct.power, acinput: addProduct.acinput },
+      ]);
     }
 
     setAddProduct(initialAddProduct);
     setOpen(false);
   }
-  
+
   function handleImageChange(event) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Powersupplyunit/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Powersupplyunit/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
-    
+
     // Monitor the upload progress
     uploadTask.on("state_changed", (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -121,7 +124,7 @@ export default function AddPowersupplyunit(props) {
     setDisabled(false);
   }
 
-  
+
   return (
     <div>
       <Button sx={{ backgroundColor: "#faf0e680", '&:hover': { backgroundColor: 'linen' } }} onClick={handleClickOpen} disabled={props.sP.length === 0}>
@@ -132,7 +135,7 @@ export default function AddPowersupplyunit(props) {
         <DialogContent sx={{ backgroundColor: "burlywood" }} >
           <TextField placeholder='product name' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='power' name="power" value={addProduct.power} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='AC input' name = "acinput" value={addProduct.acinput} onChange = {handleInputChange} sx ={{width:"100%",marginBottom:"2%"}} />
+          <TextField placeholder='AC input' name="acinput" value={addProduct.acinput} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
             <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
@@ -147,7 +150,7 @@ export default function AddPowersupplyunit(props) {
                     '&:hover': { backgroundColor: 'linen' },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>   
+                  }}>
                   <ClearIcon />
                 </Button>}
             </div>

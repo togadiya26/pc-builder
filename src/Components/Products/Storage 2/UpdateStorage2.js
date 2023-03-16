@@ -13,14 +13,14 @@ import { storage } from '../../../Firebase/Firebase';
 
 
 export default function UpdateStorage2(props) {
-  
+
   const [open, setOpen] = React.useState(false);
   const [addProduct, setAddProduct] = React.useState({
     productname: "",
     price: "",
     image: null,
     capacity: "",
-    type:"",
+    type: "",
   });
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
@@ -64,8 +64,8 @@ export default function UpdateStorage2(props) {
       alert("please enter capacity...");
       return true;
     } else if (addProduct.type === null) {
-        alert("please enter type...");
-        return true;
+      alert("please enter type...");
+      return true;
     } else {
       return true;
     }
@@ -79,10 +79,10 @@ export default function UpdateStorage2(props) {
       try {
         const response = await axios.put(
           `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updatestorage2/${props.id}`, addProduct, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         console.log(response);
         alert("Storage2 Updated successfully!");
       } catch (error) {
@@ -96,7 +96,7 @@ export default function UpdateStorage2(props) {
         price: "",
         image: null,
         capacity: "",
-        type:""
+        type: ""
       });
     }
 
@@ -108,8 +108,11 @@ export default function UpdateStorage2(props) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Storage2/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Storage2/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
     // Storage2 the upload progresscapacity

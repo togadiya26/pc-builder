@@ -70,24 +70,24 @@ export default function AddProcessor(props) {
 
     if (Validation()) {
 
-        try {
-          const response = await axios.post(
-            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addprocessor", addProduct, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-          console.log(response);
-          alert("Processor added successfully!");
-        } catch (error) {
-          console.log(error);
-          alert("Error occurred while adding processor.");
-        }
+      try {
+        const response = await axios.post(
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addprocessor", addProduct, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+        alert("Processor added successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while adding processor.");
+      }
 
-        props.sSP([
-          ...props.sP,
-          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, cors: addProduct.cors },
-        ]);
+      props.sSP([
+        ...props.sP,
+        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, cors: addProduct.cors },
+      ]);
     }
 
     setAddProduct(initialAddProduct);
@@ -99,9 +99,13 @@ export default function AddProcessor(props) {
   function handleImageChange(event) {
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Processor/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Processor/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
+
 
     // Monitor the upload progress
     uploadTask.on("state_changed", (snapshot) => {

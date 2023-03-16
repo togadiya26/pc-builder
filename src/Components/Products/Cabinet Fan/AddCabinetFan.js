@@ -18,7 +18,7 @@ export default function AddCabinetfan(props) {
     price: "",
     image: null,
     Productdimensions: "",
-    fanspeed:"",
+    fanspeed: "",
   }
 
   const [open, setOpen] = React.useState(false);
@@ -56,8 +56,8 @@ export default function AddCabinetfan(props) {
     } else if (addProduct.Productdimensions === null) {
       alert("please enter Product dimensions...");
       return true;
-    } else if (addProduct.fanspeed === null){
-        alert("please enter fan Speed...")
+    } else if (addProduct.fanspeed === null) {
+      alert("please enter fan Speed...")
     } else {
       return true;
     }
@@ -68,23 +68,23 @@ export default function AddCabinetfan(props) {
     event.preventDefault();
 
     if (Validation()) {
-        try {
-          const response = await axios.post(
-            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcabinetfan", addProduct, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-          console.log(response);
-          alert("Cabinetfan added successfully!");
-        } catch (error) {
-          console.log(error);
-          alert("Error occurred while adding Cabinetfan.");
-        }
-        props.sSP([
-          ...props.sP,
-          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, Productdimensions: addProduct.Productdimensions ,fanspeed:addProduct.fanspeed},
-        ]);
+      try {
+        const response = await axios.post(
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcabinetfan", addProduct, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+        alert("Cabinetfan added successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while adding Cabinetfan.");
+      }
+      props.sSP([
+        ...props.sP,
+        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, Productdimensions: addProduct.Productdimensions, fanspeed: addProduct.fanspeed },
+      ]);
     }
 
     setAddProduct(initialAddProduct);
@@ -95,8 +95,11 @@ export default function AddCabinetfan(props) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Cabinetfan/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Cabinetfan/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
     // Monitor the upload progress
@@ -120,7 +123,7 @@ export default function AddCabinetfan(props) {
     setDisabled(false);
   }
 
-  
+
   return (
     <div>
       <Button sx={{ backgroundColor: "#faf0e680", '&:hover': { backgroundColor: 'linen' } }} onClick={handleClickOpen} disabled={props.sP.length === 0}>
@@ -131,7 +134,7 @@ export default function AddCabinetfan(props) {
         <DialogContent sx={{ backgroundColor: "burlywood" }} >
           <TextField placeholder='productname' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Product dimensions' name="Productdimensions" value={addProduct.Productdimensions} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='fan speed' name = "fanspeed" value={addProduct.fanspeed} onChange = {handleInputChange} sx ={{width:"100%",marginBottom:"2%"}} />
+          <TextField placeholder='fan speed' name="fanspeed" value={addProduct.fanspeed} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
             <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
@@ -146,7 +149,7 @@ export default function AddCabinetfan(props) {
                     '&:hover': { backgroundColor: 'linen' },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>   
+                  }}>
                   <ClearIcon />
                 </Button>}
             </div>

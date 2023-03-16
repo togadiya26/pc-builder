@@ -18,7 +18,7 @@ export default function AddGraphicscard(props) {
     price: "",
     image: null,
     memorysize: "",
-    resolution:"",
+    resolution: "",
   }
 
   const [open, setOpen] = React.useState(false);
@@ -56,8 +56,8 @@ export default function AddGraphicscard(props) {
     } else if (addProduct.memorysize === null) {
       alert("please enter memory size...");
       return true;
-    } else if (addProduct.resolution === null){
-        alert("please enter resolution...")
+    } else if (addProduct.resolution === null) {
+      alert("please enter resolution...")
     } else {
       return true;
     }
@@ -68,23 +68,23 @@ export default function AddGraphicscard(props) {
     event.preventDefault();
 
     if (Validation()) {
-        try {
-          const response = await axios.post(
-            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addgraphicscard", addProduct, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-          console.log(response);
-          alert("Graphicscard added successfully!");
-        } catch (error) {
-          console.log(error);
-          alert("Error occurred while adding Graphicscard.");
-        }
-        props.sSP([
-          ...props.sP,
-          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, memorysize: addProduct.memorysize ,resolution:addProduct.resolution},
-        ]);
+      try {
+        const response = await axios.post(
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addgraphicscard", addProduct, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+        alert("Graphicscard added successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while adding Graphicscard.");
+      }
+      props.sSP([
+        ...props.sP,
+        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, memorysize: addProduct.memorysize, resolution: addProduct.resolution },
+      ]);
     }
 
     setAddProduct(initialAddProduct);
@@ -95,8 +95,11 @@ export default function AddGraphicscard(props) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Graphicscard/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Graphicscard/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
     // Monitor the upload progress
@@ -120,7 +123,7 @@ export default function AddGraphicscard(props) {
     setDisabled(false);
   }
 
-  
+
   return (
     <div>
       <Button sx={{ backgroundColor: "#faf0e680", '&:hover': { backgroundColor: 'linen' } }} onClick={handleClickOpen} disabled={props.sP.length === 0}>
@@ -131,7 +134,7 @@ export default function AddGraphicscard(props) {
         <DialogContent sx={{ backgroundColor: "burlywood" }} >
           <TextField placeholder='product name' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='memory size' name="memorysize" value={addProduct.memorysize} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='resolution' name = "resolution" value={addProduct.resolution} onChange = {handleInputChange} sx ={{width:"100%",marginBottom:"2%"}} />
+          <TextField placeholder='resolution' name="resolution" value={addProduct.resolution} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
             <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
@@ -146,7 +149,7 @@ export default function AddGraphicscard(props) {
                     '&:hover': { backgroundColor: 'linen' },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>   
+                  }}>
                   <ClearIcon />
                 </Button>}
             </div>

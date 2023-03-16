@@ -18,7 +18,7 @@ export default function AddKeyboard(props) {
     price: "",
     image: null,
     size: "",
-    connectivity:"",
+    connectivity: "",
   }
 
   const [open, setOpen] = React.useState(false);
@@ -56,8 +56,8 @@ export default function AddKeyboard(props) {
     } else if (addProduct.size === null) {
       alert("please enter size...");
       return true;
-    } else if (addProduct.connectivity === null){
-        alert("please enter connectivity...")
+    } else if (addProduct.connectivity === null) {
+      alert("please enter connectivity...")
     } else {
       return true;
     }
@@ -68,23 +68,23 @@ export default function AddKeyboard(props) {
     event.preventDefault();
 
     if (Validation()) {
-        try {
-          const response = await axios.post(
-            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addkeyboard", addProduct, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
-            });
-          console.log(response);
-          alert("Keyboard added successfully!");
-        } catch (error) {
-          console.log(error);
-          alert("Error occurred while adding Keyboard.");
-        }
-        props.sSP([
-          ...props.sP,
-          { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, size: addProduct.size ,connectivity:addProduct.connectivity},
-        ]);
+      try {
+        const response = await axios.post(
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addkeyboard", addProduct, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        console.log(response);
+        alert("Keyboard added successfully!");
+      } catch (error) {
+        console.log(error);
+        alert("Error occurred while adding Keyboard.");
+      }
+      props.sSP([
+        ...props.sP,
+        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, size: addProduct.size, connectivity: addProduct.connectivity },
+      ]);
     }
 
     setAddProduct(initialAddProduct);
@@ -95,8 +95,11 @@ export default function AddKeyboard(props) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Keyboard/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Keyboard/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
     // Monitor the upload progress
@@ -131,7 +134,7 @@ export default function AddKeyboard(props) {
         <DialogContent sx={{ backgroundColor: "burlywood" }} >
           <TextField placeholder='product name' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='size' name="size" value={addProduct.size} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='connectivity' name = "connectivity" value={addProduct.connectivity} onChange = {handleInputChange} sx ={{width:"100%",marginBottom:"2%"}} />
+          <TextField placeholder='connectivity' name="connectivity" value={addProduct.connectivity} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
             <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
@@ -146,7 +149,7 @@ export default function AddKeyboard(props) {
                     '&:hover': { backgroundColor: 'linen' },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>   
+                  }}>
                   <ClearIcon />
                 </Button>}
             </div>

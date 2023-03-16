@@ -199,7 +199,7 @@ export default function DataTable(props) {
     props.sSP([...props.sP])
 
     try {
-      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/${del}/${id}`, {
+      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/${del}/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

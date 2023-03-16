@@ -20,7 +20,7 @@ export default function UpdateGraphicscard(props) {
     price: "",
     image: null,
     memorysize: "",
-    resolution:"",
+    resolution: "",
   });
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
@@ -64,8 +64,8 @@ export default function UpdateGraphicscard(props) {
       alert("please enter memory size...");
       return true;
     } else if (addProduct.resolution === null) {
-        alert("please enter resolution...");
-        return true;
+      alert("please enter resolution...");
+      return true;
     } else {
       return true;
     }
@@ -79,10 +79,10 @@ export default function UpdateGraphicscard(props) {
       try {
         const response = await axios.put(
           `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updategraphicscard/${props.id}`, addProduct, {
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         console.log(response);
         alert("Graphicscard Updated successfully!");
       } catch (error) {
@@ -96,22 +96,24 @@ export default function UpdateGraphicscard(props) {
         price: "",
         image: null,
         memorysize: "",
-        resolution:""
+        resolution: ""
       });
     }
 
     setOpen(false);
     setDisabled(false);
   }
-  
+
   function handleImageChange(event) {
 
     const fileInput = document.getElementById("image");
 
+    // Generate a random string to append to the file name
+    const randomString = Math.random().toString(36).substring(2, 8);
+    const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
-    const storageRef = ref(storage, `/Graphicscard/${fileInput.files[0].name}`);
+    const storageRef = ref(storage, `/Graphicscard/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
-
     // Monitor the upload progressmemorysize
     uploadTask.on("state_changed", (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
