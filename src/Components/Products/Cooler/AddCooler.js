@@ -72,7 +72,7 @@ export default function AddCooler(props) {
     if (Validation()) {
         try {
           const response = await axios.post(
-            "http://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcooler", addProduct, {
+            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcooler", addProduct, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }

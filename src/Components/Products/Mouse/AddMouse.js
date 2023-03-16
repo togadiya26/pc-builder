@@ -70,7 +70,7 @@ export default function AddMouse(props) {
     if (Validation()) {
         try {
           const response = await axios.post(
-            "http://pc-builder-backend-git-main-togadiya123.vercel.app/item/addmouse", addProduct, {
+            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addmouse", addProduct, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }

@@ -70,7 +70,7 @@ export default function AddGraphicscard(props) {
     if (Validation()) {
         try {
           const response = await axios.post(
-            "http://pc-builder-backend-git-main-togadiya123.vercel.app/item/addgraphicscard", addProduct, {
+            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addgraphicscard", addProduct, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }

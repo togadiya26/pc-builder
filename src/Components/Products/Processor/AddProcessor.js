@@ -72,7 +72,7 @@ export default function AddProcessor(props) {
 
         try {
           const response = await axios.post(
-            "http://pc-builder-backend-git-main-togadiya123.vercel.app/item/addprocessor", addProduct, {
+            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addprocessor", addProduct, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }

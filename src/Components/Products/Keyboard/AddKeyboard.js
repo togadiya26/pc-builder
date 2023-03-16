@@ -70,7 +70,7 @@ export default function AddKeyboard(props) {
     if (Validation()) {
         try {
           const response = await axios.post(
-            "http://pc-builder-backend-git-main-togadiya123.vercel.app/item/addkeyboard", addProduct, {
+            "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addkeyboard", addProduct, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }

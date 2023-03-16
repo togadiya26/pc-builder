@@ -75,7 +75,7 @@ export default function UpdateProcessor(props) {
     if (Validation()) {
       try {
         const response = await axios.put(
-          `http://pc-builder-backend-git-main-togadiya123.vercel.app/item/updateprocessor/${props.id}`, addProduct, {
+          `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updateprocessor/${props.id}`, addProduct, {
             headers: {
               'Authorization': `Bearer ${token}`
             }

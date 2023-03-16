@@ -74,7 +74,7 @@ export default function AddStorage1(props) {
     if (Validation()) {
         try {
           const response = await axios.post(
-           "http://pc-builder-backend-git-main-togadiya123.vercel.app/item/addstorage1", addProduct, {
+           "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addstorage1", addProduct, {
               headers: {
                 'Authorization': `Bearer ${token}`
               }
