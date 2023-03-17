@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
   },
 
   tableCell004: {
-    paddingTop: 10,
+    padding: 10,
     width: 50,
     border: '1px solid #000',
     flexGrow: 1,
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
 
   tableCell005: {
-    paddingTop: 10,
+    padding: 10,
     width: 60,
     border: '1px solid #000',
     flexGrow: 1,

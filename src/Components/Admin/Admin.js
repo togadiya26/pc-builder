@@ -9,8 +9,6 @@ import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoginIcon from '@mui/icons-material/Login';
 import { Link, useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../../Firebase/Firebase';
 
 export default function Admin() {
 
@@ -37,12 +35,13 @@ export default function Admin() {
         };
         const response = await fetch(url, options);
         const data = await response.json();
+        console.log(data);
 
         localStorage.setItem("token", JSON.stringify(data.token));
         
-            navigate("/auth")
+        navigate("/auth");
     }
-
+    console.log("a");
     return (
         <div className={style.loginDiv}>
             <Card sx={{ height: "35%", width: "25%", background: "linen", fontFamily: 'Gentium Book Plus' }}>

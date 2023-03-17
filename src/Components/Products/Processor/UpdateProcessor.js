@@ -99,8 +99,6 @@ export default function UpdateProcessor(props) {
     setDisabled(false);
   }
 
-  console.log(props.id);
-
   function handleImageChange(event) {
     const fileInput = document.getElementById("image");
 
@@ -191,7 +189,7 @@ export default function UpdateProcessor(props) {
             }}
             onClick={handleUpdate}
           >
-            Add
+            Update
           </Button>
         </DialogActions>
       </Dialog>

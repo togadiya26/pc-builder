@@ -9,16 +9,21 @@ import SignUp from './Components/Admin/SignUp';
 
 function App() {
 
-  const token = JSON.parse(localStorage.getItem('token'));
-
+  
   const RequireAuth = ({children}) => {
-    return token ? children : <Navigate to="/admin"/>
+    const token = JSON.parse(localStorage.getItem('token'));
+    return token ? children : <Navigate to={"/admin"}/>
+  }
+
+  const UnRequireAuth = ({children}) => {
+    const token = JSON.parse(localStorage.getItem('token'));
+    return !token ? children : <Navigate to={"/auth"}/>
   }
   
   return (
     <Routes>
       <Route path="/" element={<PcBuilder/>} />
-      <Route path="/admin" element={<Admin/>} />
+      <Route path="/admin" element={<UnRequireAuth ><Admin/></UnRequireAuth>} />
       <Route path='/signUp' element={<SignUp/>} />
       <Route path="/auth" element={<RequireAuth><Auth /></RequireAuth>} />
     </Routes>

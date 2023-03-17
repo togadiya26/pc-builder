@@ -9,8 +9,6 @@ import { IconButton, InputAdornment, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LoginIcon from '@mui/icons-material/Login';
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from '../../Firebase/Firebase';
 
 export default function SignUp() {
 
@@ -40,6 +38,8 @@ export default function SignUp() {
       
         setEmail("");
         setPassword("");
+
+        navigate("./admin")
       }
 
     return (

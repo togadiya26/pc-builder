@@ -192,6 +192,9 @@ export default function DataTable(props) {
     del = "deleteaccessories";
   }
 
+  console.log(Update);
+  console.log(button);
+
   const handleDelete = async (id, index) => {
 
     const adjustedIndex = (page * rowsPerPage) + index;
@@ -262,7 +265,6 @@ export default function DataTable(props) {
                   </TableCell>
                 </TableRow>
               ))}
-
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -275,7 +277,7 @@ export default function DataTable(props) {
                   sx={{width: "100%"}}
                   rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                   colSpan={3}
-                  count={props.sP.length}
+                  count={page+1}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{
