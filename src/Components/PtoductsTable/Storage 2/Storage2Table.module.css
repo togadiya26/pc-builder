@@ -1,0 +1,15 @@
+.tableHead {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search {
+    background-color: linen;
+    font-size: large;
+    font-family: 'Gentium Book Plus', serif;
+}
+
+.buttonCell {
+    display: flex;
+    justify-content: space-between;
+}

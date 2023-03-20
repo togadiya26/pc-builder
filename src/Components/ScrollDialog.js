@@ -7,8 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CloseIcon from '@mui/icons-material/Close';
-// import { Processor, Motherboard, RAM, Cooler, Storage1, Storage2, GraphicsCard, PowerSupplyUnit, Cabinet, CabinetFan, Monitor, Keyboard, Mouse, Accessories } from './Array';
-import { getProcessor, getAccessories, getCabinet, getCabinetFan, getCooler, getGraphicsCard, getKeyboard, getMonitor, getMotherboard, getMouse, getPowerSupplyUnit, getRAM, getStorage1, getStorage2 } from './API/Api';
+import { getProcessor, getAccessories, getCabinet, getCabinetFan, getCooler, getGraphicsCard, getKeyboard, getMonitor, getMotherboard, getMouse, getPowerSupplyUnit, getRAM, getStorage1, getStorage2, getAllProducts } from './API/Api';
 
 export default function ScrollDialog(props) {
 
@@ -33,115 +32,24 @@ export default function ScrollDialog(props) {
   const [ Accessories, setAccessories] = React.useState([]);
 
   React.useEffect(() => {
-    const fetchProcessorData = async () => {
-      const ProcessorData = await getProcessor();
-      setProcessor(ProcessorData);
+    const fetchAllProductsData = async () => {
+      const AllProductsData = await getAllProducts();
+      setProcessor(AllProductsData.Processor);
+      setMotherboard(AllProductsData.Motherboards);
+      setRAM(AllProductsData.Rams);
+      setCooler(AllProductsData.Cooler);
+      setStorage1(AllProductsData.Storage1);
+      setStorage2(AllProductsData.Storage2);
+      setGraphicsCard(AllProductsData.Graphicscard);
+      setPowerSupplyUnit(AllProductsData.Powersupplyunit);
+      setCabinet(AllProductsData.Cabinets);
+      setCabinetFan(AllProductsData.Cabinetfan);
+      setMonitor(AllProductsData.Monitor);
+      setKeyboard(AllProductsData.Keyboard);
+      setMouse(AllProductsData.Mouse);
+      setAccessories(AllProductsData.Accessories);
     }
-    fetchProcessorData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchMotherboardData = async () => {
-      const MotherboardData = await getMotherboard();
-      setMotherboard(MotherboardData);
-    }
-    fetchMotherboardData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchRAMData = async () => {
-      const RAMData = await getRAM();
-      setRAM(RAMData);
-    }
-    fetchRAMData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchCoolerData = async () => {
-      const CoolerData = await getCooler();
-      setCooler(CoolerData);
-    }
-    fetchCoolerData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchStorage1Data = async () => {
-      const Storage1Data = await getStorage1();
-      setStorage1(Storage1Data);
-    }
-    fetchStorage1Data();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchStorage2Data = async () => {
-      const Storage2Data = await getStorage2();
-      setStorage2(Storage2Data);
-    }
-    fetchStorage2Data();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchGraphicsCardData = async () => {
-      const GraphicsCardData = await getGraphicsCard();
-      setGraphicsCard(GraphicsCardData);
-    }
-    fetchGraphicsCardData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchPowerSupplyUnitData = async () => {
-      const PowerSupplyUnitData = await getPowerSupplyUnit();
-      setPowerSupplyUnit(PowerSupplyUnitData);
-    }
-    fetchPowerSupplyUnitData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchCabinetData = async () => {
-      const CabinetData = await getCabinet();
-      setCabinet(CabinetData);
-    }
-    fetchCabinetData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchCabinetFanData = async () => {
-      const CabinetFanData = await getCabinetFan();
-      setCabinetFan(CabinetFanData);
-    }
-    fetchCabinetFanData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchMonitorData = async () => {
-      const MonitorData = await getMonitor();
-      setMonitor(MonitorData);
-    }
-    fetchMonitorData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchKeyboardData = async () => {
-      const KeyboardData = await getKeyboard();
-      setKeyboard(KeyboardData);
-    }
-    fetchKeyboardData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchMouseData = async () => {
-      const MouseData = await getMouse();
-      setMouse(MouseData);
-    }
-    fetchMouseData();
-  }, []);
-
-  React.useEffect(() => {
-    const fetchAccessoriesData = async () => {
-      const AccessoriesData = await getAccessories();
-      setAccessories(AccessoriesData);
-    }
-    fetchAccessoriesData();
+    fetchAllProductsData();
   }, []);
 
   const handleClickOpen = (scrollType) => () => {

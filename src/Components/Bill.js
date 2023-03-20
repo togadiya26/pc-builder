@@ -6,6 +6,7 @@ import PrintIcon from '@mui/icons-material/Print';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { Product } from './Array';
 import { Document, Page, Text, PDFDownloadLink, View, StyleSheet, pdf, Image } from '@react-pdf/renderer';
+import { getCompanyDetails } from './API/Api';
 
 
 const styles = StyleSheet.create({
@@ -179,6 +180,15 @@ const styles = StyleSheet.create({
 function Bill(props) {
 
   const [pdfData, setPdfData] = React.useState(null);
+  const [companyDetails, setCompanyDetails] = React.useState({})
+
+  React.useEffect(() => {
+    const fetchCompanyData = async () => {
+      const CompanyData = await getCompanyDetails();
+      setCompanyDetails(CompanyData);
+    }
+    fetchCompanyData();
+  }, []);
 
   const totalPrice = props.updatedProduct.map(product => {
     if (product.selectedItem) {
@@ -219,7 +229,6 @@ function Bill(props) {
     window.open(url, "_blank");
   };
 
-
   const rows = props.updatedProduct.map((data, index) => {
     if (data.selectedItem === null) {
       return null;
@@ -252,21 +261,21 @@ function Bill(props) {
         <View style={styles.section}>
           <View style={styles.table}>
             <View style={styles.tableRow}>
-              <Text style={{ fontSize: 30, width: 100, border: '1px solid #000', textAlign: "center", paddingTop: 12 }}>
-                <Image src={b} style={{ height: 30, width: 30 }} />
-              </Text>
+              {/* <Text style={{ fontSize: 30, width: 100, border: '1px solid #000', textAlign: "center", paddingTop: 12 }}>
+                <Image source={companyDetails.image} style={{ height: 30, width: 30 }} />
+              </Text> */}
               <Text style={{ fontSize: 30, width: 370, border: '1px solid #000', textAlign: "center", paddingTop: 8 }}>
-                PRODUCT BUILDER
+                {companyDetails.name}
               </Text>
             </View>
             <View style={styles.tableRow}>
               <Text style={{ fontSize: 15, width: 470, border: '1px solid #000', textAlign: "center", padding: 10 }}>
-                ADDRESS: PRODUCT BUILDER
+                ADDRESS: {companyDetails.address}
               </Text>
             </View>
             <View style={styles.tableRow}>
               <Text style={{ fontSize: 15, width: 470, border: '1px solid #000', textAlign: "center", padding: 10 }}>
-                E-mail: test@admin.com, Phone No: 9874563210
+                E-mail: {companyDetails.email}, Phone No: {companyDetails.mobilenumber}
               </Text>
             </View>
           </View>
