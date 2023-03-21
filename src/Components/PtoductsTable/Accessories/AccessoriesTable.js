@@ -137,17 +137,14 @@ export default function AccessoriesTable(props) {
 
   return (
     <React.Fragment>
-    {load ? 
-    <ColorRingLoader/> :
-    <>
       <div className={style.tableHead}>
-      <input
-        className={style.search}
-        type="text"
-        placeholder='Search Here...'
-        value={search}
-        onChange={(e) => setSearch(e.target.value)} />
-        <AddAccessories sP={Accessories} sSP={setAccessories}/>
+        <input
+          className={style.search}
+          type="text"
+          placeholder='Search Here...'
+          value={search}
+          onChange={(e) => setSearch(e.target.value)} />
+        <AddAccessories sP={Accessories} sSP={setAccessories} />
       </div>
       <div>
         <TableContainer component={Paper} sx={{ marginTop: "2%", backgroundColor: "linen" }}>
@@ -160,51 +157,55 @@ export default function AccessoriesTable(props) {
                 <TableCell style={{ width: "20%" }} align="center">ACTIONS</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {
-              (rowsPerPage > 0 && Accessories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).filter((ele) => ele.productname.toLowerCase().toString().match(search.toLowerCase().toString()) ||
-                  ele.price.toString().match(search.toString())
-              )).map((row, index) => (
-                <TableRow key={index}>
-                  <TableCell component="th" scope="row">
-                    {row.productname}
-                  </TableCell>
-                  <TableCell style={{ width: "20%" }} align="center">
-                    <img src={row.image ? row.image : row.img.name} alt='product' height={50} width={50} />
-                  </TableCell>
-                  <TableCell style={{ width: "20%" }} align="center">
-                    {row.price}
-                  </TableCell>
-                  <TableCell style={{ width: "20%" }} align="center">
-                    <div className={style.buttonCell}>
-                    <UpdateAccessories id={row._id} index={index} sP={Accessories} sSP={setAccessories}/>
-                    <Button 
-                    onClick={() => handleDelete(row._id, index)}
-                    sx={{ color: "red", 
-                    minWidth: "50px", 
-                    backgroundColor: "#deb88745", 
-                    '&:hover': { backgroundColor: 'burlywood' }, 
-                    marginLeft: "10px" }}>
-                      <DeleteIcon />
-                      </Button>
-                    </div> 
-                  </TableCell>
-                </TableRow>
-              ))}
+            {load ?
+              <ColorRingLoader /> :
+              <TableBody>
+                {
+                  (rowsPerPage > 0 && Accessories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).filter((ele) => ele.productname.toLowerCase().toString().match(search.toLowerCase().toString()) ||
+                    ele.price.toString().match(search.toString())
+                  )).map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell component="th" scope="row">
+                        {row.productname}
+                      </TableCell>
+                      <TableCell style={{ width: "20%" }} align="center">
+                        <img src={row.image ? row.image : row.img.name} alt='product' height={50} width={50} />
+                      </TableCell>
+                      <TableCell style={{ width: "20%" }} align="center">
+                        {row.price}
+                      </TableCell>
+                      <TableCell style={{ width: "20%" }} align="center">
+                        <div className={style.buttonCell}>
+                          <UpdateAccessories id={row._id} index={index} sP={Accessories} sSP={setAccessories} />
+                          <Button
+                            onClick={() => handleDelete(row._id, index)}
+                            sx={{
+                              color: "red",
+                              minWidth: "50px",
+                              backgroundColor: "#deb88745",
+                              '&:hover': { backgroundColor: 'burlywood' },
+                              marginLeft: "10px"
+                            }}>
+                            <DeleteIcon />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
 
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>}
             <TableFooter>
-              <TableRow sx={{width: "100%"}} >
+              <TableRow sx={{ width: "100%" }} >
                 <TablePagination
-                  sx={{width: "100%"}}
+                  sx={{ width: "100%" }}
                   rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                   colSpan={3}
-                  count={page+1}
+                  count={page + 1}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{
@@ -221,7 +222,7 @@ export default function AccessoriesTable(props) {
             </TableFooter>
           </Table>
         </TableContainer>
-        </div></>}
+      </div>
     </React.Fragment>
   );
 }

@@ -26,25 +26,25 @@ export default function SignUp() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-      
+
         const url = 'https://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/signup';
         const options = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
         };
         const response = await fetch(url, options);
         const data = await response.json();
-        
+
         setEmail("");
         setPassword("");
 
         navigate("./admin")
-      }
+    }
 
     return (
         <div className={style.loginDiv}>
-            <Card sx={{ height: "35%", width: "25%", background: "linen", fontFamily: 'Gentium Book Plus' }}>
+            <Card sx={{ padding: "10px 0 30px 0", maxWidth: "450px", width: "100%", margin: "0 20px", background: "linen", fontFamily: 'Gentium Book Plus' }}>
                 <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "baseline" }}>
                     <Typography sx={{ fontSize: "x-large" }}>
                         E-mail ID:

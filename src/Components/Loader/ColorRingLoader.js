@@ -3,7 +3,7 @@ import { ColorRing } from 'react-loader-spinner'
 
 function ColorRingLoader() {
     return (
-        <div style={{textAlign: "center"}}>
+        <div style={{textAlign: "end"}}>
             <ColorRing
                 visible={true}
                 height="80"
