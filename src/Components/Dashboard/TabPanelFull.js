@@ -60,25 +60,41 @@ export default function BasicTabs() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="scrollable force tabs example" variant="scrollable" scrollButtons allowScrollButtonsMobile>
-          <Tab label="Processor" {...a11yProps(0)} />
-          <Tab label="Motherboard" {...a11yProps(1)} />
-          <Tab label="RAM" {...a11yProps(2)} />
-          <Tab label="Cooler" {...a11yProps(3)} />
-          <Tab label="Storage 1" {...a11yProps(4)} />
-          <Tab label="Storage 2" {...a11yProps(5)} />
-          <Tab label="Graphics Card" {...a11yProps(6)} />
-          <Tab label="Power Supply Unit" {...a11yProps(7)} />
-          <Tab label="Cabinet" {...a11yProps(8)} />
-          <Tab label="Cabinet Fan" {...a11yProps(9)} />
-          <Tab label="Monitor" {...a11yProps(10)} />
-          <Tab label="Keyboard" {...a11yProps(11)} />
-          <Tab label="Mouse" {...a11yProps(12)} />
-          <Tab label="Accessories" {...a11yProps(13)} />
-        </Tabs>
-      </Box>
+    <React.Fragment>
+      <Box sx={{ width: '100%', background: "#0000001f" }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="scrollable force tabs example"
+            variant="scrollable"
+            scrollButtons
+            allowScrollButtonsMobile
+            sx={{
+              backgroundColor: "#3f51b5",
+              color: "#fff",
+              "& .Mui-selected": {
+                backgroundColor: "#fff",
+                color: "#3f51b5"
+              }
+            }}
+          >
+            <Tab label="Processor" {...a11yProps(0)} />
+            <Tab label="Motherboard" {...a11yProps(1)} />
+            <Tab label="RAM" {...a11yProps(2)} />
+            <Tab label="Cooler" {...a11yProps(3)} />
+            <Tab label="Storage 1" {...a11yProps(4)} />
+            <Tab label="Storage 2" {...a11yProps(5)} />
+            <Tab label="Graphics Card" {...a11yProps(6)} />
+            <Tab label="Power Supply Unit" {...a11yProps(7)} />
+            <Tab label="Cabinet" {...a11yProps(8)} />
+            <Tab label="Cabinet Fan" {...a11yProps(9)} />
+            <Tab label="Monitor" {...a11yProps(10)} />
+            <Tab label="Keyboard" {...a11yProps(11)} />
+            <Tab label="Mouse" {...a11yProps(12)} />
+            <Tab label="Accessories" {...a11yProps(13)} />
+          </Tabs>
+        </Box>
         <TabPanel value={value} index={0} >
           <ProcessorTable />
         </TabPanel>
@@ -121,6 +137,7 @@ export default function BasicTabs() {
         <TabPanel value={value} index={13} >
           <AccessoriesTable />
         </TabPanel>
-    </Box>
+      </Box>
+    </React.Fragment>
   );
 }

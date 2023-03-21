@@ -116,9 +116,9 @@ export default function MonitorTable(props) {
     fetchMonitorData();
   }, []);
 
-  const token = JSON.parse(localStorage.getItem("token"))
-
   const handleDelete = async (id, index) => {
+
+    const token = JSON.parse(localStorage.getItem("token"))
 
     const adjustedIndex = (page * rowsPerPage) + index;
     Monitor.splice(adjustedIndex, 1);
@@ -147,7 +147,7 @@ export default function MonitorTable(props) {
         <AddMonitor sP={Monitor} sSP={setMonitor} />
       </div>
       <div>
-        <TableContainer component={Paper} sx={{ marginTop: "2%", backgroundColor: "linen" }}>
+        <TableContainer component={Paper} sx={{ marginTop: "2%", backgroundColor: "aliceblue" }}>
           <Table sx={{ width: "100%" }} aria-label="custom pagination table">
             <TableHead>
               <TableRow>
@@ -182,8 +182,8 @@ export default function MonitorTable(props) {
                             sx={{
                               color: "red",
                               minWidth: "50px",
-                              backgroundColor: "#deb88745",
-                              '&:hover': { backgroundColor: 'burlywood' },
+                              backgroundColor: "#00008b6e",
+                              '&:hover': { backgroundColor: 'darkblue' },
                               marginLeft: "10px"
                             }}>
                             <DeleteIcon />

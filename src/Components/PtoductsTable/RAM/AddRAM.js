@@ -123,7 +123,7 @@ export default function AddRam(props) {
 
   return (
     <div>
-      <Button sx={{ backgroundColor: "#faf0e680", '&:hover': { backgroundColor: 'linen' } }} onClick={handleClickOpen} disabled={props.sP.length === 0}>
+      <Button sx={{ backgroundColor: "#00008b6e", color: "aliceblue", '&:hover': { backgroundColor: 'darkblue' } }} onClick={handleClickOpen} disabled={props.sP.length === 0}>
         Add Product
       </Button>
       <Dialog open={open} onClose={handleClose}>
