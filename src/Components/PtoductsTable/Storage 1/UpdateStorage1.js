@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../../Firebase/Firebase';
+import { getStorage1 } from '../../API/Api';
 
 
 export default function UpdateStorage1(props) {
@@ -89,15 +90,10 @@ export default function UpdateStorage1(props) {
         console.log(error);
         alert("Error occurred while updating Storage1.");
       }
-      props.sP.splice(props.index, 1, addProduct)
-      props.sSP([...props.sP])
-      setAddProduct({
-        productname: "",
-        price: "",
-        image: null,
-        capacity: "",
-        type: ""
-      });
+
+      const Storage1Data = await getStorage1();
+      props.sSP(Storage1Data);
+
     }
 
     setOpen(false);

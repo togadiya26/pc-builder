@@ -116,22 +116,24 @@ export default function CabinetTable(props) {
     fetchCabinetData();
   }, []);
 
-  const handleDelete = async (id, index) => {
+  const handleDelete = async (id) => {
 
     const token = JSON.parse(localStorage.getItem("token"))
+    const confirmed = window.confirm("Are you sure you want to delete this item?");
 
-    const adjustedIndex = (page * rowsPerPage) + index;
-    Cabinet.splice(adjustedIndex, 1);
-    setCabinet([...Cabinet])
+    if (confirmed) {
+      try {
+        await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/cabinets/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (err) {
+        console.log(err)
+      }
 
-    try {
-      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/cabinets/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      console.log(err)
+      const CabinetData = await getCabinet();
+      setCabinet(CabinetData);
     }
   };
 
@@ -178,7 +180,7 @@ export default function CabinetTable(props) {
                         <div className={style.buttonCell}>
                           <UpdateCabinet id={row._id} index={index} sP={Cabinet} sSP={setCabinet} />
                           <Button
-                            onClick={() => handleDelete(row._id, index)}
+                            onClick={() => handleDelete(row._id)}
                             sx={{
                               color: "red",
                               minWidth: "50px",

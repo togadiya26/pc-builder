@@ -116,24 +116,27 @@ export default function ProcessorTable(props) {
     fetchProcessorData();
   }, []);
 
-  const handleDelete = async (id, index) => {
+  const handleDelete = async (id) => {
 
-    const token = JSON.parse(localStorage.getItem("token"))
+    const token = JSON.parse(localStorage.getItem("token"));
+    const confirmed = window.confirm("Are you sure you want to delete this item?");
 
-    const adjustedIndex = (page * rowsPerPage) + index;
-    Processor.splice(adjustedIndex, 1);
-    setProcessor([...Processor])
+    if (confirmed) {
+      try {
+        await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/processors/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (err) {
+        console.log(err)
+      }
 
-    try {
-      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/processors/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      console.log(err)
+      const ProcessorData = await getProcessor();
+      setProcessor(ProcessorData);
     }
   };
+
 
   return (
     <React.Fragment>
@@ -178,7 +181,7 @@ export default function ProcessorTable(props) {
                         <div className={style.buttonCell}>
                           <UpdateProcessor id={row._id} index={index} sP={Processor} sSP={setProcessor} />
                           <Button
-                            onClick={() => handleDelete(row._id, index)}
+                            onClick={() => handleDelete(row._id)}
                             sx={{
                               color: "red",
                               minWidth: "50px",

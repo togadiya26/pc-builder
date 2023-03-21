@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../../Firebase/Firebase';
+import { getMouse } from '../../API/Api';
 
 
 export default function UpdateMouse(props) {
@@ -89,15 +90,8 @@ export default function UpdateMouse(props) {
         console.log(error);
         alert("Error occurred while updating Mouse.");
       }
-      props.sP.splice(props.index, 1, addProduct)
-      props.sSP([...props.sP])
-      setAddProduct({
-        productname: "",
-        price: "",
-        image: null,
-        size: "",
-        connectivity: ""
-      });
+      const MouseData = await getMouse();
+      props.sSP(MouseData);
     }
 
     setOpen(false);

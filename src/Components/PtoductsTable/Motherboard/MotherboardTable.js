@@ -116,22 +116,24 @@ export default function MotherboardTable(props) {
     fetchMotherboardData();
   }, []);
 
-  const handleDelete = async (id, index) => {
+  const handleDelete = async (id) => {
 
     const token = JSON.parse(localStorage.getItem("token"))
+    const confirmed = window.confirm("Are you sure you want to delete this item?");
 
-    const adjustedIndex = (page * rowsPerPage) + index;
-    Motherboard.splice(adjustedIndex, 1);
-    setMotherboard([...Motherboard])
+    if (confirmed) {
+      try {
+        await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/motherboards/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (err) {
+        console.log(err)
+      }
 
-    try {
-      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/motherboards/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      console.log(err)
+      const MotherboardData = await getMotherboard();
+      setMotherboard(MotherboardData);
     }
   };
 
@@ -178,7 +180,7 @@ export default function MotherboardTable(props) {
                         <div className={style.buttonCell}>
                           <UpdateMotherboard id={row._id} index={index} sP={Motherboard} sSP={setMotherboard} />
                           <Button
-                            onClick={() => handleDelete(row._id, index)}
+                            onClick={() => handleDelete(row._id)}
                             sx={{
                               color: "red",
                               minWidth: "50px",

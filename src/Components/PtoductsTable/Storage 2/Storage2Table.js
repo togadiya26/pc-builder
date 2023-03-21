@@ -116,22 +116,24 @@ export default function Storage2Table(props) {
     fetchStorage2Data();
   }, []);
 
-  const handleDelete = async (id, index) => {
+  const handleDelete = async (id) => {
 
     const token = JSON.parse(localStorage.getItem("token"))
+    const confirmed = window.confirm("Are you sure you want to delete this item?");
 
-    const adjustedIndex = (page * rowsPerPage) + index;
-    Storage2.splice(adjustedIndex, 1);
-    setStorage2([...Storage2])
+    if (confirmed) {
+      try {
+        await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/storage2/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (err) {
+        console.log(err)
+      }
 
-    try {
-      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/storage2/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      console.log(err)
+      const Storage2Data = await getStorage2();
+      setStorage2(Storage2Data);
     }
   };
 
@@ -178,7 +180,7 @@ export default function Storage2Table(props) {
                         <div className={style.buttonCell}>
                           <UpdateStorage2 id={row._id} index={index} sP={Storage2} sSP={setStorage2} />
                           <Button
-                            onClick={() => handleDelete(row._id, index)}
+                            onClick={() => handleDelete(row._id)}
                             sx={{
                               color: "red",
                               minWidth: "50px",

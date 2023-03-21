@@ -119,19 +119,21 @@ export default function KeyboardTable(props) {
   const handleDelete = async (id, index) => {
 
     const token = JSON.parse(localStorage.getItem("token"))
+    const confirmed = window.confirm("Are you sure you want to delete this item?");
 
-    const adjustedIndex = (page * rowsPerPage) + index;
-    Keyboard.splice(adjustedIndex, 1);
-    setKeyboard([...Keyboard])
+    if (confirmed) {
+      try {
+        await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/keyboards/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (err) {
+        console.log(err)
+      }
 
-    try {
-      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/keyboards/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      console.log(err)
+      const KeyboardData = await getKeyboard();
+      setKeyboard(KeyboardData);
     }
   };
 

@@ -116,22 +116,24 @@ export default function MouseTable(props) {
     fetchMouseData();
   }, []);
 
-  const handleDelete = async (id, index) => {
+  const handleDelete = async (id) => {
 
     const token = JSON.parse(localStorage.getItem("token"))
+    const confirmed = window.confirm("Are you sure you want to delete this item?");
 
-    const adjustedIndex = (page * rowsPerPage) + index;
-    Mouse.splice(adjustedIndex, 1);
-    setMouse([...Mouse])
+    if (confirmed) {
+      try {
+        await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/mouses/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (err) {
+        console.log(err)
+      }
 
-    try {
-      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/mouses/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      console.log(err)
+      const MouseData = await getMouse();
+      setMouse(MouseData);
     }
   };
 
@@ -178,7 +180,7 @@ export default function MouseTable(props) {
                         <div className={style.buttonCell}>
                           <UpdateMouse id={row._id} index={index} sP={Mouse} sSP={setMouse} />
                           <Button
-                            onClick={() => handleDelete(row._id, index)}
+                            onClick={() => handleDelete(row._id)}
                             sx={{
                               color: "red",
                               minWidth: "50px",

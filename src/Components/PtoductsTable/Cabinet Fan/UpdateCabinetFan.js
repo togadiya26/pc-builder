@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../../Firebase/Firebase';
+import { getCabinetFan } from '../../API/Api';
 
 
 export default function UpdateCabinetfan(props) {
@@ -92,15 +93,9 @@ export default function UpdateCabinetfan(props) {
         alert("Error occurred while updating Cabinetfan.");
       }
       
-      props.sP.splice(props.index, 1, addProduct)
-      props.sSP([...props.sP])
-      setAddProduct({
-        productname: "",
-        price: "",
-        image: null,
-        Productdimensions: "",
-        fanspeed:""
-      });
+    const CabinetFanData = await getCabinetFan();
+    props.sSP(CabinetFanData);
+
     }
 
     setOpen(false);

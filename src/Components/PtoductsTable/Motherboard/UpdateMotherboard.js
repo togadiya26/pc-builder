@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../../Firebase/Firebase';
+import { getMotherboard } from '../../API/Api';
 
 
 export default function UpdateMotherboard(props) {
@@ -79,14 +80,10 @@ export default function UpdateMotherboard(props) {
         console.log(error);
         alert("Error occurred while updating Motherboard.");
       }
-      props.sP.splice(props.index, 1, addProduct)
-      props.sSP([...props.sP])
-      setAddProduct({
-        productname: "",
-        price: "",
-        image: null,
-        cors: ""
-      });
+
+      const MotherboardData = await getMotherboard();
+      props.sSP(MotherboardData);
+
     }
 
     setOpen(false);

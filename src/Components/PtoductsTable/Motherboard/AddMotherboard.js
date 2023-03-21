@@ -9,6 +9,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '../../../Firebase/Firebase';
+import { getMotherboard } from '../../API/Api';
+import ThreeDotsLoader from '../../Loader/ThreeDotsLoader';
 
 
 export default function AddMotherboard(props) {
@@ -17,6 +19,7 @@ export default function AddMotherboard(props) {
     productname: "",
     price: "",
     image: null,
+    isUploading: false
   }
 
   const [open, setOpen] = React.useState(false);
@@ -74,18 +77,16 @@ export default function AddMotherboard(props) {
         console.log(error);
         alert("Error occurred while adding Motherboard.");
       }
-      props.sSP([
-        ...props.sP,
-        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image },
-      ]);
     }
+
+    const MotherboardData = await getMotherboard();
+    props.sSP(MotherboardData);
 
     setAddProduct(initialAddProduct);
     setOpen(false);
   }
 
   function handleImageChange(event) {
-
     const fileInput = document.getElementById("image");
 
     // Generate a random string to append to the file name
@@ -95,21 +96,31 @@ export default function AddMotherboard(props) {
     const storageRef = ref(storage, `/Motherboard/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
-    // Motherboard the upload progress
-    uploadTask.on("state_changed", (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log(`Upload is ${progress}% done`);
-    }, (error) => {
-      console.error(error);
-    },
+    // Update state to indicate that the image is currently being uploaded
+    setAddProduct({ ...addProduct, isUploading: true });
 
+    // Monitor the upload progress
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload is ${progress}% done`);
+      },
+      (error) => {
+        console.error(error);
+        // Update state to indicate that the image upload has failed
+        setAddProduct({ ...addProduct, isUploading: false, uploadError: true });
+      },
       async () => {
         // Upload completed successfully, get download URL
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        console.log("File available at", downloadURL);
-        setAddProduct({ ...addProduct, image: downloadURL });
-      });
 
+        console.log("File available at", downloadURL);
+
+        // Update state to indicate that the image upload has succeeded
+        setAddProduct({ ...addProduct, isUploading: false, image: downloadURL });
+      }
+    );
   }
 
   function handleReset() {
@@ -132,18 +143,21 @@ export default function AddMotherboard(props) {
             <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
             <div style={{ margin: "2%" }}>
               {addProduct.image && <img src={addProduct.image} alt="SelectedImage" height={50} width={50} />}
-              {addProduct.image &&
+              {addProduct.isUploading && <div><ThreeDotsLoader/></div>}
+              {addProduct.image && (
                 <Button
                   onClick={handleReset}
                   sx={{
                     color: "black",
                     backgroundColor: "#faf0e680",
-                    '&:hover': { backgroundColor: 'linen' },
+                    "&:hover": { backgroundColor: "linen" },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>
+                  }}
+                >
                   <ClearIcon />
-                </Button>}
+                </Button>
+              )}
             </div>
           </div>
         </DialogContent>
@@ -165,6 +179,7 @@ export default function AddMotherboard(props) {
               '&:hover': { backgroundColor: 'linen' },
             }}
             onClick={handleSubmit}
+            disabled={addProduct.isUploading}
           >
             Add
           </Button>

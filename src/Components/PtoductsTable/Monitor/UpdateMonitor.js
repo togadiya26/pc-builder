@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../../Firebase/Firebase';
+import { getMonitor } from '../../API/Api';
 
 
 export default function UpdateMonitor(props) {
@@ -89,15 +90,8 @@ export default function UpdateMonitor(props) {
         console.log(error);
         alert("Error occurred while updating Monitor.");
       }
-      props.sP.splice(props.index, 1, addProduct)
-      props.sSP([...props.sP])
-      setAddProduct({
-        productname: "",
-        price: "",
-        image: null,
-        displaysize: "",
-        resolution: ""
-      });
+      const MonitorData = await getMonitor();
+      props.sSP(MonitorData);
     }
 
     setOpen(false);

@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../../Firebase/Firebase';
+import { getRAM } from '../../API/Api';
 
 
 export default function UpdateRam(props) {
@@ -84,14 +85,10 @@ export default function UpdateRam(props) {
         console.log(error);
         alert("Error occurred while updating Ram.");
       }
-      props.sP.splice(props.index, 1, addProduct)
-      props.sSP([...props.sP])
-      setAddProduct({
-        productname: "",
-        price: "",
-        image: null,
-        ramcapacity: "",
-      });
+
+      const RAMData = await getRAM();
+      props.sSP(RAMData);
+
     }
 
     setOpen(false);

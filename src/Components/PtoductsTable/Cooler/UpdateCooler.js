@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../../Firebase/Firebase';
+import { getCooler } from '../../API/Api';
 
 
 export default function UpdateCooler(props) {
@@ -89,15 +90,8 @@ export default function UpdateCooler(props) {
         console.log(error);
         alert("Error occurred while updating Cooler.");
       }
-      props.sP.splice(props.index, 1, addProduct)
-      props.sSP([...props.sP])
-      setAddProduct({
-        productname: "",
-        price: "",
-        image: null,
-        Productdimensions: "",
-        fanspeed: ""
-      });
+      const CoolerData = await getCooler();
+      props.sSP(CoolerData);
     }
 
     setOpen(false);

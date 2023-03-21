@@ -9,6 +9,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '../../../Firebase/Firebase';
+import { getProcessor } from '../../API/Api';
+import ThreeDotsLoader from '../../Loader/ThreeDotsLoader';
 
 
 export default function AddProcessor(props) {
@@ -17,15 +19,14 @@ export default function AddProcessor(props) {
     productname: "",
     price: "",
     image: null,
-    cors: ""
+    cors: "",
+    isUploading: false
   }
 
   const [open, setOpen] = React.useState(false);
   const [addProduct, setAddProduct] = React.useState(initialAddProduct);
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
-
-  // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2NDA2YzVkZDIwYjQ1OGJjMWIxZDg2OGEiLCJpYXQiOjE2Nzg0NDc1MDMsImV4cCI6MTY3ODg3OTUwM30.XIevT7C8ScLKpUvKZDL-sYl7rh0pbroOFudto3h1l88"
 
   const token = JSON.parse(localStorage.getItem("token"));
 
@@ -66,7 +67,7 @@ export default function AddProcessor(props) {
   }
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
 
     if (Validation()) {
 
@@ -83,18 +84,15 @@ export default function AddProcessor(props) {
         console.log(error);
         alert("Error occurred while adding processor.");
       }
-
-      props.sSP([
-        ...props.sP,
-        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, cors: addProduct.cors },
-      ]);
     }
+
+    const ProcessorData = await getProcessor();
+    props.sSP(ProcessorData);
 
     setAddProduct(initialAddProduct);
     setOpen(false);
 
   }
-
 
   function handleImageChange(event) {
     const fileInput = document.getElementById("image");
@@ -106,24 +104,31 @@ export default function AddProcessor(props) {
     const storageRef = ref(storage, `/Processor/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
+    // Update state to indicate that the image is currently being uploaded
+    setAddProduct({ ...addProduct, isUploading: true });
 
     // Monitor the upload progress
-    uploadTask.on("state_changed", (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log(`Upload is ${progress}% done`);
-    }, (error) => {
-      console.error(error);
-    },
-
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload is ${progress}% done`);
+      },
+      (error) => {
+        console.error(error);
+        // Update state to indicate that the image upload has failed
+        setAddProduct({ ...addProduct, isUploading: false, uploadError: true });
+      },
       async () => {
         // Upload completed successfully, get download URL
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
 
         console.log("File available at", downloadURL);
 
-        setAddProduct({ ...addProduct, image: downloadURL });
-
-      });
+        // Update state to indicate that the image upload has succeeded
+        setAddProduct({ ...addProduct, isUploading: false, image: downloadURL });
+      }
+    );
   }
 
   function handleReset() {
@@ -146,18 +151,21 @@ export default function AddProcessor(props) {
             <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
             <div style={{ margin: "2%" }}>
               {addProduct.image && <img src={addProduct.image} alt="SelectedImage" height={50} width={50} />}
-              {addProduct.image &&
+              {addProduct.isUploading && <div><ThreeDotsLoader /></div>}
+              {addProduct.image && (
                 <Button
                   onClick={handleReset}
                   sx={{
                     color: "black",
                     backgroundColor: "#faf0e680",
-                    '&:hover': { backgroundColor: 'linen' },
+                    "&:hover": { backgroundColor: "linen" },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>
+                  }}
+                >
                   <ClearIcon />
-                </Button>}
+                </Button>
+              )}
             </div>
           </div>
         </DialogContent>
@@ -179,6 +187,7 @@ export default function AddProcessor(props) {
               '&:hover': { backgroundColor: 'linen' },
             }}
             onClick={handleSubmit}
+            disabled={addProduct.isUploading}
           >
             Add
           </Button>

@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../../Firebase/Firebase';
+import { getGraphicsCard } from '../../API/Api';
 
 
 export default function UpdateGraphicscard(props) {
@@ -89,15 +90,10 @@ export default function UpdateGraphicscard(props) {
         console.log(error);
         alert("Error occurred while updating Graphicscard.");
       }
-      props.sP.splice(props.index, 1, addProduct)
-      props.sSP([...props.sP])
-      setAddProduct({
-        productname: "",
-        price: "",
-        image: null,
-        memorysize: "",
-        resolution: ""
-      });
+
+      const GraphicsCardData = await getGraphicsCard();
+      props.sSP(GraphicsCardData);
+      
     }
 
     setOpen(false);

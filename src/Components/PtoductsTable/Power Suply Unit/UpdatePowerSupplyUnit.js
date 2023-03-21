@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../../Firebase/Firebase';
+import { getPowerSupplyUnit } from '../../API/Api';
 
 
 export default function UpdatePowersupplyunit(props) {
@@ -89,15 +90,10 @@ export default function UpdatePowersupplyunit(props) {
         console.log(error);
         alert("Error occurred while updating Powersupplyunit.");
       }
-      props.sP.splice(props.index, 1, addProduct)
-      props.sSP([...props.sP])
-      setAddProduct({
-        productname: "",
-        price: "",
-        image: null,
-        power: "",
-        acinput: ""
-      });
+
+      const PowerSupplyUnitData = await getPowerSupplyUnit();
+      props.sSP(PowerSupplyUnitData);
+
     }
 
     setOpen(false);

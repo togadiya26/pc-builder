@@ -9,6 +9,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import { storage } from '../../../Firebase/Firebase';
+import { getAccessories } from '../../API/Api';
+import ThreeDotsLoader from '../../Loader/ThreeDotsLoader';
 
 
 export default function AddAccessories(props) {
@@ -17,6 +19,7 @@ export default function AddAccessories(props) {
     price: "",
     image: null,
     productditeils: "",
+    isUploading: false
   }
 
   const [open, setOpen] = React.useState(false);
@@ -77,41 +80,58 @@ export default function AddAccessories(props) {
         console.log(error);
         alert("Error occurred while adding Storage1.");
       }
-
-      props.sSP([
-        ...props.sP,
-        { productname: addProduct.productname, price: addProduct.price, image: addProduct.image, productditeils: addProduct.productditeils },
-      ]);
     }
+
+    const AccessoriesData = await getAccessories();
+    props.sSP(AccessoriesData)
+
     setAddProduct(initialAddProduct);
     setOpen(false);
   }
+
   function handleImageChange(event) {
     const fileInput = document.getElementById("image");
+
     // Generate a random string to append to the file name
     const randomString = Math.random().toString(36).substring(2, 8);
     const fileName = `${randomString}_${fileInput.files[0].name}`;
     // Upload file to Firebase Storage
     const storageRef = ref(storage, `/Accessories/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
+
+    // Update state to indicate that the image is currently being uploaded
+    setAddProduct({ ...addProduct, isUploading: true });
+
     // Monitor the upload progress
-    uploadTask.on("state_changed", (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log(`Upload is ${progress}% done`);
-    }, (error) => {
-      console.error(error);
-    },
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload is ${progress}% done`);
+      },
+      (error) => {
+        console.error(error);
+        // Update state to indicate that the image upload has failed
+        setAddProduct({ ...addProduct, isUploading: false, uploadError: true });
+      },
       async () => {
         // Upload completed successfully, get download URL
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
         console.log("File available at", downloadURL);
-        setAddProduct({ ...addProduct, image: downloadURL });
-      });
+
+        // Update state to indicate that the image upload has succeeded
+        setAddProduct({ ...addProduct, isUploading: false, image: downloadURL });
+      }
+    );
   }
+
   function handleReset() {
     setAddProduct({ ...addProduct, image: null });
     setDisabled(false);
   }
+
+  
   return (
     <div>
       <Button sx={{ backgroundColor: "#00008b6e", color: "aliceblue", '&:hover': { backgroundColor: 'darkblue' } }} onClick={handleClickOpen} disabled={props.sP.length === 0}>
@@ -127,18 +147,21 @@ export default function AddAccessories(props) {
             <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
             <div style={{ margin: "2%" }}>
               {addProduct.image && <img src={addProduct.image} alt="SelectedImage" height={50} width={50} />}
-              {addProduct.image &&
+              {addProduct.isUploading && <div><ThreeDotsLoader/></div>}
+              {addProduct.image && (
                 <Button
                   onClick={handleReset}
                   sx={{
                     color: "black",
                     backgroundColor: "#faf0e680",
-                    '&:hover': { backgroundColor: 'linen' },
+                    "&:hover": { backgroundColor: "linen" },
                     marginLeft: "10px",
                     minWidth: "35px",
-                  }}>
+                  }}
+                >
                   <ClearIcon />
-                </Button>}
+                </Button>
+              )}
             </div>
           </div>
         </DialogContent>
@@ -160,6 +183,7 @@ export default function AddAccessories(props) {
               '&:hover': { backgroundColor: 'linen' },
             }}
             onClick={handleSubmit}
+            disabled={addProduct.isUploading}
           >
             Add
           </Button>

@@ -116,22 +116,24 @@ export default function AccessoriesTable(props) {
     fetchAccessoriesData();
   }, []);
 
-  const handleDelete = async (id, index) => {
+  const handleDelete = async (id) => {
 
     const token = JSON.parse(localStorage.getItem("token"))
+    const confirmed = window.confirm("Are you sure you want to delete this item?");
 
-    const adjustedIndex = (page * rowsPerPage) + index;
-    Accessories.splice(adjustedIndex, 1);
-    setAccessories([...Accessories])
+    if (confirmed) {
+      try {
+        await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/accessories/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (err) {
+        console.log(err)
+      }
 
-    try {
-      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/accessories/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      console.log(err)
+      const AccessoriesData = await getAccessories();
+      setAccessories(AccessoriesData);
     }
   };
 
@@ -178,7 +180,7 @@ export default function AccessoriesTable(props) {
                         <div className={style.buttonCell}>
                           <UpdateAccessories id={row._id} index={index} sP={Accessories} sSP={setAccessories} />
                           <Button
-                            onClick={() => handleDelete(row._id, index)}
+                            onClick={() => handleDelete(row._id)}
                             sx={{
                               color: "red",
                               minWidth: "50px",

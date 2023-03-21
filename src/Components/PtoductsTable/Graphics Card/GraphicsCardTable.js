@@ -116,22 +116,24 @@ export default function GraphicsCardTable(props) {
     fetchGraphicsCardData();
   }, []);
 
-  const handleDelete = async (id, index) => {
+  const handleDelete = async (id) => {
 
     const token = JSON.parse(localStorage.getItem("token"))
+    const confirmed = window.confirm("Are you sure you want to delete this item?");
 
-    const adjustedIndex = (page * rowsPerPage) + index;
-    GraphicsCard.splice(adjustedIndex, 1);
-    setGraphicsCard([...GraphicsCard])
+    if (confirmed) {
+      try {
+        await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/graphicscards/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+      } catch (err) {
+        console.log(err)
+      }
 
-    try {
-      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/graphicscards/${id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-    } catch (err) {
-      console.log(err)
+      const GraphicsCardData = await getGraphicsCard();
+      setGraphicsCard(GraphicsCardData);
     }
   };
 
@@ -178,7 +180,7 @@ export default function GraphicsCardTable(props) {
                         <div className={style.buttonCell}>
                           <UpdateGraphicscard id={row._id} index={index} sP={GraphicsCard} sSP={setGraphicsCard} />
                           <Button
-                            onClick={() => handleDelete(row._id, index)}
+                            onClick={() => handleDelete(row._id)}
                             sx={{
                               color: "red",
                               minWidth: "50px",
