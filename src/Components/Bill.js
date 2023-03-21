@@ -1,5 +1,4 @@
 import { Button } from '@mui/material'
-import b from './Image/b.jpg'
 import React from 'react'
 import ShareIcon from '@mui/icons-material/Share';
 import PrintIcon from '@mui/icons-material/Print';
@@ -261,9 +260,9 @@ function Bill(props) {
         <View style={styles.section}>
           <View style={styles.table}>
             <View style={styles.tableRow}>
-              {/* <Text style={{ fontSize: 30, width: 100, border: '1px solid #000', textAlign: "center", paddingTop: 12 }}>
+              <Text style={{ fontSize: 30, width: 100, border: '1px solid #000', textAlign: "center", paddingTop: 12 }}>
                 <Image source={companyDetails.image} style={{ height: 30, width: 30 }} />
-              </Text> */}
+              </Text>
               <Text style={{ fontSize: 30, width: 370, border: '1px solid #000', textAlign: "center", paddingTop: 8 }}>
                 {companyDetails.name}
               </Text>

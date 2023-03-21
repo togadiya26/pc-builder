@@ -35,7 +35,7 @@ export default function SignUp() {
         };
         const response = await fetch(url, options);
         const data = await response.json();
-      
+        
         setEmail("");
         setPassword("");
 

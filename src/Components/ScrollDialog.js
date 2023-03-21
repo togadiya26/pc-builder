@@ -7,7 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CloseIcon from '@mui/icons-material/Close';
-import { getProcessor, getAccessories, getCabinet, getCabinetFan, getCooler, getGraphicsCard, getKeyboard, getMonitor, getMotherboard, getMouse, getPowerSupplyUnit, getRAM, getStorage1, getStorage2, getAllProducts } from './API/Api';
+import { getAllProducts } from './API/Api';
 
 export default function ScrollDialog(props) {
 
