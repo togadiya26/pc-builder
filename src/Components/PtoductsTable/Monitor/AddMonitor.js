@@ -66,6 +66,14 @@ export default function AddMonitor(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    displaysize: addProduct.displaysize,
+    resolution: addProduct.resolution
+  }
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -73,7 +81,7 @@ export default function AddMonitor(props) {
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addmonitor", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addmonitor", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

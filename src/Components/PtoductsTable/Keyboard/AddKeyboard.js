@@ -66,6 +66,14 @@ export default function AddKeyboard(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    size: addProduct.size,
+    connectivity: addProduct.connectivity
+  }
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -73,7 +81,7 @@ export default function AddKeyboard(props) {
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addkeyboard", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addkeyboard", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

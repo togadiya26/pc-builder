@@ -63,6 +63,13 @@ export default function AddRam(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    ramcapacity: addProduct.ramcapacity
+  }
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -70,7 +77,7 @@ export default function AddRam(props) {
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addram", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addram", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

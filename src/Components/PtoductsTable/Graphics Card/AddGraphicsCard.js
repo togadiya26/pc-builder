@@ -66,6 +66,14 @@ export default function AddGraphicscard(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    memorysize: addProduct.memorysize,
+    resolution: addProduct.resolution
+  }
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -73,7 +81,7 @@ export default function AddGraphicscard(props) {
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addgraphicscard", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addgraphicscard", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

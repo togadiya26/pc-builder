@@ -66,6 +66,14 @@ export default function AddMouse(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    size: addProduct.size,
+    connectivity: addProduct.connectivity
+  }
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -73,7 +81,7 @@ export default function AddMouse(props) {
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addmouse", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addmouse", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

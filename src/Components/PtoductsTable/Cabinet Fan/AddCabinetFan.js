@@ -66,6 +66,14 @@ export default function AddCabinetfan(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    Productdimensions: addProduct.Productdimensions,
+    fanspeed: addProduct.fanspeed
+  }
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -73,7 +81,7 @@ export default function AddCabinetfan(props) {
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcabinetfan", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcabinetfan", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

@@ -14,6 +14,7 @@ import ThreeDotsLoader from '../../Loader/ThreeDotsLoader';
 
 
 export default function AddCabinet(props) {
+
   const initialAddProduct = {
     productname: "",
     price: "",
@@ -65,6 +66,14 @@ export default function AddCabinet(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    Productdimensions: addProduct.Productdimensions,
+    itemweight: addProduct.itemweight
+  }
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -72,7 +81,7 @@ export default function AddCabinet(props) {
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcabinet", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcabinet", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

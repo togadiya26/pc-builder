@@ -66,6 +66,14 @@ export default function AddPowersupplyunit(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    power: addProduct.power,
+    acinput: addProduct.acinput
+  }
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -73,7 +81,7 @@ export default function AddPowersupplyunit(props) {
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addpowersupplyunit", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addpowersupplyunit", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

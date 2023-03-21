@@ -70,12 +70,20 @@ export default function AddCooler(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    Productdimensions: addProduct.Productdimensions,
+    fanspeed: addProduct.fanspeed
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcooler", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addcooler", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

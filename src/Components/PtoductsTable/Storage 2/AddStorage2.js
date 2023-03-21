@@ -70,6 +70,14 @@ export default function AddStorage2(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    capacity: addProduct.capacity,
+    type: addProduct.type
+  }
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -77,7 +85,7 @@ export default function AddStorage2(props) {
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addstorage2", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addstorage2", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

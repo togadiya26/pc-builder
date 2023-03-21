@@ -59,6 +59,12 @@ export default function AddMotherboard(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image
+  }
+
   const handleSubmit = async (event) => {
 
     event.preventDefault();
@@ -66,7 +72,7 @@ export default function AddMotherboard(props) {
     if (Validation()) {
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addmotherboard", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addmotherboard", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

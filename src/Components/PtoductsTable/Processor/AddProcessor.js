@@ -66,6 +66,13 @@ export default function AddProcessor(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    cors: addProduct.cors,
+  }
+
   const handleSubmit = async (event) => {
     // event.preventDefault();
 
@@ -73,7 +80,7 @@ export default function AddProcessor(props) {
 
       try {
         const response = await axios.post(
-          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addprocessor", addProduct, {
+          "https://pc-builder-backend-git-main-togadiya123.vercel.app/item/addprocessor", dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
