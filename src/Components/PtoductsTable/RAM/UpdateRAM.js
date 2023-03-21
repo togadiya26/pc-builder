@@ -24,8 +24,6 @@ export default function UpdateRam(props) {
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
 
-  const token = JSON.parse(localStorage.getItem("token"));
-
   const handleClickOpen = () => {
     setOpen(true);
     if (props.sP.length !== 0 && props.index !== undefined) {
@@ -67,6 +65,8 @@ export default function UpdateRam(props) {
   }
 
   const handleUpdate = async (e) => {
+
+    const token = JSON.parse(localStorage.getItem("token"));
 
     e.preventDefault()
 
@@ -137,8 +137,8 @@ export default function UpdateRam(props) {
         sx={{
           color: "green",
           minWidth: "50px",
-          backgroundColor: "#deb88745",
-          '&:hover': { backgroundColor: 'burlywood' },
+          backgroundColor: "#00008b6e",
+          '&:hover': { backgroundColor: 'darkblue' },
           marginLeft: "10px"
         }} onClick={handleClickOpen} >
         <EditIcon />

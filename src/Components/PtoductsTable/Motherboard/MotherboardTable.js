@@ -125,7 +125,7 @@ export default function MotherboardTable(props) {
     setMotherboard([...Motherboard])
 
     try {
-      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/motherboards/${id}`, {
+      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/motherboards/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

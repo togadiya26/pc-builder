@@ -125,7 +125,7 @@ export default function MonitorTable(props) {
     setMonitor([...Monitor])
 
     try {
-      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/monitors/${id}`, {
+      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/monitors/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

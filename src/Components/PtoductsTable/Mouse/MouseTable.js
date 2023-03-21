@@ -125,7 +125,7 @@ export default function MouseTable(props) {
     setMouse([...Mouse])
 
     try {
-      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/mouses/${id}`, {
+      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/mouses/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

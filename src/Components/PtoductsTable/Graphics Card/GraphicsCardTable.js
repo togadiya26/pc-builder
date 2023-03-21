@@ -125,7 +125,7 @@ export default function GraphicsCardTable(props) {
     setGraphicsCard([...GraphicsCard])
 
     try {
-      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/graphicscards/${id}`, {
+      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/graphicscards/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

@@ -125,7 +125,7 @@ export default function ProcessorTable(props) {
     setProcessor([...Processor])
 
     try {
-      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/processors/${id}`, {
+      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/processors/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

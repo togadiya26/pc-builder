@@ -125,7 +125,7 @@ export default function Storage1Table(props) {
     setStorage1([...Storage1])
 
     try {
-      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/storage1/${id}`, {
+      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/storage1/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

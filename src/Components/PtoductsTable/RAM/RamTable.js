@@ -125,7 +125,7 @@ export default function RamTable(props) {
     setRAM([...RAM])
 
     try {
-      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/rams/${id}`, {
+      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/rams/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

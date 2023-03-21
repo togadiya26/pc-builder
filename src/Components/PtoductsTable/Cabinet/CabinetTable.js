@@ -117,7 +117,7 @@ export default function CabinetTable(props) {
   }, []);
 
   const handleDelete = async (id, index) => {
-    
+
     const token = JSON.parse(localStorage.getItem("token"))
 
     const adjustedIndex = (page * rowsPerPage) + index;
@@ -125,7 +125,7 @@ export default function CabinetTable(props) {
     setCabinet([...Cabinet])
 
     try {
-      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/cabinets/${id}`, {
+      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/cabinets/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

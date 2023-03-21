@@ -125,7 +125,7 @@ export default function Storage2Table(props) {
     setStorage2([...Storage2])
 
     try {
-      await axios.delete(`http://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/storage2/${id}`, {
+      await axios.delete(`https://pc-builder-backend-git-main-togadiya123.vercel.app/item/deleteitem/storage2/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

@@ -7,6 +7,8 @@
     background-color: aliceblue;
     font-size: large;
     font-family: 'Gentium Book Plus', serif;
+    width: 85%;
+    border-radius: 10px;
 }
 
 .buttonCell {
