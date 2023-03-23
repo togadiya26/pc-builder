@@ -26,12 +26,48 @@ export default function SignUp() {
         event.preventDefault();
     };
 
-    const handleLogin = async (e) => {
+    // const handleLogin = async (e) => {
+
+    //     e.preventDefault();
+
+    //     setLoad(true)
+
+    //     const url = 'https://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/signup';
+    //     const options = {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ email, password })
+    //     };
+    //     const response = await fetch(url, options);
+    //     const data = await response.json();
+
+    //     setLoad(true)
+    //     setEmail("");
+    //     setPassword("");
+
+    //     navigate("./admin")
+    // }
+
+    const handleSignUp = async (e) => {
 
         e.preventDefault();
-
+    
+        // email validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert("Please enter a valid email address");
+            return;
+        }
+    
+        // password validation
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        if (!passwordPattern.test(password)) {
+            alert("Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number and one special character");
+            return;
+        }
+    
         setLoad(true)
-
+    
         const url = 'https://pc-biult-backend-git-main-togadiya123.vercel.app/api/user/signup';
         const options = {
             method: 'POST',
@@ -40,13 +76,14 @@ export default function SignUp() {
         };
         const response = await fetch(url, options);
         const data = await response.json();
-
-        setLoad(true)
+    
+        setLoad(false);
         setEmail("");
         setPassword("");
-
-        navigate("./admin")
+    
+        navigate("./login")
     }
+
 
     return (
         <React.Fragment>
@@ -108,7 +145,7 @@ export default function SignUp() {
                                 backgroundColor: "#00008bbf",
                                 '&:hover': { backgroundColor: 'darkblue' },
                             }}
-                            onClick={handleLogin}
+                            onClick={handleSignUp}
                         ><LoginIcon /></Button>
                     </CardActions>
                 </Card>

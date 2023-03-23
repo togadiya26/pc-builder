@@ -26,22 +26,45 @@ export default function Admin() {
         event.preventDefault();
     };
 
-    // const validation = () => {
-    //     if (!/\S+@\S+\.\S+/.test(email)) {
+    // const handleLogin = async (e) => {
+    //     e.preventDefault();
+
+    //     // email validation
+    //     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //     if (!emailPattern.test(email)) {
     //         alert("Please enter a valid email address");
     //         return;
     //     }
-        
-    //     if (password.length < 8) {
-    //         alert("Password must be at least 8 characters long");
-    //         return;
-    //     }        
+
+    //     setLoad(true)
+
+    //     const url = 'https://pc-builder-backend-git-main-togadiya123.vercel.app/auth/login';
+    //     const options = {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify({ email, password })
+    //     };
+    //     const response = await fetch(url, options);
+    //     const data = await response.json();
+
+    //     setLoad(true)
+
+    //     localStorage.setItem("token", JSON.stringify(data.token));
+
+    //     navigate("/dashboard");
     // }
 
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        setLoad(true)
+        // email validation
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert("Please enter a valid email address");
+            return;
+        }
+
+        setLoad(true);
 
         const url = 'https://pc-builder-backend-git-main-togadiya123.vercel.app/auth/login';
         const options = {
@@ -51,13 +74,21 @@ export default function Admin() {
         };
         const response = await fetch(url, options);
         const data = await response.json();
+        console.log(data);
 
-        setLoad(true)
+        setLoad(false);
+
+        if (!response.ok) {
+            // handle login error
+            alert(data.message);
+            return;
+        }
 
         localStorage.setItem("token", JSON.stringify(data.token));
 
         navigate("/dashboard");
-    }
+    };
+
 
 
     return (
@@ -97,7 +128,7 @@ export default function Admin() {
                                             onClick={handleClickShowPassword}
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
-                                            sx={{color: 'aliceblue'}}
+                                            sx={{ color: 'aliceblue' }}
                                         >
                                             {showPassword ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>

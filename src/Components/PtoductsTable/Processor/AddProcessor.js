@@ -153,7 +153,7 @@ export default function AddProcessor(props) {
 
   return (
     <div>
-      <Button sx={{ backgroundColor: "#00008b6e", color: "aliceblue", '&:hover': { backgroundColor: 'darkblue' } }} onClick={handleClickOpen} disabled={props.load}>
+      <Button sx={{ backgroundColor: "#00008b6e", color: "aliceblue", '&:hover': { backgroundColor: 'darkblue' }, marginRight: "10px" }} onClick={handleClickOpen} disabled={props.load}>
         Add Product
       </Button>
       <Dialog open={open} onClose={handleClose} >
