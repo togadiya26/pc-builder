@@ -24,6 +24,7 @@ import { getCabinetFan } from '../../API/Api';
 import UpdateCabinetfan from './UpdateCabinetFan';
 import AddCabinetfan from './AddCabinetFan';
 import ColorRingLoader from '../../Loader/ColorRingLoader';
+import AddBulkCabinetFan from './AddBulkCabinetFan';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -146,7 +147,8 @@ export default function CabinetFanTable(props) {
           placeholder='Search Here...'
           value={search}
           onChange={(e) => setSearch(e.target.value)} />
-        <AddCabinetfan sP={CabinetFan} sSP={setCabinetFan} />
+          <AddBulkCabinetFan sSP={setCabinetFan} load={load} />
+        <AddCabinetfan sP={CabinetFan} sSP={setCabinetFan} load={load} />
       </div>
       <div>
         <TableContainer component={Paper} sx={{ marginTop: "2%", backgroundColor: "aliceblue" }}>
@@ -174,7 +176,7 @@ export default function CabinetFanTable(props) {
                         <img src={row.image ? row.image : row.img.name} alt='product' height={50} width={50} />
                       </TableCell>
                       <TableCell style={{ width: "20%" }} align="center">
-                        {row.price}
+                        ₹{row.price}
                       </TableCell>
                       <TableCell style={{ width: "20%" }} align="center">
                         <div className={style.buttonCell}>
@@ -207,7 +209,7 @@ export default function CabinetFanTable(props) {
                   sx={{ width: "100%" }}
                   rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                   colSpan={3}
-                  count={page + 1}
+                  count={CabinetFan.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{

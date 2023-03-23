@@ -326,8 +326,8 @@ function Bill(props) {
       <div style={{ padding: "10px" }}>
         <Button sx={{
           color: "red",
-          '&:hover': { backgroundColor: 'burlywood' },
-          backgroundColor: "#deb88745", fontWeight: "600"
+          '&:hover': { backgroundColor: 'darkblue' },
+          backgroundColor: "#00008bab", fontWeight: "600"
         }}
           onClick={removeAllItemHandler}
         >
@@ -339,10 +339,10 @@ function Bill(props) {
       </div>
       <div>
         <Button sx={{
-          color: "black",
+          color: "aliceblue",
           minWidth: "40px",
-          backgroundColor: "#deb88745",
-          '&:hover': { backgroundColor: 'burlywood' },
+          backgroundColor: "#00008bab",
+          '&:hover': { backgroundColor: 'darkblue' },
           marginRight: "5px"
         }}
           className='bill-button'
@@ -350,10 +350,10 @@ function Bill(props) {
           <ShareIcon />
         </Button>
         <Button sx={{
-          color: "black",
+          color: "aliceblue",
           minWidth: "40px",
-          backgroundColor: "#deb88745",
-          '&:hover': { backgroundColor: 'burlywood' },
+          backgroundColor: "#00008bab",
+          '&:hover': { backgroundColor: 'darkblue' },
           marginLeft: "5px",
           marginRight: "5px"
         }}
@@ -362,10 +362,10 @@ function Bill(props) {
         </Button>
         <PDFDownloadLink document={<MyDoc />} fileName="PC_Builder.pdf">
           <Button sx={{
-            color: "black",
+            color: "aliceblue",
             minWidth: "40px",
-            backgroundColor: "#deb88745",
-            '&:hover': { backgroundColor: 'burlywood' },
+            backgroundColor: "#00008bab",
+            '&:hover': { backgroundColor: 'darkblue' },
             marginLeft: "5px"
           }}
             disabled={totalQty === 0} >

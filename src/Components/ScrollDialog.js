@@ -8,6 +8,7 @@ import AddBoxSharpIcon from '@mui/icons-material/AddBoxSharp';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CloseIcon from '@mui/icons-material/Close';
 import { getAllProducts } from './API/Api';
+import { CircularProgress } from '@mui/material';
 
 export default function ScrollDialog(props) {
 
@@ -15,47 +16,51 @@ export default function ScrollDialog(props) {
   const [scroll, setScroll] = React.useState('paper');
   const [item, setItem] = React.useState("");
   const [search, setSearch] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
-  const [ Processor, setProcessor] = React.useState([]);
-  const [ Motherboard, setMotherboard] = React.useState([]);
-  const [ RAM, setRAM] = React.useState([]);
-  const [ Cooler, setCooler] = React.useState([]);
-  const [ Storage1, setStorage1] = React.useState([]);
-  const [ Storage2, setStorage2] = React.useState([]);
-  const [ GraphicsCard, setGraphicsCard] = React.useState([]);
-  const [ PowerSupplyUnit, setPowerSupplyUnit] = React.useState([]);
-  const [ Cabinet, setCabinet] = React.useState([]);
-  const [ CabinetFan, setCabinetFan] = React.useState([]);
-  const [ Monitor, setMonitor] = React.useState([]);
-  const [ Keyboard, setKeyboard] = React.useState([]);
-  const [ Mouse, setMouse] = React.useState([]);
-  const [ Accessories, setAccessories] = React.useState([]);
+  const [Processor, setProcessor] = React.useState([]);
+  const [Motherboard, setMotherboard] = React.useState([]);
+  const [RAM, setRAM] = React.useState([]);
+  const [Cooler, setCooler] = React.useState([]);
+  const [Storage1, setStorage1] = React.useState([]);
+  const [Storage2, setStorage2] = React.useState([]);
+  const [GraphicsCard, setGraphicsCard] = React.useState([]);
+  const [PowerSupplyUnit, setPowerSupplyUnit] = React.useState([]);
+  const [Cabinet, setCabinet] = React.useState([]);
+  const [CabinetFan, setCabinetFan] = React.useState([]);
+  const [Monitor, setMonitor] = React.useState([]);
+  const [Keyboard, setKeyboard] = React.useState([]);
+  const [Mouse, setMouse] = React.useState([]);
+  const [Accessories, setAccessories] = React.useState([]);
 
-  React.useEffect(() => {
-    const fetchAllProductsData = async () => {
-      const AllProductsData = await getAllProducts();
-      setProcessor(AllProductsData.Processor);
-      setMotherboard(AllProductsData.Motherboards);
-      setRAM(AllProductsData.Rams);
-      setCooler(AllProductsData.Cooler);
-      setStorage1(AllProductsData.Storage1);
-      setStorage2(AllProductsData.Storage2);
-      setGraphicsCard(AllProductsData.Graphicscard);
-      setPowerSupplyUnit(AllProductsData.Powersupplyunit);
-      setCabinet(AllProductsData.Cabinets);
-      setCabinetFan(AllProductsData.Cabinetfan);
-      setMonitor(AllProductsData.Monitor);
-      setKeyboard(AllProductsData.Keyboard);
-      setMouse(AllProductsData.Mouse);
-      setAccessories(AllProductsData.Accessories);
-    }
-    fetchAllProductsData();
-  }, []);
+  // React.useEffect(() => {
+  const fetchAllProductsData = async () => {
+    const AllProductsData = await getAllProducts();
+    setProcessor(AllProductsData.Processor);
+    setMotherboard(AllProductsData.Motherboards);
+    setRAM(AllProductsData.Rams);
+    setCooler(AllProductsData.Cooler);
+    setStorage1(AllProductsData.Storage1);
+    setStorage2(AllProductsData.Storage2);
+    setGraphicsCard(AllProductsData.Graphicscard);
+    setPowerSupplyUnit(AllProductsData.Powersupplyunit);
+    setCabinet(AllProductsData.Cabinets);
+    setCabinetFan(AllProductsData.Cabinetfan);
+    setMonitor(AllProductsData.Monitor);
+    setKeyboard(AllProductsData.Keyboard);
+    setMouse(AllProductsData.Mouse);
+    setAccessories(AllProductsData.Accessories);
+  }
+  // }, []);
 
   const handleClickOpen = (scrollType) => () => {
-    setOpen(true);
-    setScroll(scrollType);
-    setItem(props.title)
+    setLoading(true);
+    fetchAllProductsData().then(() => {
+      setLoading(false);
+      setOpen(true);
+      setScroll(scrollType);
+      setItem(props.title);
+    });
   };
 
   const handleClose = () => {
@@ -105,17 +110,18 @@ export default function ScrollDialog(props) {
 
   return (
     <div>
-      <Button 
-      onClick={handleClickOpen('paper')} 
-      sx={{ 
-        color: "black", 
-        minWidth: "50px", 
-        '&:hover': { backgroundColor: 'burlywood' }, 
-        backgroundColor: "#deb88745",
-        marginLeft: "15px" 
-        }}>
-          <AddBoxSharpIcon />
-        </Button>
+      <Button
+        onClick={handleClickOpen('paper')}
+        sx={{
+          color: "aliceblue",
+          minWidth: "50px",
+          '&:hover': { backgroundColor: 'darkblue' },
+          backgroundColor: "#00008bab",
+          marginLeft: "15px"
+        }}
+        disabled={loading}>
+        {loading ? <CircularProgress sx={{color: 'aliceblue'}} size={24} /> : <AddBoxSharpIcon />}
+      </Button>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -130,8 +136,8 @@ export default function ScrollDialog(props) {
         }}
       >
         <DialogTitle id="scroll-dialog-title"
-          sx={{ 
-            backgroundColor: "burlywood",
+          sx={{
+            backgroundColor: "#00008b6e",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center"
@@ -144,21 +150,21 @@ export default function ScrollDialog(props) {
             placeholder='Search Here...'
             value={search}
             onChange={(e) => setSearch(e.target.value)} />
-            <Button
+          <Button
             onClick={handleClose}
             sx={{
-              color: "black",
+              color: "aliceblue",
               minWidth: "35px",
               height: "35px",
-              '&:hover': { backgroundColor: 'linen' },
-              backgroundColor: "#faf0e64a"
+              '&:hover': { backgroundColor: 'darkblue' },
+              backgroundColor: "#00008b6e"
             }}>
             <CloseIcon />
           </Button>
         </DialogTitle>
         <DialogContent
           dividers={scroll === 'paper'}
-          sx={{ backgroundColor: "burlywood" }}
+          sx={{ backgroundColor: "#00008b6e" }}
         >
           <DialogContentText
             id="scroll-dialog-description"
@@ -177,34 +183,30 @@ export default function ScrollDialog(props) {
                     </div>
                     <div className='price_div'>
                       ₹{data.price}
-                    <Button
-                      onClick={() => {
-                        const product = array.find(item => item._id === data._id);
-                        props.onChange(product)
-                        setOpen(false)
-                        props.setQty(prevQty => ({
-                          ...prevQty,
-                          [product.name]: props.initialQty[product.name]
-                        }));
-                      }}
-                      sx={{
-                        color: "black",
-                        backgroundColor: "#deb88745",
-                        '&:hover': { backgroundColor: 'burlywood' },
-                        minWidth: "45px",
-                        height: "35px"
-                      }}>
-                      <AddShoppingCartIcon />
-                    </Button>
+                      <Button
+                        onClick={() => {
+                          const product = array.find(item => item._id === data._id);
+                          props.onChange(product)
+                          setOpen(false)
+                          props.setQty(prevQty => ({
+                            ...prevQty,
+                            [product.name]: props.initialQty[product.name]
+                          }));
+                        }}
+                        sx={{
+                          color: "aliceblue",
+                          backgroundColor: "#00008bab",
+                          '&:hover': { backgroundColor: 'darkblue' },
+                          minWidth: "45px",
+                          height: "35px"
+                        }}>
+                        <AddShoppingCartIcon />
+                      </Button>
                     </div>
                   </div>))}
             </React.Fragment>
           </DialogContentText>
         </DialogContent>
-        {/* <DialogActions
-          sx={{ backgroundColor: "burlywood" }}
-        >
-        </DialogActions> */}
       </Dialog>
     </div>
   );

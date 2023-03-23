@@ -95,10 +95,10 @@ function PcBuilder() {
                 {data.selectedItem === null ? <img src={data.img} height={50} width={50} alt="product" /> : <img src={data.selectedItem.image} height={50} width={50} alt="product" />}
               </div>
               <div className='child_div'>
-                {data.selectedItem === null ? <h3><b>{data.title}</b></h3> :
+                {data.selectedItem === null ? <div style={{fontSize: 'xx-large'}}><b>{data.title}</b></div> :
                   <>
-                    <h3><b>{data.selectedItem.name}</b></h3>
-                    <h5>{data.selectedItem.productname}</h5>
+                    <div style={{fontSize: 'xx-large'}}><b>{data.selectedItem.name}</b></div>
+                    <div style={{fontSize: 'x-large'}}>{data.selectedItem.productname}</div>
                     <div>
                       ₹{data.selectedItem.price}
                       <Button sx={{ color: 'red', minWidth: "40px", '&:hover': { backgroundColor: '#ff000029' }, marginLeft: "10px", marginRight: "10px" }} onClick={() => handleDecrement(data.selectedItem.name)} disabled={data.selectedItem.qty === '1'}><RemoveIcon /></Button>
@@ -111,7 +111,7 @@ function PcBuilder() {
                   <div style={{ display: "inline-flex" }}>
                     ₹{data.selectedItem.price * data.selectedItem.qty}
                     <ScrollDialog initialQty={initialQty} setQty={setQty} onChange={onItemSelectChangeHandler} title={data.name} />
-                    <Button sx={{ color: "red", minWidth: "50px", backgroundColor: "#deb88745", '&:hover': { backgroundColor: 'burlywood' }, marginLeft: "10px" }}
+                    <Button sx={{ color: "red", minWidth: "50px", backgroundColor: "#00008bab", '&:hover': { backgroundColor: 'darkblue' }, marginLeft: "10px" }}
                       onClick={() => removeSelectItemHandler(data.name)
                       }><DeleteIcon /></Button>
                   </div>}

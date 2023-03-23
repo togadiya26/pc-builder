@@ -24,6 +24,7 @@ import UpdateMotherboard from './UpdateMotherboard';
 import AddMotherboard from './AddMotherboard';
 import { getMotherboard } from '../../API/Api';
 import ColorRingLoader from '../../Loader/ColorRingLoader';
+import AddBulkMotherboard from './AddBulkMotherboard';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -146,7 +147,8 @@ export default function MotherboardTable(props) {
           placeholder='Search Here...'
           value={search}
           onChange={(e) => setSearch(e.target.value)} />
-        <AddMotherboard sP={Motherboard} sSP={setMotherboard} />
+        <AddBulkMotherboard sSP={setMotherboard} load={load} />
+        <AddMotherboard sP={Motherboard} sSP={setMotherboard} load={load} />
       </div>
       <div>
         <TableContainer component={Paper} sx={{ marginTop: "2%", backgroundColor: "aliceblue" }}>
@@ -174,7 +176,7 @@ export default function MotherboardTable(props) {
                         <img src={row.image ? row.image : row.img.name} alt='product' height={50} width={50} />
                       </TableCell>
                       <TableCell style={{ width: "20%" }} align="center">
-                        {row.price}
+                        ₹{row.price}
                       </TableCell>
                       <TableCell style={{ width: "20%" }} align="center">
                         <div className={style.buttonCell}>
@@ -206,7 +208,7 @@ export default function MotherboardTable(props) {
                   sx={{ width: "100%" }}
                   rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                   colSpan={3}
-                  count={page + 1}
+                  count={Motherboard.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{

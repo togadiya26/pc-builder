@@ -11,6 +11,7 @@ import axios from 'axios';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../../../Firebase/Firebase';
 import { getMonitor } from '../../API/Api';
+import ThreeDotsLoader from '../../Loader/ThreeDotsLoader';
 
 
 export default function UpdateMonitor(props) {
@@ -22,6 +23,7 @@ export default function UpdateMonitor(props) {
     image: null,
     displaysize: "",
     resolution: "",
+    isUploading: false
   });
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
@@ -46,8 +48,11 @@ export default function UpdateMonitor(props) {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    if (name === 'price' && isNaN(value)) {
+      return; // do nothing if value is not a number
+    }
     setAddProduct({ ...addProduct, [name]: value });
-  }
+  };
 
   const Validation = () => {
     if (addProduct.productname === '') {
@@ -70,6 +75,14 @@ export default function UpdateMonitor(props) {
     }
   }
 
+  const dataToSend = {
+    productname: addProduct.productname,
+    price: addProduct.price,
+    image: addProduct.image,
+    displaysize: addProduct.displaysize,
+    resolution: addProduct.resolution
+  }
+
   const handleUpdate = async (e) => {
 
     const token = JSON.parse(localStorage.getItem("token"));
@@ -79,7 +92,7 @@ export default function UpdateMonitor(props) {
     if (Validation()) {
       try {
         const response = await axios.put(
-          `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updatemonitor/${props.id}`, addProduct, {
+          `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updatemonitor/${props.id}`, dataToSend, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -99,7 +112,6 @@ export default function UpdateMonitor(props) {
   }
 
   function handleImageChange(event) {
-
     const fileInput = document.getElementById("image");
 
     // Generate a random string to append to the file name
@@ -109,25 +121,41 @@ export default function UpdateMonitor(props) {
     const storageRef = ref(storage, `/Monitor/${fileName}`);
     const uploadTask = uploadBytesResumable(storageRef, fileInput.files[0]);
 
-    // Monitor the upload progressdisplaysize
-    uploadTask.on("state_changed", (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log(`Upload is ${progress}% done`);
-    }, (error) => {
-      console.error(error);
-    },
+    // Update state to indicate that the image is currently being uploaded
+    setAddProduct({ ...addProduct, isUploading: true });
 
+    // Monitor the upload progress
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log(`Upload is ${progress}% done`);
+      },
+      (error) => {
+        console.error(error);
+        // Update state to indicate that the image upload has failed
+        setAddProduct({ ...addProduct, isUploading: false, uploadError: true });
+      },
       async () => {
         // Upload completed successfully, get download URL
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
         console.log("File available at", downloadURL);
-        setAddProduct({ ...addProduct, image: downloadURL });
-      });
+
+        // Update state to indicate that the image upload has succeeded
+        setAddProduct({ ...addProduct, isUploading: false, image: downloadURL });
+      }
+    );
   }
 
   function handleReset() {
     setAddProduct({ ...addProduct, image: null });
     setDisabled(false);
+
+    if (fileInput.current) {
+      fileInput.current.value = '';
+    }
+
   }
 
 
@@ -149,23 +177,42 @@ export default function UpdateMonitor(props) {
           <TextField placeholder='product name' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='display size' name="displaysize" value={addProduct.displaysize} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='resolution' name="resolution" value={addProduct.resolution} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
+          <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="text" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
-            <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
-            <div style={{ margin: "2%" }}>
+            <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} style={{ display: 'none' }} />
+            <div style={{ margin: "2%", display: 'flex', alignItems: 'center' }}>
               {addProduct.image && <img src={addProduct.image} alt="SelectedImage" height={50} width={50} />}
-              {addProduct.image &&
+              {addProduct.isUploading && <div><ThreeDotsLoader /></div>}
+              {addProduct.image && (
+                <>
+                  <Button
+                    onClick={handleReset}
+                    sx={{
+                      color: "aliceblue",
+                      backgroundColor: "#00008b6e",
+                      "&:hover": { backgroundColor: "darkblue" },
+                      marginLeft: "10px",
+                      minWidth: "35px",
+                    }}
+                  >
+                    <ClearIcon />
+                  </Button>
+                </>
+              )}
+              {!addProduct.image && !addProduct.isUploading && (
                 <Button
-                  onClick={handleReset}
+                  onClick={() => {
+                    document.getElementById("image").click();
+                  }}
                   sx={{
-                    color: "black",
-                    backgroundColor: "#faf0e680",
-                    '&:hover': { backgroundColor: 'linen' },
-                    marginLeft: "10px",
-                    minWidth: "35px",
-                  }}>
-                  <ClearIcon />
-                </Button>}
+                    color: "aliceblue",
+                    backgroundColor: "#00008b6e",
+                    "&:hover": { backgroundColor: "darkblue" },
+                  }}
+                >
+                  Upload Image
+                </Button>
+              )}
             </div>
           </div>
         </DialogContent>
@@ -187,6 +234,7 @@ export default function UpdateMonitor(props) {
               '&:hover': { backgroundColor: 'linen' },
             }}
             onClick={handleUpdate}
+            disabled={addProduct.isUploading}
           >
             Update
           </Button>

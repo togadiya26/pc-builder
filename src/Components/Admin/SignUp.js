@@ -51,12 +51,12 @@ export default function SignUp() {
     return (
         <React.Fragment>
             <div className={style.loginDiv}>
-                <Card sx={{ padding: "10px 0 30px 0", maxWidth: "450px", width: "100%", margin: "0 20px", background: "linen", fontFamily: 'Gentium Book Plus' }}>
+                <Card sx={{ padding: "10px 0 30px 0", maxWidth: "450px", width: "100%", margin: "0 20px", background: "#00008b6e", fontFamily: 'Gentium Book Plus' }}>
                     {load && <div className={style.loadingSpinner}>
                         <ColorRingLoader />
                     </div>}
                     <CardContent sx={{ display: "flex", flexDirection: "column", alignItems: "baseline" }}>
-                        <Typography sx={{ fontSize: "x-large" }}>
+                        <Typography sx={{ fontSize: "x-large", color: 'aliceblue' }}>
                             E-mail ID:
                         </Typography>
                         <TextField
@@ -67,11 +67,11 @@ export default function SignUp() {
                                     notchedOutline: style.notchedOutline
                                 }
                             }}
-                            sx={{ width: '100%', padding: "7px", outLine: 'none' }}
+                            sx={{ width: '100%', padding: "7px", outLine: 'none', color: 'aliceblue' }}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                        <Typography sx={{ fontSize: "x-large" }}>
+                        <Typography sx={{ fontSize: "x-large", color: 'aliceblue' }}>
                             Password:
                         </Typography>
                         <TextField
@@ -85,6 +85,7 @@ export default function SignUp() {
                                             onClick={handleClickShowPassword}
                                             onMouseDown={handleMouseDownPassword}
                                             edge="end"
+                                            sx={{color: 'aliceblue'}}
                                         >
                                             {showPassword ? <VisibilityOff /> : <Visibility />}
                                         </IconButton>
@@ -95,7 +96,7 @@ export default function SignUp() {
                                 }
                             }}
                             placeholder="Password"
-                            sx={{ width: '100%', padding: "7px", outLine: 'none' }}
+                            sx={{ width: '100%', padding: "7px", outLine: 'none', color: 'aliceblue' }}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
@@ -103,9 +104,9 @@ export default function SignUp() {
                     <CardActions sx={{ justifyContent: "center", padding: "0%" }}>
                         <Button
                             sx={{
-                                color: "black",
-                                backgroundColor: "#deb88745",
-                                '&:hover': { backgroundColor: 'burlywood' },
+                                color: "aliceblue",
+                                backgroundColor: "#00008bbf",
+                                '&:hover': { backgroundColor: 'darkblue' },
                             }}
                             onClick={handleLogin}
                         ><LoginIcon /></Button>

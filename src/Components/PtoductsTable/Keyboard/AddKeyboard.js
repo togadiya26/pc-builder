@@ -43,8 +43,11 @@ export default function AddKeyboard(props) {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    if (name === 'price' && isNaN(value)) {
+      return; // do nothing if value is not a number
+    }
     setAddProduct({ ...addProduct, [name]: value });
-  }
+  };
 
   const Validation = () => {
     if (addProduct.productname === '') {
@@ -141,49 +144,69 @@ export default function AddKeyboard(props) {
   function handleReset() {
     setAddProduct({ ...addProduct, image: null });
     setDisabled(false);
-  }
 
+    if (fileInput.current) {
+      fileInput.current.value = '';
+    }
+
+  }
 
   return (
     <div>
-      <Button sx={{ backgroundColor: "#00008b6e", color: "aliceblue", '&:hover': { backgroundColor: 'darkblue' } }} onClick={handleClickOpen} disabled={props.sP.length === 0}>
+      <Button sx={{ backgroundColor: "#00008b6e", color: "aliceblue", '&:hover': { backgroundColor: 'darkblue' } }} onClick={handleClickOpen} disabled={props.load}>
         Add Product
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ backgroundColor: "burlywood" }} >Add Product</DialogTitle>
-        <DialogContent sx={{ backgroundColor: "burlywood" }} >
+        <DialogTitle sx={{ backgroundColor: "aliceblue" }} >Add Product</DialogTitle>
+        <DialogContent sx={{ backgroundColor: "aliceblue" }} >
           <TextField placeholder='product name' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='size' name="size" value={addProduct.size} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
           <TextField placeholder='connectivity' name="connectivity" value={addProduct.connectivity} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="number" sx={{ width: "100%", marginBottom: "2%" }} />
+          <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="text" sx={{ width: "100%", marginBottom: "2%" }} />
           <div>
-            <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} />
-            <div style={{ margin: "2%" }}>
+            <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} style={{ display: 'none' }} />
+            <div style={{ margin: "2%", display: 'flex', alignItems: 'center', height: "50px" }}>
               {addProduct.image && <img src={addProduct.image} alt="SelectedImage" height={50} width={50} />}
-              {addProduct.isUploading && <div><ThreeDotsLoader/></div>}
+              {addProduct.isUploading && <div><ThreeDotsLoader /></div>}
               {addProduct.image && (
+                <>
+                  <Button
+                    onClick={handleReset}
+                    sx={{
+                      color: "aliceblue",
+                      backgroundColor: "#00008b6e",
+                      "&:hover": { backgroundColor: "darkblue" },
+                      marginLeft: "10px",
+                      minWidth: "35px",
+                    }}
+                  >
+                    <ClearIcon />
+                  </Button>
+                </>
+              )}
+              {!addProduct.image && !addProduct.isUploading && (
                 <Button
-                  onClick={handleReset}
+                  onClick={() => {
+                    document.getElementById("image").click();
+                  }}
                   sx={{
-                    color: "black",
-                    backgroundColor: "#faf0e680",
-                    "&:hover": { backgroundColor: "linen" },
-                    marginLeft: "10px",
-                    minWidth: "35px",
+                    color: "aliceblue",
+                    backgroundColor: "#00008b6e",
+                    "&:hover": { backgroundColor: "darkblue" },
                   }}
                 >
-                  <ClearIcon />
+                  Select Image
                 </Button>
               )}
             </div>
           </div>
         </DialogContent>
-        <DialogActions sx={{ backgroundColor: "burlywood" }}>
+        <DialogActions sx={{ backgroundColor: "aliceblue" }}>
           <Button
             sx={{
-              color: "black",
-              backgroundColor: "#faf0e680",
-              '&:hover': { backgroundColor: 'linen' },
+              color: "aliceblue",
+              backgroundColor: "#00008b6e",
+              '&:hover': { backgroundColor: 'darkblue' },
             }}
             onClick={handleClose}
           >
@@ -191,9 +214,9 @@ export default function AddKeyboard(props) {
           </Button>
           <Button
             sx={{
-              color: "black",
-              backgroundColor: "#faf0e680",
-              '&:hover': { backgroundColor: 'linen' },
+              color: "aliceblue",
+              backgroundColor: "#00008b6e",
+              '&:hover': { backgroundColor: 'darkblue' },
             }}
             onClick={handleSubmit}
             disabled={addProduct.isUploading}

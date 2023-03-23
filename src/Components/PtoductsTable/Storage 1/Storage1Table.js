@@ -24,6 +24,7 @@ import { getStorage1 } from '../../API/Api';
 import AddStorage1 from './AddStorage1';
 import UpdateStorage1 from './UpdateStorage1';
 import ColorRingLoader from '../../Loader/ColorRingLoader';
+import AddBulkStorage1 from './AddBulkStorage1';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -146,7 +147,8 @@ export default function Storage1Table(props) {
           placeholder='Search Here...'
           value={search}
           onChange={(e) => setSearch(e.target.value)} />
-        <AddStorage1 sP={Storage1} sSP={setStorage1} />
+        <AddBulkStorage1 sSP={setStorage1} load={load} />
+        <AddStorage1 sP={Storage1} sSP={setStorage1} load={load} />
       </div>
       <div>
         <TableContainer component={Paper} sx={{ marginTop: "2%", backgroundColor: "aliceblue" }}>
@@ -174,7 +176,7 @@ export default function Storage1Table(props) {
                         <img src={row.image ? row.image : row.img.name} alt='product' height={50} width={50} />
                       </TableCell>
                       <TableCell style={{ width: "20%" }} align="center">
-                        {row.price}
+                        ₹{row.price}
                       </TableCell>
                       <TableCell style={{ width: "20%" }} align="center">
                         <div className={style.buttonCell}>
@@ -206,7 +208,7 @@ export default function Storage1Table(props) {
                   sx={{ width: "100%" }}
                   rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
                   colSpan={3}
-                  count={page + 1}
+                  count={Storage1.length}
                   rowsPerPage={rowsPerPage}
                   page={page}
                   SelectProps={{
