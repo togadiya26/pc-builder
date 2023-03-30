@@ -78,7 +78,7 @@ export default function UpdateStorage1(props) {
   const dataToSend = {
     productname: addProduct.productname,
     price: addProduct.price,
-    image: addProduct.item,
+    image: addProduct.image,
     capacity: addProduct.capacity,
     type: addProduct.type
   }

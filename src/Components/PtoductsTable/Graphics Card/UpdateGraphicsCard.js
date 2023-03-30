@@ -1,21 +1,19 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import ClearIcon from '@mui/icons-material/Clear';
-import DialogTitle from '@mui/material/DialogTitle';
-import { TextField } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import axios from 'axios';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-import { storage } from '../../../Firebase/Firebase';
-import { getGraphicsCard } from '../../API/Api';
-import ThreeDotsLoader from '../../Loader/ThreeDotsLoader';
-
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import ClearIcon from "@mui/icons-material/Clear";
+import DialogTitle from "@mui/material/DialogTitle";
+import { TextField } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import axios from "axios";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../Firebase/Firebase";
+import { getGraphicsCard } from "../../API/Api";
+import ThreeDotsLoader from "../../Loader/ThreeDotsLoader";
 
 export default function UpdateGraphicscard(props) {
-
   const [open, setOpen] = React.useState(false);
   const [addProduct, setAddProduct] = React.useState({
     productname: "",
@@ -23,7 +21,7 @@ export default function UpdateGraphicscard(props) {
     image: null,
     memorysize: "",
     resolution: "",
-    isUploading: false
+    isUploading: false,
   });
   const [disabled, setDisabled] = React.useState(false);
   const fileInput = React.useRef(null);
@@ -36,9 +34,9 @@ export default function UpdateGraphicscard(props) {
         price: props.sP[props.index]?.price || "",
         image: props.sP[props.index]?.image || null,
         memorysize: props.sP[props.index]?.memorysize || "",
-        resolution: props.sP[props.index]?.resolution || ""
+        resolution: props.sP[props.index]?.resolution || "",
       });
-      setDisabled(true)
+      setDisabled(true);
     }
   };
 
@@ -48,21 +46,21 @@ export default function UpdateGraphicscard(props) {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    if (name === 'price' && isNaN(value)) {
+    if (name === "price" && isNaN(value)) {
       return; // do nothing if value is not a number
     }
     setAddProduct({ ...addProduct, [name]: value });
   };
 
   const Validation = () => {
-    if (addProduct.productname === '') {
+    if (addProduct.productname === "") {
       alert("please enter product name...");
       return false;
-    } else if (addProduct.price === '') {
-      alert('please enter amount...');
+    } else if (addProduct.price === "") {
+      alert("please enter amount...");
       return false;
     } else if (addProduct.image === null) {
-      alert('please upload an image...');
+      alert("please upload an image...");
       return false;
     } else if (addProduct.memorysize === null) {
       alert("please enter memory size...");
@@ -73,30 +71,32 @@ export default function UpdateGraphicscard(props) {
     } else {
       return true;
     }
-  }
+  };
 
   const dataToSend = {
     productname: addProduct.productname,
     price: addProduct.price,
     image: addProduct.image,
     memorysize: addProduct.memorysize,
-    resolution: addProduct.resolution
-  }
+    resolution: addProduct.resolution,
+  };
 
   const handleUpdate = async (e) => {
-
     const token = JSON.parse(localStorage.getItem("token"));
 
-    e.preventDefault()
+    e.preventDefault();
 
     if (Validation()) {
       try {
         const response = await axios.put(
-          `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updategraphicscard/${props.id}`, dataToSend, {
-          headers: {
-            'Authorization': `Bearer ${token}`
+          `https://pc-builder-backend-git-main-togadiya123.vercel.app/item/updategraphicscard/${props.id}`,
+          dataToSend,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
         console.log(response);
         alert("Graphicscard Updated successfully!");
       } catch (error) {
@@ -106,12 +106,11 @@ export default function UpdateGraphicscard(props) {
 
       const GraphicsCardData = await getGraphicsCard();
       props.sSP(GraphicsCardData);
-      
     }
 
     setOpen(false);
     setDisabled(false);
-  }
+  };
 
   function handleImageChange(event) {
     const fileInput = document.getElementById("image");
@@ -130,7 +129,8 @@ export default function UpdateGraphicscard(props) {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log(`Upload is ${progress}% done`);
       },
       (error) => {
@@ -145,7 +145,11 @@ export default function UpdateGraphicscard(props) {
         console.log("File available at", downloadURL);
 
         // Update state to indicate that the image upload has succeeded
-        setAddProduct({ ...addProduct, isUploading: false, image: downloadURL });
+        setAddProduct({
+          ...addProduct,
+          isUploading: false,
+          image: downloadURL,
+        });
       }
     );
   }
@@ -155,11 +159,9 @@ export default function UpdateGraphicscard(props) {
     setDisabled(false);
 
     if (fileInput.current) {
-      fileInput.current.value = '';
+      fileInput.current.value = "";
     }
-
   }
-
 
   return (
     <div>
@@ -168,23 +170,73 @@ export default function UpdateGraphicscard(props) {
           color: "green",
           minWidth: "50px",
           backgroundColor: "#00008b6e",
-          '&:hover': { backgroundColor: 'darkblue' },
-          marginLeft: "10px"
-        }} onClick={handleClickOpen} >
+          "&:hover": { backgroundColor: "darkblue" },
+          marginLeft: "10px",
+        }}
+        onClick={handleClickOpen}
+      >
         <EditIcon />
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ backgroundColor: "aliceblue" }} >Update Product</DialogTitle>
-        <DialogContent sx={{ backgroundColor: "aliceblue" }} >
-          <TextField placeholder='product name' name="productname" value={addProduct.productname} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='memory size' name="memorysize" value={addProduct.memorysize} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='resolution' name="resolution" value={addProduct.resolution} onChange={handleInputChange} sx={{ width: "100%", marginBottom: "2%" }} />
-          <TextField placeholder='Price' name="price" value={addProduct.price} onChange={handleInputChange} type="text" sx={{ width: "100%", marginBottom: "2%" }} />
+        <DialogTitle sx={{ backgroundColor: "aliceblue" }}>
+          Update Product
+        </DialogTitle>
+        <DialogContent sx={{ backgroundColor: "aliceblue" }}>
+          <TextField
+            placeholder="product name"
+            name="productname"
+            value={addProduct.productname}
+            onChange={handleInputChange}
+            sx={{ width: "100%", marginBottom: "2%" }}
+          />
+          <TextField
+            placeholder="memory size"
+            name="memorysize"
+            value={addProduct.memorysize}
+            onChange={handleInputChange}
+            sx={{ width: "100%", marginBottom: "2%" }}
+          />
+          <TextField
+            placeholder="resolution"
+            name="resolution"
+            value={addProduct.resolution}
+            onChange={handleInputChange}
+            sx={{ width: "100%", marginBottom: "2%" }}
+          />
+          <TextField
+            placeholder="Price"
+            name="price"
+            value={addProduct.price}
+            onChange={handleInputChange}
+            type="text"
+            sx={{ width: "100%", marginBottom: "2%" }}
+          />
           <div>
-            <input type="file" id="image" name="image" onChange={handleImageChange} ref={fileInput} disabled={disabled} style={{ display: 'none' }} />
-            <div style={{ margin: "2%", display: 'flex', alignItems: 'center' }}>
-              {addProduct.image && <img src={addProduct.image} alt="SelectedImage" height={50} width={50} />}
-              {addProduct.isUploading && <div><ThreeDotsLoader /></div>}
+            <input
+              type="file"
+              id="image"
+              name="image"
+              onChange={handleImageChange}
+              ref={fileInput}
+              disabled={disabled}
+              style={{ display: "none" }}
+            />
+            <div
+              style={{ margin: "2%", display: "flex", alignItems: "center" }}
+            >
+              {addProduct.image && (
+                <img
+                  src={addProduct.image}
+                  alt="SelectedImage"
+                  height={50}
+                  width={50}
+                />
+              )}
+              {addProduct.isUploading && (
+                <div>
+                  <ThreeDotsLoader />
+                </div>
+              )}
               {addProduct.image && (
                 <>
                   <Button
@@ -223,7 +275,7 @@ export default function UpdateGraphicscard(props) {
             sx={{
               color: "aliceblue",
               backgroundColor: "#00008b6e",
-              '&:hover': { backgroundColor: 'darkblue' },
+              "&:hover": { backgroundColor: "darkblue" },
             }}
             onClick={handleClose}
           >
@@ -233,7 +285,7 @@ export default function UpdateGraphicscard(props) {
             sx={{
               color: "aliceblue",
               backgroundColor: "#00008b6e",
-              '&:hover': { backgroundColor: 'darkblue' },
+              "&:hover": { backgroundColor: "darkblue" },
             }}
             onClick={handleUpdate}
             disabled={addProduct.isUploading}
