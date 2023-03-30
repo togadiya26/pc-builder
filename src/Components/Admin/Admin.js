@@ -26,34 +26,6 @@ export default function Admin() {
         event.preventDefault();
     };
 
-    // const handleLogin = async (e) => {
-    //     e.preventDefault();
-
-    //     // email validation
-    //     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //     if (!emailPattern.test(email)) {
-    //         alert("Please enter a valid email address");
-    //         return;
-    //     }
-
-    //     setLoad(true)
-
-    //     const url = 'https://pc-builder-backend-git-main-togadiya123.vercel.app/auth/login';
-    //     const options = {
-    //         method: 'POST',
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({ email, password })
-    //     };
-    //     const response = await fetch(url, options);
-    //     const data = await response.json();
-
-    //     setLoad(true)
-
-    //     localStorage.setItem("token", JSON.stringify(data.token));
-
-    //     navigate("/dashboard");
-    // }
-
     const handleLogin = async (e) => {
         e.preventDefault();
 

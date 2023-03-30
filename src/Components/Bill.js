@@ -6,6 +6,7 @@ import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { Product } from './Array';
 import { Document, Page, Text, PDFDownloadLink, View, StyleSheet, pdf, Image } from '@react-pdf/renderer';
 import { getCompanyDetails } from './API/Api';
+import image from './Image/bgImage.jpg'
 
 
 const styles = StyleSheet.create({
@@ -261,7 +262,7 @@ function Bill(props) {
           <View style={styles.table}>
             <View style={styles.tableRow}>
               <Text style={{ fontSize: 30, width: 100, border: '1px solid #000', textAlign: "center", paddingTop: 12 }}>
-                <Image source={companyDetails.image} style={{ height: 30, width: 30 }} />
+                <Image src={image} style={{ height: 30, width: 30 }} />
               </Text>
               <Text style={{ fontSize: 30, width: 370, border: '1px solid #000', textAlign: "center", paddingTop: 8 }}>
                 {companyDetails.name}
